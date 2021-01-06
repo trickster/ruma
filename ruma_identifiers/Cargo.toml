@@ -8,7 +8,7 @@ description = "Resource identifiers for Matrix."
 homepage = "https://www.ruma.io/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
-name = "ruma-identifiers"
+name = "ruma/identifiers"
 readme = "README.md"
 repository = "https://github.com/ruma/ruma"
 version = "0.18.0-alpha.1"
@@ -20,16 +20,16 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 default = ["serde"]
-serde = ["ruma-serde", "serde1"]
+serde = ["ruma_serde", "serde1"]
 
 [dependencies]
 either = { version = "1.6.1", optional = true }
 paste = "1.0.4"
 rand = { version = "0.8.0", optional = true }
-ruma-identifiers-macros = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers_macros" }
-ruma-identifiers-validation = { version = "0.2.0", path = "../ruma_identifiers_validation", default-features = false }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde", optional = true }
-ruma-serde-macros = { version = "0.3.0", path = "../ruma_serde_macros" }
+ruma_identifiers_macros = { package = "ruma/identifiers_macros", version = "=0.18.0-alpha.1", path = "../ruma_identifiers_macros", registry = "cratespaces" }
+ruma_identifiers_validation = { package = "ruma/identifiers_validation", version = "0.2.0", path = "../ruma_identifiers_validation", default-features = false, registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", optional = true, registry = "cratespaces" }
+ruma_serde_macros = { package = "ruma/serde_macros", version = "0.3.0", path = "../ruma_serde_macros", registry = "cratespaces" }
 # Renamed so we can have a serde feature.
 serde1 = { package = "serde", version = "1.0.118", optional = true, features = ["derive"] }
 

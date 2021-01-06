@@ -15,50 +15,50 @@ edition = "2018"
 assign = "1.1.1"
 js_int = "0.2.0"
 
-ruma-common = { version = "=0.3.0-alpha.1", path = "../ruma_common" }
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers", features = ["serde"] }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde" }
+ruma_common = { package = "ruma/common", version = "=0.3.0-alpha.1", path = "../ruma_common", registry = "cratespaces" }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", features = ["serde"], registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", registry = "cratespaces" }
 
-ruma-events = { version = "=0.22.0-alpha.2", path = "../ruma_events", optional = true }
-ruma-signatures = { version = "=0.6.0-alpha.1", path = "../ruma_signatures", optional = true }
+ruma_events = { package = "ruma/events", version = "=0.22.0-alpha.2", path = "../ruma_events", optional = true, registry = "cratespaces" }
+ruma_signatures = { package = "ruma/signatures", version = "=0.6.0-alpha.1", path = "../ruma_signatures", optional = true, registry = "cratespaces" }
 
-ruma-api = { version = "=0.17.0-alpha.2", path = "../ruma_api", optional = true }
-ruma-appservice-api = { version = "=0.2.0-alpha.2", path = "../ruma_appservice_api", optional = true }
-ruma-client-api = { version = "=0.10.0-alpha.2", path = "../ruma_client_api", optional = true }
-ruma-federation-api = { version = "=0.1.0-alpha.1", path = "../ruma_federation_api", optional = true }
-ruma-identity-service-api = { version = "0.0.1", path = "../ruma_identity_service_api", optional = true }
-ruma-push-gateway-api = { version = "0.0.1", path = "../ruma_push_gateway_api", optional = true }
+ruma_api = { package = "ruma/api", version = "=0.17.0-alpha.2", path = "../ruma_api", optional = true, registry = "cratespaces" }
+ruma_appservice_api = { package = "ruma/appservice_api", version = "=0.2.0-alpha.2", path = "../ruma_appservice_api", optional = true, registry = "cratespaces" }
+ruma_client_api = { package = "ruma/client_api", version = "=0.10.0-alpha.2", path = "../ruma_client_api", optional = true, registry = "cratespaces" }
+ruma_federation_api = { package = "ruma/federation_api", version = "=0.1.0-alpha.1", path = "../ruma_federation_api", optional = true, registry = "cratespaces" }
+ruma_identity_service_api = { package = "ruma/identity_service_api", version = "0.0.1", path = "../ruma_identity_service_api", optional = true, registry = "cratespaces" }
+ruma_push_gateway_api = { package = "ruma/push_gateway_api", version = "0.0.1", path = "../ruma_push_gateway_api", optional = true, registry = "cratespaces" }
 
 [dev-dependencies]
 serde = { version = "1.0.118", features = ["derive"] }
 
 [features]
-either = ["ruma-identifiers/either"]
-rand = ["ruma-identifiers/rand"]
+either = ["ruma_identifiers/either"]
+rand = ["ruma_identifiers/rand"]
 
-events = ["ruma-events"]
-signatures = ["ruma-signatures"]
+events = ["ruma_events"]
+signatures = ["ruma_signatures"]
 
-appservice-api = ["ruma-api", "ruma-appservice-api", "events"]
-client-api = ["ruma-api", "ruma-client-api", "events"]
-federation-api = ["ruma-api", "ruma-federation-api", "signatures"]
-identity-service-api = ["ruma-api", "ruma-identity-service-api"]
-push-gateway-api = ["ruma-api", "ruma-push-gateway-api"]
+appservice-api = ["ruma_api", "ruma_appservice_api", "events"]
+client-api = ["ruma_api", "ruma_client_api", "events"]
+federation-api = ["ruma_api", "ruma_federation_api", "signatures"]
+identity-service-api = ["ruma_api", "ruma_identity_service_api"]
+push-gateway-api = ["ruma_api", "ruma_push_gateway_api"]
 
 unstable-exhaustive-types = [
-    "ruma-events/unstable-exhaustive-types",
-    "ruma-appservice-api/unstable-exhaustive-types",
-    "ruma-client-api/unstable-exhaustive-types",
-    "ruma-federation-api/unstable-exhaustive-types",
-    "ruma-common/unstable-exhaustive-types",
+    "ruma_events/unstable-exhaustive-types",
+    "ruma_appservice_api/unstable-exhaustive-types",
+    "ruma_client_api/unstable-exhaustive-types",
+    "ruma_federation_api/unstable-exhaustive-types",
+    "ruma_common/unstable-exhaustive-types",
 ]
 unstable-pre-spec = [
-    "ruma-client-api/unstable-pre-spec",
-    "ruma-events/unstable-pre-spec",
-    "ruma-federation-api/unstable-pre-spec",
+    "ruma_client_api/unstable-pre-spec",
+    "ruma_events/unstable-pre-spec",
+    "ruma_federation_api/unstable-pre-spec",
 ]
 unstable-synapse-quirks = [
-    "ruma-client-api/unstable-synapse-quirks",
-    "ruma-common/unstable-synapse-quirks",
-    "ruma-events/unstable-synapse-quirks",
+    "ruma_client_api/unstable-synapse-quirks",
+    "ruma_common/unstable-synapse-quirks",
+    "ruma_events/unstable-synapse-quirks",
 ]

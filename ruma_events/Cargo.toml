@@ -5,7 +5,7 @@ description = "Serializable types for the events in the Matrix specification."
 homepage = "https://www.ruma.io/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
-name = "ruma-events"
+name = "ruma/events"
 readme = "README.md"
 repository = "https://github.com/ruma/ruma"
 version = "0.22.0-alpha.2"
@@ -14,17 +14,17 @@ edition = "2018"
 [dependencies]
 criterion = { version = "0.3.3", optional = true }
 js_int = { version = "0.2.0", features = ["serde"] }
-ruma-common = { version = "=0.3.0-alpha.1", path = "../ruma_common" }
-ruma-events-macros = { version = "=0.22.0-alpha.2", path = "../ruma_events_macros" }
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers" }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde" }
+ruma_common = { package = "ruma/common", version = "=0.3.0-alpha.1", path = "../ruma_common", registry = "cratespaces" }
+ruma_events_macros = { package = "ruma/events_macros", version = "=0.22.0-alpha.2", path = "../ruma_events_macros", registry = "cratespaces" }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", registry = "cratespaces" }
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = { version = "1.0.60", features = ["raw_value"] }
 
 [dev-dependencies]
 maplit = "1.0.2"
 matches = "0.1.8"
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers", features = ["rand"] }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", features = ["rand"], registry = "cratespaces" }
 trybuild = "1.0.38"
 
 [features]

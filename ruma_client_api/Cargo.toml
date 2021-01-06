@@ -9,7 +9,7 @@ description = "Types for the endpoints in the Matrix client-server API."
 homepage = "https://www.ruma.io/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
-name = "ruma-client-api"
+name = "ruma/client_api"
 readme = "README.md"
 repository = "https://github.com/ruma/ruma"
 version = "0.10.0-alpha.2"
@@ -21,11 +21,11 @@ http = "0.2.2"
 js_int = { version = "0.2.0", features = ["serde"] }
 maplit = "1.0.2"
 percent-encoding = "2.1.0"
-ruma-api = { version = "=0.17.0-alpha.2", path = "../ruma_api" }
-ruma-common = { version = "=0.3.0-alpha.1", path = "../ruma_common" }
-ruma-events = { version = "=0.22.0-alpha.2", path = "../ruma_events" }
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers" }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde" }
+ruma_api = { package = "ruma/api", version = "=0.17.0-alpha.2", path = "../ruma_api", registry = "cratespaces" }
+ruma_common = { package = "ruma/common", version = "=0.3.0-alpha.1", path = "../ruma_common", registry = "cratespaces" }
+ruma_events = { package = "ruma/events", version = "=0.22.0-alpha.2", path = "../ruma_events", registry = "cratespaces" }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", registry = "cratespaces" }
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.61"
 
@@ -37,6 +37,6 @@ matches = "0.1.8"
 unstable-exhaustive-types = []
 unstable-pre-spec = []
 unstable-synapse-quirks = [
-    "ruma-common/unstable-synapse-quirks",
-    "ruma-events/unstable-synapse-quirks",
+    "ruma_common/unstable-synapse-quirks",
+    "ruma_events/unstable-synapse-quirks",
 ]

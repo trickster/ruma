@@ -1,6 +1,6 @@
 [package]
-name = "ruma-identifiers-validation"
-description = "Validation logic for ruma-identifiers and ruma-identifiers-macros"
+name = "ruma/identifiers_validation"
+description = "Validation logic for ruma_identifiers and ruma_identifiers_macros"
 homepage = "https://www.ruma.io/"
 repository = "https://github.com/ruma/ruma"
 authors = [

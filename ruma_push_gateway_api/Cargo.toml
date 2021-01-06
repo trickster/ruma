@@ -1,5 +1,5 @@
 [package]
-name = "ruma-push-gateway-api"
+name = "ruma/push_gateway_api"
 version = "0.0.1"
 authors = ["Jonas Platte <jplatte@posteo.de>"]
 description = "Types for the endpoints in the Matrix push gateway API."
@@ -12,14 +12,14 @@ edition = "2018"
 
 [dependencies]
 js_int = { version = "0.2.0", features = ["serde"] }
-ruma-api = { version = "=0.17.0-alpha.2", path = "../ruma_api" }
-ruma-common = { version = "=0.3.0-alpha.1", path = "../ruma_common" }
-ruma-events = { version = "0.22.0-alpha.1", path = "../ruma_events" }
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers" }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde" }
+ruma_api = { package = "ruma/api", version = "=0.17.0-alpha.2", path = "../ruma_api", registry = "cratespaces" }
+ruma_common = { package = "ruma/common", version = "=0.3.0-alpha.1", path = "../ruma_common", registry = "cratespaces" }
+ruma_events = { package = "ruma/events", version = "0.22.0-alpha.1", path = "../ruma_events", registry = "cratespaces" }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", registry = "cratespaces" }
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.61"
 
 [features]
 unstable-exhaustive-types = []
-unstable-synapse-quirks = ["ruma-events/unstable-synapse-quirks"]
+unstable-synapse-quirks = ["ruma_events/unstable-synapse-quirks"]

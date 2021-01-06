@@ -9,7 +9,7 @@ edition = "2018"
 homepage = "https://www.ruma.io/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
-name = "ruma-client"
+name = "ruma/client"
 readme = "README.md"
 repository = "https://github.com/ruma/ruma"
 version = "0.5.0-alpha.1"
@@ -22,12 +22,12 @@ http = "0.2.2"
 hyper = { version = "0.14.2", features = ["client", "tcp"] }
 hyper-tls = { version = "0.5.0", optional = true }
 hyper-rustls = { version = "0.22.1", optional = true, default-features = false }
-ruma-api = { version = "=0.17.0-alpha.2", path = "../ruma_api" }
-ruma-client-api = { version = "=0.10.0-alpha.2", path = "../ruma_client_api" }
-ruma-common = { version = "=0.3.0-alpha.1", path = "../ruma_common" }
-ruma-events = { version = "=0.22.0-alpha.2", path = "../ruma_events" }
-ruma-identifiers = { version = "=0.18.0-alpha.1", path = "../ruma_identifiers" }
-ruma-serde = { version = "0.3.0", path = "../ruma_serde" }
+ruma_api = { package = "ruma/api", version = "=0.17.0-alpha.2", path = "../ruma_api", registry = "cratespaces" }
+ruma_client_api = { package = "ruma/client_api", version = "=0.10.0-alpha.2", path = "../ruma_client_api", registry = "cratespaces" }
+ruma_common = { package = "ruma/common", version = "=0.3.0-alpha.1", path = "../ruma_common", registry = "cratespaces" }
+ruma_events = { package = "ruma/events", version = "=0.22.0-alpha.2", path = "../ruma_events", registry = "cratespaces" }
+ruma_identifiers = { package = "ruma/identifiers", version = "=0.18.0-alpha.1", path = "../ruma_identifiers", registry = "cratespaces" }
+ruma_serde = { package = "ruma/serde", version = "0.3.0", path = "../ruma_serde", registry = "cratespaces" }
 serde = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.61"
 
@@ -54,7 +54,7 @@ tls-rustls-webpki-roots = [
     "_tls-rustls",
 ]
 
-unstable-synapse-quirks = ["ruma-events/unstable-synapse-quirks"]
+unstable-synapse-quirks = ["ruma_events/unstable-synapse-quirks"]
 
 # Internal, not meant to be used directly
 _tls = []

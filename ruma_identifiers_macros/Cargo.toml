@@ -4,13 +4,13 @@ description = "Procedural macros for creating Matrix identifiers."
 homepage = "https://www.ruma.io/"
 keywords = ["matrix", "chat", "messaging", "ruma"]
 license = "MIT"
-name = "ruma-identifiers-macros"
+name = "ruma/identifiers_macros"
 repository = "https://github.com/ruma/ruma"
 version = "0.18.0-alpha.1"
 edition = "2018"
 
 [dependencies]
-ruma-identifiers-validation = { version = "0.2.0", path = "../ruma_identifiers_validation", default-features = false }
+ruma_identifiers_validation = { package = "ruma/identifiers_validation", version = "0.2.0", path = "../ruma_identifiers_validation", default-features = false, registry = "cratespaces" }
 quote = "1.0.8"
 proc-macro2 = "1.0.24"
 syn = "1.0.55"
