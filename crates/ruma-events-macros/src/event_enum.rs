@@ -235,15 +235,14 @@ fn expand_conversion_impl(
             let ident_variants = variants.iter().map(|v| v.match_arm(&ident));
             let self_variants = variants.iter().map(|v| v.ctor(quote!(Self)));
 
-            let redaction = if let (EventKind::Message, EventKindVariation::Full) = (kind, var) {
-                quote! {
-                    #ident::RoomRedaction(event) => Self::RoomRedaction(
-                        #ruma_events::room::redaction::SyncRedactionEvent::from(event),
-                    ),
-                }
-            } else {
-                TokenStream::new()
-            };
+            let redaction =
+                (*kind == EventKind::Message && *var == EventKindVariation::Full).then(|| {
+                    quote! {
+                        #ident::RoomRedaction(event) => Self::RoomRedaction(
+                            #ruma_events::room::redaction::SyncRedactionEvent::from(event),
+                        ),
+                    }
+                });
 
             Some(quote! {
                 impl From<#ident> for #sync {
@@ -274,15 +273,14 @@ fn expand_conversion_impl(
             let self_variants = variants.iter().map(|v| v.match_arm(quote!(Self)));
             let full_variants = variants.iter().map(|v| v.ctor(&full));
 
-            let redaction = if let (EventKind::Message, EventKindVariation::Sync) = (kind, var) {
-                quote! {
-                    Self::RoomRedaction(event) => {
-                        #full::RoomRedaction(event.into_full_event(room_id))
-                    },
-                }
-            } else {
-                TokenStream::new()
-            };
+            let redaction =
+                (*kind == EventKind::Message && *var == EventKindVariation::Sync).then(|| {
+                    quote! {
+                        Self::RoomRedaction(event) => {
+                            #full::RoomRedaction(event.into_full_event(room_id))
+                        },
+                    }
+                });
 
             Some(quote! {
                 #[automatically_derived]
@@ -586,8 +584,8 @@ fn generate_redacted_fields(
     var: &EventKindVariation,
     is_event_kind: EventKindFn,
     ruma_events: &TokenStream,
-) -> TokenStream {
-    if is_event_kind(kind, var) {
+) -> Option<TokenStream> {
+    is_event_kind(kind, var).then(|| {
         let name = Ident::new(name, Span::call_site());
 
         if name == "unsigned" {
@@ -607,9 +605,7 @@ fn generate_redacted_fields(
                 #name: event.#name,
             }
         }
-    } else {
-        TokenStream::new()
-    }
+    })
 }
 
 fn generate_custom_variant(
@@ -742,7 +738,7 @@ fn accessor_methods(
         }
     };
 
-    let prev_content = if has_prev_content_field(kind, var) {
+    let prev_content = has_prev_content_field(kind, var).then(|| {
         quote! {
             /// Returns the any content enum for this events prev_content.
             pub fn prev_content(&self) -> Option<#content_enum> {
@@ -758,9 +754,7 @@ fn accessor_methods(
                 }
             }
         }
-    } else {
-        TokenStream::new()
-    };
+    });
 
     Some(quote! {
         #[automatically_derived]
@@ -923,8 +917,8 @@ fn generate_accessor(
     is_event_kind: EventKindFn,
     variants: &[EventEnumVariant],
     ruma_events: &TokenStream,
-) -> TokenStream {
-    if is_event_kind(kind, var) {
+) -> Option<TokenStream> {
+    is_event_kind(kind, var).then(|| {
         let docs = format!("Returns this event's {} field.", name);
         let ident = Ident::new(name, Span::call_site());
         let field_type = field_return_type(name, var, ruma_events);
@@ -939,9 +933,7 @@ fn generate_accessor(
                 }
             }
         }
-    } else {
-        TokenStream::new()
-    }
+    })
 }
 
 fn field_return_type(

@@ -129,7 +129,7 @@ pub fn expand_event_content(
     let content_derives =
         content_attr.iter().flat_map(|args| args.get_event_kinds()).collect::<Vec<_>>();
 
-    let redacted = if needs_redacted(&content_attr) {
+    let redacted = needs_redacted(&content_attr).then(|| {
         let doc = format!("The payload for a redacted `{}`", ident);
         let redacted_ident = format_ident!("Redacted{}", ident);
         let kept_redacted_fields = if let syn::Data::Struct(syn::DataStruct {
@@ -262,9 +262,7 @@ pub fn expand_event_content(
 
             #redacted_event_content_derive
         }
-    } else {
-        TokenStream::new()
-    };
+    });
 
     let event_content_derive =
         generate_event_content_derives(&content_derives, ident, ruma_events)?;
@@ -273,9 +271,7 @@ pub fn expand_event_content(
 
     Ok(quote! {
         #event_content
-
         #event_content_derive
-
         #redacted
     })
 }
