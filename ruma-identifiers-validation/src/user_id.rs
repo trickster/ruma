@@ -1,13 +1,7 @@
-use std::num::NonZeroU8;
+use crate::{validate_delimited_id, Error};
 
-use crate::{parse_id, Error};
-
-pub fn validate(s: &str) -> Result<(NonZeroU8, bool), Error> {
-    let colon_idx = parse_id(s, &['@'])?;
-    let localpart = &s[1..colon_idx.get() as usize];
-    let is_historical = localpart_is_fully_comforming(localpart)?;
-
-    Ok((colon_idx, is_historical))
+pub fn validate(s: &str) -> Result<(), Error> {
+    validate_delimited_id(s, &['@'])
 }
 
 /// Check whether the given user id localpart is valid and fully conforming
