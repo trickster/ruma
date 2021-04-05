@@ -159,6 +159,10 @@
 <span id="158">158</span>
 <span id="159">159</span>
 <span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [PUT /_matrix/client/r0/rooms/{roomId}/state/{eventType}/{stateKey}](https://matrix.org/docs/spec/client_server/r0.6.1#put-matrix-client-r0-rooms-roomid-state-eventtype-statekey)</span>
 
@@ -291,11 +295,15 @@
             }
         };
 
-        <span class="kw">let</span> <span class="ident">state_key</span> <span class="op">=</span>
-            <span class="kw">match</span> <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">7</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>() {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>.<span class="ident">into_owned</span>(),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-            };
+        <span class="kw">let</span> <span class="ident">state_key</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">path_segments</span>.<span class="ident">get</span>(<span class="number">7</span>) {
+            <span class="prelude-val">Some</span>(<span class="ident">segment</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">match</span> <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">segment</span>.<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>() {
+                    <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>.<span class="ident">into_owned</span>(),
+                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
+                }
+            }
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
+        };
 
         <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">request_body</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span> <span class="op">=</span>
