@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["vec_as_map_of_empty","Serde serialization and deserialization functions that map a `Vec<T>` to a `BTreeMap<T, Empty>`."]],"struct":[["Empty","A meaningless value that serializes to an empty JSON object."]]});
