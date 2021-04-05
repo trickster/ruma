@@ -75,14 +75,14 @@
 <span class="doccomment">//! the UNIX epoch. Delegates to `js_int::UInt` to ensure integer size is within bounds.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
+    <span class="ident">convert</span>::<span class="ident">TryInto</span>,
     <span class="ident">time</span>::{<span class="ident">Duration</span>, <span class="ident">SystemTime</span>, <span class="ident">UNIX_EPOCH</span>},
 };
 
 <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
-    <span class="ident">de</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>},
-    <span class="ident">ser</span>::{<span class="ident">Error</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>},
+    <span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>},
+    <span class="ident">ser</span>::{<span class="self">self</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>},
 };
 
 <span class="doccomment">/// Serialize a SystemTime.</span>
@@ -93,12 +93,10 @@
 <span class="kw">where</span>
     <span class="ident">S</span>: <span class="ident">Serializer</span>,
 {
-    <span class="comment">// If this unwrap fails, the system this is executed is completely broken.</span>
-    <span class="kw">let</span> <span class="ident">time_since_epoch</span> <span class="op">=</span> <span class="ident">time</span>.<span class="ident">duration_since</span>(<span class="ident">UNIX_EPOCH</span>).<span class="ident">unwrap</span>();
-    <span class="kw">match</span> <span class="ident">UInt</span>::<span class="ident">try_from</span>(<span class="ident">time_since_epoch</span>.<span class="ident">as_secs</span>()) {
-        <span class="prelude-val">Ok</span>(<span class="ident">uint</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">uint</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">S</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="ident">err</span>)),
-    }
+    <span class="kw">let</span> <span class="ident">time_since_epoch</span> <span class="op">=</span> <span class="ident">time</span>.<span class="ident">duration_since</span>(<span class="ident">UNIX_EPOCH</span>).<span class="ident">map_err</span>(<span class="ident">ser</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">uint</span>: <span class="ident">UInt</span> <span class="op">=</span> <span class="ident">time_since_epoch</span>.<span class="ident">as_secs</span>().<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="ident">ser</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>;
+
+    <span class="ident">uint</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>)
 }
 
 <span class="doccomment">/// Deserializes a SystemTime.</span>
@@ -110,7 +108,9 @@
     <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
     <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="ident">UInt</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<span class="ident">UNIX_EPOCH</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">secs</span>.<span class="ident">into</span>()))
+    <span class="ident">UNIX_EPOCH</span>
+        .<span class="ident">checked_add</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">secs</span>.<span class="ident">into</span>()))
+        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;input too large for SystemTime&quot;</span>))
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

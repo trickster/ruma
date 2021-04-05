@@ -92,6 +92,11 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! De-/serialization functions for `Option&lt;std::time::SystemTime&gt;` objects represented as</span>
 <span class="doccomment">//! seconds since the UNIX epoch. Delegates to `js_int::UInt` to ensure integer size is within</span>
@@ -101,7 +106,7 @@
 
 <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
-    <span class="ident">de</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>},
+    <span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>},
     <span class="ident">ser</span>::{<span class="ident">Serialize</span>, <span class="ident">Serializer</span>},
 };
 
@@ -127,8 +132,13 @@
 <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
-    <span class="prelude-val">Ok</span>(<span class="prelude-ty">Option</span>::<span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">secs</span><span class="op">|</span> <span class="ident">UNIX_EPOCH</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">secs</span>.<span class="ident">into</span>())))
+    <span class="prelude-ty">Option</span>::<span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">secs</span><span class="op">|</span> {
+            <span class="ident">UNIX_EPOCH</span>
+                .<span class="ident">checked_add</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">secs</span>.<span class="ident">into</span>()))
+                .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;input too large for SystemTime&quot;</span>))
+        })
+        .<span class="ident">transpose</span>()
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
