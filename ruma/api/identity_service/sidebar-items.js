@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["authentication","Endpoints to authenticate with an identity server."],["keys","Endpoints to retrieve, update, and validate keys with an identity server."],["status","Endpoint to check the status of an identity server."],["tos","Endpoints to retreive and accept terms of service of an identity server."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["send_transaction_message","Endpoint to send live activity messages to another server."]]});
