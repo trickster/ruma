@@ -952,8 +952,6 @@
 <span id="951">951</span>
 <span id="952">952</span>
 <span id="953">953</span>
-<span id="954">954</span>
-<span id="955">955</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Details of the `request` section of the procedural macro.</span>
 
@@ -1764,9 +1762,7 @@
                     <span class="kw">let</span> <span class="ident">path_var_ident</span> <span class="op">=</span> <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="ident">path_var</span>, <span class="ident">Span</span>::<span class="ident">call_site</span>());
                     <span class="macro">quote!</span> {
                         #<span class="ident">path_var_ident</span>: {
-                            <span class="kw">use</span> #<span class="ident">ruma_api</span>::<span class="ident">error</span>::<span class="ident">RequestDeserializationError</span>;
-
-                            <span class="kw">let</span> <span class="ident">segment</span> <span class="op">=</span> <span class="ident">path_segments</span>.<span class="ident">get</span>(#<span class="ident">i</span>).<span class="ident">unwrap</span>().<span class="ident">as_bytes</span>();
+                            <span class="kw">let</span> <span class="ident">segment</span> <span class="op">=</span> <span class="ident">path_segments</span>[#<span class="ident">i</span>].<span class="ident">as_bytes</span>();
                             <span class="kw">let</span> <span class="ident">decoded</span> <span class="op">=</span> #<span class="ident">ruma_api</span>::<span class="macro">try_deserialize!</span>(
                                 <span class="ident">request</span>,
                                 #<span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">segment</span>)

@@ -145,26 +145,14 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
-<span id="151">151</span>
-<span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
-<span id="158">158</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [PUT /_matrix/client/r0/rooms/{roomId}/send/{eventType}/{txnId}](https://matrix.org/docs/spec/client_server/r0.6.1#put-matrix-client-r0-rooms-roomid-send-eventtype-txnid)</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
 <span class="kw">use</span> <span class="ident">ruma_api</span>::{
-    <span class="ident">error</span>::{<span class="ident">FromHttpRequestError</span>, <span class="ident">IntoHttpError</span>, <span class="ident">RequestDeserializationError</span>},
-    <span class="ident">ruma_api</span>, <span class="ident">Metadata</span>,
+    <span class="ident">error</span>::{<span class="ident">FromHttpRequestError</span>, <span class="ident">IntoHttpError</span>},
+    <span class="ident">ruma_api</span>, <span class="ident">try_deserialize</span>, <span class="ident">Metadata</span>,
 };
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">AnyMessageEventContent</span>, <span class="ident">EventContent</span> <span class="kw">as</span> <span class="kw">_</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">RoomId</span>};
@@ -275,42 +263,30 @@
         <span class="kw">let</span> <span class="ident">path_segments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">uri</span>().<span class="ident">path</span>()[<span class="number">1</span>..].<span class="ident">split</span>(<span class="string">&#39;/&#39;</span>).<span class="ident">collect</span>();
 
         <span class="kw">let</span> <span class="ident">room_id</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">decoded</span> <span class="op">=</span>
-                <span class="kw">match</span> <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">4</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>() {
-                    <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-                };
+            <span class="kw">let</span> <span class="ident">decoded</span> <span class="op">=</span> <span class="macro">try_deserialize!</span>(
+                <span class="ident">request</span>,
+                <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">4</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>(),
+            );
 
-            <span class="kw">match</span> <span class="ident">RoomId</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">decoded</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-            }
+            <span class="macro">try_deserialize!</span>(<span class="ident">request</span>, <span class="ident">RoomId</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">decoded</span>))
         };
 
-        <span class="kw">let</span> <span class="ident">txn_id</span> <span class="op">=</span>
-            <span class="kw">match</span> <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">7</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>() {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>.<span class="ident">into_owned</span>(),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-            };
+        <span class="kw">let</span> <span class="ident">txn_id</span> <span class="op">=</span> <span class="macro">try_deserialize!</span>(
+            <span class="ident">request</span>,
+            <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">7</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>(),
+        )
+        .<span class="ident">into_owned</span>();
 
         <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">request_body</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span> <span class="op">=</span>
-                <span class="kw">match</span> <span class="ident">serde_json</span>::<span class="ident">from_slice</span>(<span class="ident">request</span>.<span class="ident">body</span>().<span class="ident">as_slice</span>()) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-                };
+                <span class="macro">try_deserialize!</span>(<span class="ident">request</span>, <span class="ident">serde_json</span>::<span class="ident">from_slice</span>(<span class="ident">request</span>.<span class="ident">body</span>().<span class="ident">as_slice</span>()));
 
-            <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span> {
-                <span class="kw">match</span> <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">6</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>() {
-                    <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-                }
-            };
+            <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span> <span class="macro">try_deserialize!</span>(
+                <span class="ident">request</span>,
+                <span class="ident">percent_encoding</span>::<span class="ident">percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">6</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>()
+            );
 
-            <span class="kw">match</span> <span class="ident">AnyMessageEventContent</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">request_body</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">content</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">content</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeserializationError</span>::<span class="ident">new</span>(<span class="ident">err</span>, <span class="ident">request</span>).<span class="ident">into</span>()),
-            }
+            <span class="macro">try_deserialize!</span>(<span class="ident">request</span>, <span class="ident">AnyMessageEventContent</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">request_body</span>))
         };
 
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">room_id</span>, <span class="ident">txn_id</span>, <span class="ident">content</span> })
