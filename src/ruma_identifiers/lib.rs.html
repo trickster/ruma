@@ -179,6 +179,10 @@
 <span id="178">178</span>
 <span id="179">179</span>
 <span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -277,8 +281,12 @@
     };
 }
 
+<span class="comment">// A plain re-export shows up in rustdoc despite doc(hidden). Use a module instead.</span>
+<span class="comment">// Bug report: https://github.com/rust-lang/rust/issues/83939</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_identifiers_macros</span> <span class="kw">as</span> <span class="ident">_macros</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">_macros</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_identifiers_macros</span>::<span class="kw-2">*</span>;
+}
 
 <span class="doccomment">/// Compile-time checked `DeviceKeyId` construction.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>

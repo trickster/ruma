@@ -1,1 +1,0 @@
-initSidebarItems({"macro":[["device_key_id",""],["event_id",""],["mxc_uri",""],["room_alias_id",""],["room_id",""],["room_version_id",""],["server_name",""],["server_signing_key_id",""],["user_id",""]]});
