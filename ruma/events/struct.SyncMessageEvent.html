@@ -5,7 +5,7 @@
     pub sender: <a class="struct" href="../../ruma/struct.UserId.html" title="struct ruma::UserId">UserId</a>,
     pub origin_server_ts: <a class="struct" href="https://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html" title="struct std::time::SystemTime">SystemTime</a>,
     pub unsigned: <a class="struct" href="../../ruma/events/struct.Unsigned.html" title="struct ruma::events::Unsigned">Unsigned</a>,
-}</pre></div><div class="docblock"><p>A message event without a <code>room_id</code>.</p>
+}</pre></div><div class="item-info"><div class="stab portability">This is supported on <strong>crate feature <code>events</code></strong> only.</div></div><div class="docblock"><p>A message event without a <code>room_id</code>.</p>
 <p><code>SyncMessageEvent</code> implements the comparison traits using only
 the <code>event_id</code> field, a sorted list would be sorted lexicographically based on
 the event’s <code>EventId</code>.</p>

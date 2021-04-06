@@ -7,7 +7,7 @@
     pub state_key: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     pub prev_content: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;C&gt;,
     pub unsigned: <a class="struct" href="../../ruma/events/struct.Unsigned.html" title="struct ruma::events::Unsigned">Unsigned</a>,
-}</pre></div><div class="docblock"><p>A state event without a <code>room_id</code>.</p>
+}</pre></div><div class="item-info"><div class="stab portability">This is supported on <strong>crate feature <code>events</code></strong> only.</div></div><div class="docblock"><p>A state event without a <code>room_id</code>.</p>
 <p><code>SyncStateEvent</code> implements the comparison traits using only
 the <code>event_id</code> field, a sorted list would be sorted lexicographically based on
 the event’s <code>EventId</code>.</p>

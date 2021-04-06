@@ -2,7 +2,7 @@
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Enum <a href="../index.html">ruma</a>::<wbr><a href="index.html">signatures</a>::<wbr><a class="enum" href="">Verified</a><button id="copy-path" onclick="copy_path(this)">⎘</button></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../../src/ruma_signatures/verification.rs.html#50-58" title="goto source code">[src]</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><pre class="rust enum">pub enum Verified {
     All,
     Signatures,
-}</pre></div><div class="docblock"><p>A value returned when an event is successfully verified.</p>
+}</pre></div><div class="item-info"><div class="stab portability">This is supported on <strong>crate feature <code>signatures</code></strong> only.</div></div><div class="docblock"><p>A value returned when an event is successfully verified.</p>
 <p>Event verification involves verifying both signatures and a content hash. It is possible for
 the signatures on an event to be valid, but for the hash to be different than the one
 calculated during verification. This is not necessarily an error condition, as it may indicate
