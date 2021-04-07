@@ -293,8 +293,11 @@
 <span id="292">292</span>
 <span id="293">293</span>
 <span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! Common types for room directory endpoints</span>
+<span class="doccomment">//! Common types for room directory endpoints.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
@@ -346,6 +349,9 @@
     <span class="kw">pub</span> <span class="ident">guest_can_join</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// The URL for the room&#39;s avatar, if one is set.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you activate the `compat` feature, this field being an empty string in JSON will give</span>
+    <span class="doccomment">/// you `None` here.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(
         <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>,

@@ -22,6 +22,9 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.tombstone* event.</span>
 
@@ -40,6 +43,9 @@
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.tombstone&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TombstoneEventContent</span> {
     <span class="doccomment">/// A server-defined message.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you activate the `compat` feature, this field being absent in JSON will give you an</span>
+    <span class="doccomment">/// empty string here.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>, <span class="ident">serde</span>(<span class="ident">default</span>))]</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">String</span>,
 

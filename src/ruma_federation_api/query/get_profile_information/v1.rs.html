@@ -70,6 +70,9 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/federation/v1/query/profile](https://matrix.org/docs/spec/server_server/r0.1.4#get-matrix-federation-v1-query-profile)</span>
 
@@ -105,6 +108,9 @@
         <span class="kw">pub</span> <span class="ident">displayname</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
         <span class="doccomment">/// Avatar URL for the user&#39;s avatar.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// If you activate the `compat` feature, this field being an empty string in JSON will give</span>
+        <span class="doccomment">/// you `None` here.</span>
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(
             <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>,

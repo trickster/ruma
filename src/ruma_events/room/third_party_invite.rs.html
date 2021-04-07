@@ -47,6 +47,15 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.third_party_invite* event.</span>
 
@@ -67,14 +76,23 @@
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.third_party_invite&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThirdPartyInviteEventContent</span> {
     <span class="doccomment">/// A user-readable string which represents the user who has been invited.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you activate the `compat` feature, this field being absent in JSON will give you an</span>
+    <span class="doccomment">/// empty string here.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>, <span class="ident">serde</span>(<span class="ident">default</span>))]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// A URL which can be fetched to validate whether the key has been revoked.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you activate the `compat` feature, this field being absent in JSON will give you an</span>
+    <span class="doccomment">/// empty string here.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>, <span class="ident">serde</span>(<span class="ident">default</span>))]</span>
     <span class="kw">pub</span> <span class="ident">key_validity_url</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// A Base64-encoded Ed25519 key with which the token must be signed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you activate the `compat` feature, this field being absent in JSON will give you an</span>
+    <span class="doccomment">/// empty string here.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>, <span class="ident">serde</span>(<span class="ident">default</span>))]</span>
     <span class="kw">pub</span> <span class="ident">public_key</span>: <span class="ident">String</span>,
 

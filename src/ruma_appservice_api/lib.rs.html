@@ -144,12 +144,14 @@
 <span id="143">143</span>
 <span id="144">144</span>
 <span id="145">145</span>
+<span id="146">146</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
-<span class="doccomment">//! Crate ruma_appservice_api contains serializable types for the requests and responses for each</span>
-<span class="doccomment">//! endpoint in the [Matrix](https://matrix.org/) application service API specification. These</span>
-<span class="doccomment">//! types can be shared by application service and server code.</span>
+<span class="doccomment">//! (De)serializable types for the [Matrix Application Service API][appservice-api].</span>
+<span class="doccomment">//! These types can be shared by application service and server code.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [appservice-api]: https://matrix.org/docs/spec/application_service/r0.1.2.html</span>
 
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>)]</span>
 
