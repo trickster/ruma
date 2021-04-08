@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["check_public_key_validity","Endpoint to check for valid public key with an identity server."]]});
+initSidebarItems({"mod":[["check_public_key_validity","Endpoint to check for valid public key with an identity server."],["get_public_key","Endpoint to retrieve the public key for a key ID."]]});
