@@ -952,6 +952,12 @@
 <span id="951">951</span>
 <span id="952">952</span>
 <span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Details of the `request` section of the procedural macro.</span>
 
@@ -1532,6 +1538,12 @@
                                 <span class="kw">fn</span> <span class="ident">try_from_http_request</span>(
                                     <span class="ident">request</span>: #<span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>
                                 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::result::Result</span><span class="op">&lt;</span><span class="self">Self</span>, #<span class="ident">ruma_api::error::FromHttpRequestError</span><span class="op">&gt;</span> {
+                                    <span class="kw">if</span> <span class="ident">request</span>.<span class="ident">method</span>() <span class="op">!</span><span class="op">=</span> #<span class="ident">http::Method</span>::#<span class="ident">method</span> {
+                                        <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">ruma_api::error::FromHttpRequestError::MethodMismatch</span> {
+                                            <span class="ident">expected</span>: #<span class="ident">http::Method</span>::#<span class="ident">method</span>,
+                                            <span class="ident">received</span>: <span class="ident">request</span>.<span class="ident">method</span>().<span class="ident">clone</span>(),
+                                        });
+                                    }
                                     #<span class="ident">extract_request_path</span>
                                     #<span class="ident">extract_request_query</span>
                                     #<span class="ident">extract_request_headers</span>
