@@ -381,6 +381,8 @@
 <span id="380">380</span>
 <span id="381">381</span>
 <span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -606,7 +608,9 @@
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">request</span>(<span class="macro">assign!</span>(
-                <span class="ident">LoginRequest::new</span>(<span class="ident">LoginInfo::Password</span> { <span class="ident">identifier</span>: <span class="ident">UserIdentifier::MatrixId</span>(<span class="ident">user</span>), <span class="ident">password</span> }), {
+                <span class="ident">LoginRequest::new</span>(
+                    <span class="ident">LoginInfo::Password</span> { <span class="ident">identifier</span>: <span class="ident">UserIdentifier::MatrixId</span>(<span class="ident">user</span>), <span class="ident">password</span> }
+                ), {
                     <span class="ident">device_id</span>,
                     <span class="ident">initial_device_display_name</span>,
                 }
