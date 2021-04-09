@@ -86,13 +86,13 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.avatar* event.</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">StateEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">MxcUri</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::StateEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::MxcUri</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">ThumbnailInfo</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">StateEvent</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::ThumbnailInfo</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::StateEvent</span>;
 
 <span class="doccomment">/// A picture that is associated with the room.</span>
 <span class="doccomment">///</span>
@@ -128,7 +128,7 @@
     <span class="doccomment">/// Create an empty `AvatarEventContent`.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">default</span>()
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 }
 

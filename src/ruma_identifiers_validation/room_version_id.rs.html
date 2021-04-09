@@ -14,16 +14,16 @@
 <span id="13">13</span>
 <span id="14">14</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Error</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Error</span>;
 
 <span class="doccomment">/// Room version identifiers cannot be more than 32 code points.</span>
 <span class="kw">const</span> <span class="ident">MAX_CODE_POINTS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">32</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">validate</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">is_empty</span>() {
-        <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">EmptyRoomVersionId</span>)
+        <span class="prelude-val">Err</span>(<span class="ident">Error::EmptyRoomVersionId</span>)
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident">MAX_CODE_POINTS</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">MaximumLengthExceeded</span>)
+        <span class="prelude-val">Err</span>(<span class="ident">Error::MaximumLengthExceeded</span>)
     } <span class="kw">else</span> {
         <span class="prelude-val">Ok</span>(())
     }

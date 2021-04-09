@@ -61,7 +61,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/federation/v1/version](https://matrix.org/docs/spec/server_server/r0.1.3#get-matrix-federation-v1-version)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="macro">ruma_api!</span> {
@@ -95,7 +95,7 @@
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="doccomment">/// Creates an empty `Response`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -115,7 +115,7 @@
 <span class="kw">impl</span> <span class="ident">Server</span> {
     <span class="doccomment">/// Creates an empty `Server`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 </pre></div>

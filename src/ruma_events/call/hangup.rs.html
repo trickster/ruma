@@ -47,12 +47,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.call.hangup* event.</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">MessageEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">MessageEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::MessageEvent</span>;
 
 <span class="doccomment">/// Sent by either party to signal their termination of the call. This can be sent either once the</span>
 <span class="doccomment">/// call has has been established or before to abort the call.</span>

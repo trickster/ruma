@@ -285,7 +285,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Matrix event identifiers.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">fmt</span>, <span class="ident">num</span>::<span class="ident">NonZeroU8</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryFrom</span>, <span class="ident">fmt</span>, <span class="ident">num::NonZeroU8</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Error</span>, <span class="ident">ServerName</span>};
 
@@ -328,8 +328,8 @@
     <span class="ident">colon_idx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU8</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">EventId</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">EventId</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">full_id</span>)
     }
 }
@@ -344,11 +344,11 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rand&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rand&quot;</span>)))]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">server_name</span>: <span class="kw-2">&amp;</span><span class="ident">ServerName</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">generate_localpart</span>;
+        <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::generate_localpart</span>;
 
         <span class="kw">let</span> <span class="ident">full_id</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;${}:{}&quot;</span>, <span class="ident">generate_localpart</span>(<span class="number">18</span>), <span class="ident">server_name</span>).<span class="ident">into</span>();
 
-        <span class="self">Self</span> { <span class="ident">full_id</span>, <span class="ident">colon_idx</span>: <span class="ident">NonZeroU8</span>::<span class="ident">new</span>(<span class="number">19</span>) }
+        <span class="self">Self</span> { <span class="ident">full_id</span>, <span class="ident">colon_idx</span>: <span class="ident">NonZeroU8::new</span>(<span class="number">19</span>) }
     }
 }
 
@@ -370,7 +370,7 @@
     <span class="doccomment">/// Only applicable to events in the original format as used by Matrix room versions 1 and 2.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">server_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ServerName</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">colon_idx</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">idx</span><span class="op">|</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ServerName</span><span class="op">&gt;</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">full_id</span>[<span class="ident">idx</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">1</span>..]).<span class="ident">unwrap</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">idx</span><span class="op">|</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ServerName</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">full_id</span>[<span class="ident">idx</span>.<span class="ident">get</span>() <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">1</span>..]).<span class="ident">unwrap</span>())
     }
 }
 
@@ -382,7 +382,7 @@
 <span class="kw">where</span>
     <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {
-    <span class="kw">let</span> <span class="ident">colon_idx</span> <span class="op">=</span> <span class="ident">ruma_identifiers_validation</span>::<span class="ident">event_id</span>::<span class="ident">validate</span>(<span class="ident">event_id</span>.<span class="ident">as_ref</span>())<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">colon_idx</span> <span class="op">=</span> <span class="ident">ruma_identifiers_validation::event_id::validate</span>(<span class="ident">event_id</span>.<span class="ident">as_ref</span>())<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">EventId</span> { <span class="ident">full_id</span>: <span class="ident">event_id</span>.<span class="ident">into</span>(), <span class="ident">colon_idx</span> })
 }
 
@@ -390,15 +390,15 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
+    <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">EventId</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Error</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::EventId</span>;
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Error</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">valid_original_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
                 .<span class="ident">as_ref</span>(),
             <span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>
@@ -408,7 +408,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">valid_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
                 .<span class="ident">as_ref</span>(),
             <span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>
@@ -418,7 +418,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">valid_url_safe_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
                 .<span class="ident">as_ref</span>(),
             <span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>
@@ -428,11 +428,11 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rand&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">generate_random_valid_event_id</span>() {
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ServerName</span>;
+        <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::ServerName</span>;
 
         <span class="kw">let</span> <span class="ident">server_name</span> <span class="op">=</span>
-            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ServerName</span><span class="op">&gt;</span>::<span class="ident">try_from</span>(<span class="string">&quot;example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to parse ServerName&quot;</span>);
-        <span class="kw">let</span> <span class="ident">event_id</span> <span class="op">=</span> <span class="ident">EventId</span>::<span class="ident">new</span>(<span class="ident">server_name</span>);
+            <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">ServerName</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="string">&quot;example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to parse ServerName&quot;</span>);
+        <span class="kw">let</span> <span class="ident">event_id</span> <span class="op">=</span> <span class="ident">EventId::new</span>(<span class="ident">server_name</span>);
         <span class="kw">let</span> <span class="ident">id_str</span> <span class="op">=</span> <span class="ident">event_id</span>.<span class="ident">as_str</span>();
 
         <span class="macro">assert!</span>(<span class="ident">id_str</span>.<span class="ident">starts_with</span>(<span class="string">&#39;$&#39;</span>));
@@ -443,8 +443,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_valid_original_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">to_string</span>(
-                <span class="kw-2">&amp;</span><span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
+            <span class="ident">serde_json::to_string</span>(
+                <span class="kw-2">&amp;</span><span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
             )
             .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert EventId to JSON.&quot;</span>),
             <span class="string">r#&quot;&quot;$39hvsi03hlne:example.com&quot;&quot;#</span>
@@ -455,8 +455,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_valid_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">to_string</span>(
-                <span class="kw-2">&amp;</span><span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
+            <span class="ident">serde_json::to_string</span>(
+                <span class="kw-2">&amp;</span><span class="ident">EventId::try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
                     .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
             )
             .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert EventId to JSON.&quot;</span>),
@@ -468,8 +468,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_valid_url_safe_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">to_string</span>(
-                <span class="kw-2">&amp;</span><span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
+            <span class="ident">serde_json::to_string</span>(
+                <span class="kw-2">&amp;</span><span class="ident">EventId::try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
                     .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
             )
             .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert EventId to JSON.&quot;</span>),
@@ -481,9 +481,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_valid_original_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$39hvsi03hlne:example.com&quot;&quot;#</span>)
+            <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$39hvsi03hlne:example.com&quot;&quot;#</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert JSON to EventId&quot;</span>),
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
         );
     }
 
@@ -491,9 +491,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_valid_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;&quot;#</span>)
+            <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;&quot;#</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert JSON to EventId&quot;</span>),
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
         );
     }
@@ -502,9 +502,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_valid_url_safe_base64_event_id</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;&quot;#</span>)
+            <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span>(<span class="string">r#&quot;&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;&quot;#</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to convert JSON to EventId&quot;</span>),
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
         );
     }
@@ -512,7 +512,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">valid_original_event_id_with_explicit_standard_port</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:443&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:443&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
                 .<span class="ident">as_ref</span>(),
             <span class="string">&quot;$39hvsi03hlne:example.com:443&quot;</span>
@@ -522,7 +522,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">valid_original_event_id_with_non_standard_port</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:5000&quot;</span>)
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:5000&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Failed to create EventId.&quot;</span>)
                 .<span class="ident">as_ref</span>(),
             <span class="string">&quot;$39hvsi03hlne:example.com:5000&quot;</span>
@@ -532,37 +532,37 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">missing_original_event_id_sigil</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;39hvsi03hlne:example.com&quot;</span>).<span class="ident">unwrap_err</span>(),
-            <span class="ident">Error</span>::<span class="ident">MissingLeadingSigil</span>
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;39hvsi03hlne:example.com&quot;</span>).<span class="ident">unwrap_err</span>(),
+            <span class="ident">Error::MissingLeadingSigil</span>
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">missing_base64_event_id_sigil</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>).<span class="ident">unwrap_err</span>(),
-            <span class="ident">Error</span>::<span class="ident">MissingLeadingSigil</span>
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>).<span class="ident">unwrap_err</span>(),
+            <span class="ident">Error::MissingLeadingSigil</span>
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">missing_url_safe_base64_event_id_sigil</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>).<span class="ident">unwrap_err</span>(),
-            <span class="ident">Error</span>::<span class="ident">MissingLeadingSigil</span>
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>).<span class="ident">unwrap_err</span>(),
+            <span class="ident">Error::MissingLeadingSigil</span>
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">invalid_event_id_host</span>() {
-        <span class="macro">assert_eq!</span>(<span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:/&quot;</span>).<span class="ident">unwrap_err</span>(), <span class="ident">Error</span>::<span class="ident">InvalidServerName</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:/&quot;</span>).<span class="ident">unwrap_err</span>(), <span class="ident">Error::InvalidServerName</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">invalid_event_id_port</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:notaport&quot;</span>).<span class="ident">unwrap_err</span>(),
-            <span class="ident">Error</span>::<span class="ident">InvalidServerName</span>
+            <span class="ident">EventId::try_from</span>(<span class="string">&quot;$39hvsi03hlne:example.com:notaport&quot;</span>).<span class="ident">unwrap_err</span>(),
+            <span class="ident">Error::InvalidServerName</span>
         );
     }
 }

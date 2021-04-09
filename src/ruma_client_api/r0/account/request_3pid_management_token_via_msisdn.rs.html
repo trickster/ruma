@@ -87,8 +87,8 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/account/3pid/msisdn/requestToken](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-account-3pid-msisdn-requesttoken)</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">IdentityServerInfo</span>, <span class="ident">IncomingIdentityServerInfo</span>};
 
@@ -141,7 +141,7 @@
         <span class="kw">pub</span> <span class="ident">submit_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {

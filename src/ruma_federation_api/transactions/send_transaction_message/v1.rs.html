@@ -86,14 +86,14 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [PUT /_matrix/federation/v1/send/{txnId}](https://matrix.org/docs/spec/server_server/r0.1.3#put-matrix-federation-v1-send-txnid)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">BTreeMap</span>, <span class="ident">time</span>::<span class="ident">SystemTime</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">time::SystemTime</span>};
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_events</span>::<span class="ident">pdu</span>::<span class="ident">Pdu</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_events::pdu::Pdu</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">ServerName</span>};
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {

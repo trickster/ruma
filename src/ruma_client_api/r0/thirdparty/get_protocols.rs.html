@@ -44,10 +44,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/thirdparty/protocols](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-thirdparty-protocols)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">thirdparty</span>::<span class="ident">Protocol</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::thirdparty::Protocol</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -68,7 +68,7 @@
         <span class="kw">pub</span> <span class="ident">protocols</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Protocol</span><span class="op">&gt;</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span> <span class="ident">Request</span> {

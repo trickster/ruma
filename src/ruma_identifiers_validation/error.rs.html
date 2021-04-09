@@ -59,7 +59,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Error conditions.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std::fmt</span>;
 
 <span class="doccomment">/// An error encountered when trying to parse an invalid ID string.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>)]</span>
@@ -95,25 +95,25 @@
     <span class="ident">MissingLeadingSigil</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Error</span>::<span class="ident">EmptyRoomVersionId</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;room version ID is empty&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">InvalidCharacters</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;localpart contains invalid characters&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">InvalidKeyAlgorithm</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;invalid key algorithm specified&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">InvalidKeyVersion</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;key ID version contains invalid characters&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">InvalidMxcUri</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;the mxc:// isn&#39;t a valid Matrix Content URI&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">InvalidServerName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;server name is not a valid IP address or domain name&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">MaximumLengthExceeded</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ID exceeds 255 bytes&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">MissingDelimiter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;required colon is missing&quot;</span>,
-            <span class="ident">Error</span>::<span class="ident">MissingLeadingSigil</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;leading sigil is incorrect or missing&quot;</span>,
+            <span class="ident">Error::EmptyRoomVersionId</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;room version ID is empty&quot;</span>,
+            <span class="ident">Error::InvalidCharacters</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;localpart contains invalid characters&quot;</span>,
+            <span class="ident">Error::InvalidKeyAlgorithm</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;invalid key algorithm specified&quot;</span>,
+            <span class="ident">Error::InvalidKeyVersion</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;key ID version contains invalid characters&quot;</span>,
+            <span class="ident">Error::InvalidMxcUri</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;the mxc:// isn&#39;t a valid Matrix Content URI&quot;</span>,
+            <span class="ident">Error::InvalidServerName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;server name is not a valid IP address or domain name&quot;</span>,
+            <span class="ident">Error::MaximumLengthExceeded</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;ID exceeds 255 bytes&quot;</span>,
+            <span class="ident">Error::MissingDelimiter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;required colon is missing&quot;</span>,
+            <span class="ident">Error::MissingLeadingSigil</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;leading sigil is incorrect or missing&quot;</span>,
         };
 
         <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">message</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {}
+<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">Error</span> {}
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_identifiers_validation" data-search-js="../../search-index.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

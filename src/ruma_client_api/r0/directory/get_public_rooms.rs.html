@@ -118,10 +118,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/publicRooms](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-publicrooms)</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">directory</span>::<span class="ident">PublicRoomsChunk</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">ServerName</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::directory::PublicRoomsChunk</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::ServerName</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -170,13 +170,13 @@
         <span class="kw">pub</span> <span class="ident">total_room_count_estimate</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates an empty `Request`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -189,15 +189,15 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;
+    <span class="kw">use</span> <span class="ident">std::convert::TryInto</span>;
 
-    <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">uint</span>;
-    <span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
+    <span class="kw">use</span> <span class="ident">js_int::uint</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api::OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">construct_request_from_refs</span>() {
-        <span class="kw">let</span> <span class="ident">req</span>: <span class="ident">http</span>::<span class="ident">Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Request</span> {
+        <span class="kw">let</span> <span class="ident">req</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Request</span> {
             <span class="ident">limit</span>: <span class="prelude-val">Some</span>(<span class="macro">uint!</span>(<span class="number">10</span>)),
             <span class="ident">since</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;hello&quot;</span>),
             <span class="ident">server</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;address&quot;</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>()),
@@ -217,7 +217,7 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">construct_response_from_refs</span>() {
-        <span class="kw">let</span> <span class="ident">res</span>: <span class="ident">http</span>::<span class="ident">Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Response</span> {
+        <span class="kw">let</span> <span class="ident">res</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Response</span> {
             <span class="ident">chunk</span>: <span class="macro">vec!</span>[],
             <span class="ident">next_batch</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;next_batch_token&quot;</span>.<span class="ident">into</span>()),
             <span class="ident">prev_batch</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;prev_batch_token&quot;</span>.<span class="ident">into</span>()),
@@ -227,7 +227,7 @@
         .<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">String</span>::<span class="ident">from_utf8_lossy</span>(<span class="ident">res</span>.<span class="ident">body</span>()),
+            <span class="ident">String::from_utf8_lossy</span>(<span class="ident">res</span>.<span class="ident">body</span>()),
             <span class="string">r#&quot;{&quot;chunk&quot;:[],&quot;next_batch&quot;:&quot;next_batch_token&quot;,&quot;prev_batch&quot;:&quot;prev_batch_token&quot;,&quot;total_room_count_estimate&quot;:10}&quot;#</span>
         );
     }

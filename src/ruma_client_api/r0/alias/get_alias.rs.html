@@ -47,7 +47,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/directory/room/{roomAlias}](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-directory-room-roomalias)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">RoomAliasId</span>, <span class="ident">RoomId</span>, <span class="ident">ServerNameBox</span>};
 
 <span class="macro">ruma_api!</span> {
@@ -74,7 +74,7 @@
         <span class="kw">pub</span> <span class="ident">servers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ServerNameBox</span><span class="op">&gt;</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {

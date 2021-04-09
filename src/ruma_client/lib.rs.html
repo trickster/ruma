@@ -487,30 +487,30 @@
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">collections</span>::<span class="ident">BTreeMap</span>,
-    <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
+    <span class="ident">collections::BTreeMap</span>,
+    <span class="ident">convert::TryFrom</span>,
     <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>},
-    <span class="ident">time</span>::<span class="ident">Duration</span>,
+    <span class="ident">time::Duration</span>,
 };
 
-<span class="kw">use</span> <span class="ident">assign</span>::<span class="ident">assign</span>;
-<span class="kw">use</span> <span class="ident">async_stream</span>::<span class="ident">try_stream</span>;
-<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">stream</span>::<span class="ident">Stream</span>;
-<span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">uri</span>::<span class="ident">Uri</span>, <span class="ident">Response</span> <span class="kw">as</span> <span class="ident">HttpResponse</span>};
-<span class="kw">use</span> <span class="ident">hyper</span>::<span class="ident">client</span>::{<span class="ident">Client</span> <span class="kw">as</span> <span class="ident">HyperClient</span>, <span class="ident">HttpConnector</span>};
+<span class="kw">use</span> <span class="ident">assign::assign</span>;
+<span class="kw">use</span> <span class="ident">async_stream::try_stream</span>;
+<span class="kw">use</span> <span class="ident">futures_core::stream::Stream</span>;
+<span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">uri::Uri</span>, <span class="ident">Response</span> <span class="kw">as</span> <span class="ident">HttpResponse</span>};
+<span class="kw">use</span> <span class="ident">hyper::client</span>::{<span class="ident">Client</span> <span class="kw">as</span> <span class="ident">HyperClient</span>, <span class="ident">HttpConnector</span>};
 <span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">AuthScheme</span>, <span class="ident">OutgoingRequest</span>};
-<span class="kw">use</span> <span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">sync</span>::<span class="ident">sync_events</span>::{
+<span class="kw">use</span> <span class="ident">ruma_client_api::r0::sync::sync_events</span>::{
     <span class="ident">Filter</span> <span class="kw">as</span> <span class="ident">SyncFilter</span>, <span class="ident">Request</span> <span class="kw">as</span> <span class="ident">SyncRequest</span>, <span class="ident">Response</span> <span class="kw">as</span> <span class="ident">SyncResponse</span>,
 };
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">presence</span>::<span class="ident">PresenceState</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">DeviceId</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">urlencoded</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::presence::PresenceState</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::DeviceId</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::urlencoded</span>;
 
 <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">mod</span> <span class="ident">session</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
-    <span class="ident">error</span>::<span class="ident">Error</span>,
+    <span class="ident">error::Error</span>,
     <span class="ident">session</span>::{<span class="ident">Identification</span>, <span class="ident">Session</span>},
 };
 
@@ -518,23 +518,23 @@
 <span class="kw">type</span> <span class="ident">Connector</span> <span class="op">=</span> <span class="ident">HttpConnector</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls-native&quot;</span>)]</span>
-<span class="kw">type</span> <span class="ident">Connector</span> <span class="op">=</span> <span class="ident">hyper_tls</span>::<span class="ident">HttpsConnector</span><span class="op">&lt;</span><span class="ident">HttpConnector</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">Connector</span> <span class="op">=</span> <span class="ident">hyper_tls::HttpsConnector</span><span class="op">&lt;</span><span class="ident">HttpConnector</span><span class="op">&gt;</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;_tls-rustls&quot;</span>)]</span>
-<span class="kw">type</span> <span class="ident">Connector</span> <span class="op">=</span> <span class="ident">hyper_rustls</span>::<span class="ident">HttpsConnector</span><span class="op">&lt;</span><span class="ident">HttpConnector</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">Connector</span> <span class="op">=</span> <span class="ident">hyper_rustls::HttpsConnector</span><span class="op">&lt;</span><span class="ident">HttpConnector</span><span class="op">&gt;</span>;
 
 <span class="kw">fn</span> <span class="ident">create_connector</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Connector</span> {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;_tls&quot;</span>))]</span>
-    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpConnector</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">HttpConnector::new</span>();
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls-native&quot;</span>)]</span>
-    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_tls</span>::<span class="ident">HttpsConnector</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_tls::HttpsConnector::new</span>();
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls-rustls-native-roots&quot;</span>)]</span>
-    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_rustls</span>::<span class="ident">HttpsConnector</span>::<span class="ident">with_native_roots</span>();
+    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_rustls::HttpsConnector::with_native_roots</span>();
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tls-rustls-webpki-roots&quot;</span>)]</span>
-    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_rustls</span>::<span class="ident">HttpsConnector</span>::<span class="ident">with_webpki_roots</span>();
+    <span class="kw">let</span> <span class="ident">connector</span> <span class="op">=</span> <span class="ident">hyper_rustls::HttpsConnector::with_webpki_roots</span>();
 
     <span class="ident">connector</span>
 }
@@ -559,10 +559,10 @@
 <span class="kw">impl</span> <span class="ident">Client</span> {
     <span class="doccomment">/// Creates a new client.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">homeserver_url</span>: <span class="ident">Uri</span>, <span class="ident">session</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">ClientData</span> {
+        <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ClientData</span> {
             <span class="ident">homeserver_url</span>,
-            <span class="ident">hyper</span>: <span class="ident">HyperClient</span>::<span class="ident">builder</span>().<span class="ident">build</span>(<span class="ident">create_connector</span>()),
-            <span class="ident">session</span>: <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">session</span>),
+            <span class="ident">hyper</span>: <span class="ident">HyperClient::builder</span>().<span class="ident">build</span>(<span class="ident">create_connector</span>()),
+            <span class="ident">session</span>: <span class="ident">Mutex::new</span>(<span class="ident">session</span>),
         }))
     }
 
@@ -570,14 +570,14 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This allows the user to configure the details of HTTP as desired.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom</span>(
-        <span class="ident">client_builder</span>: <span class="kw-2">&amp;</span><span class="ident">hyper</span>::<span class="ident">client</span>::<span class="ident">Builder</span>,
+        <span class="ident">client_builder</span>: <span class="kw-2">&amp;</span><span class="ident">hyper::client::Builder</span>,
         <span class="ident">homeserver_url</span>: <span class="ident">Uri</span>,
         <span class="ident">session</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">ClientData</span> {
+        <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ClientData</span> {
             <span class="ident">homeserver_url</span>,
             <span class="ident">hyper</span>: <span class="ident">client_builder</span>.<span class="ident">build</span>(<span class="ident">create_connector</span>()),
-            <span class="ident">session</span>: <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">session</span>),
+            <span class="ident">session</span>: <span class="ident">Mutex::new</span>(<span class="ident">session</span>),
         }))
     }
 
@@ -599,14 +599,14 @@
         <span class="ident">password</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">device_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">DeviceId</span><span class="op">&gt;</span>,
         <span class="ident">initial_device_display_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">session</span>::<span class="ident">login</span>::{
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">ruma_client_api::r0::session::login</span>::{
             <span class="ident">LoginInfo</span>, <span class="ident">Request</span> <span class="kw">as</span> <span class="ident">LoginRequest</span>, <span class="ident">UserIdentifier</span>,
         };
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">request</span>(<span class="macro">assign!</span>(
-                <span class="ident">LoginRequest</span>::<span class="ident">new</span>(<span class="ident">LoginInfo</span>::<span class="ident">Password</span> { <span class="ident">identifier</span>: <span class="ident">UserIdentifier</span>::<span class="ident">MatrixId</span>(<span class="ident">user</span>), <span class="ident">password</span> }), {
+                <span class="ident">LoginRequest::new</span>(<span class="ident">LoginInfo::Password</span> { <span class="ident">identifier</span>: <span class="ident">UserIdentifier::MatrixId</span>(<span class="ident">user</span>), <span class="ident">password</span> }), {
                     <span class="ident">device_id</span>,
                     <span class="ident">initial_device_display_name</span>,
                 }
@@ -630,11 +630,11 @@
     <span class="doccomment">/// client, instead of returning it.</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">register_guest</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">uiaa</span>::<span class="ident">UiaaResponse</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">account</span>::<span class="ident">register</span>::{<span class="self">self</span>, <span class="ident">RegistrationKind</span>};
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api::r0::uiaa::UiaaResponse</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">ruma_client_api::r0::account::register</span>::{<span class="self">self</span>, <span class="ident">RegistrationKind</span>};
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">register</span>::<span class="ident">Request</span>::<span class="ident">new</span>(), { <span class="ident">kind</span>: <span class="ident">RegistrationKind</span>::<span class="ident">Guest</span> }))
+            .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">register::Request::new</span>(), { <span class="ident">kind</span>: <span class="ident">RegistrationKind::Guest</span> }))
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">session</span> <span class="op">=</span> <span class="ident">Session</span> {
@@ -664,11 +664,11 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">username</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">password</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">uiaa</span>::<span class="ident">UiaaResponse</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">ruma_client_api</span>::<span class="ident">r0</span>::<span class="ident">account</span>::<span class="ident">register</span>;
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Session</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api::r0::uiaa::UiaaResponse</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">use</span> <span class="ident">ruma_client_api::r0::account::register</span>;
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">register</span>::<span class="ident">Request</span>::<span class="ident">new</span>(), { <span class="ident">username</span>, <span class="ident">password</span>: <span class="prelude-val">Some</span>(<span class="ident">password</span>) }))
+            .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">register::Request::new</span>(), { <span class="ident">username</span>, <span class="ident">password</span>: <span class="prelude-val">Some</span>(<span class="ident">password</span>) }))
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">session</span> <span class="op">=</span> <span class="ident">Session</span> {
@@ -693,12 +693,12 @@
         <span class="kw-2">mut</span> <span class="ident">since</span>: <span class="ident">String</span>,
         <span class="ident">set_presence</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PresenceState</span>,
         <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyncResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyncResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">ruma_client_api::Error</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span> {
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
         <span class="macro">try_stream!</span> {
             <span class="kw">loop</span> {
                 <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">client</span>
-                    .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">SyncRequest</span>::<span class="ident">new</span>(), {
+                    .<span class="ident">request</span>(<span class="macro">assign!</span>(<span class="ident">SyncRequest::new</span>(), {
                         <span class="ident">filter</span>,
                         <span class="ident">since</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">since</span>),
                         <span class="ident">set_presence</span>,
@@ -716,7 +716,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">request</span><span class="op">&lt;</span><span class="ident">Request</span>: <span class="ident">OutgoingRequest</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">request</span>: <span class="ident">Request</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span>::<span class="ident">IncomingResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">Request</span>::<span class="ident">EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request::IncomingResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">Request::EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">request_with_url_params</span>(<span class="ident">request</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>
     }
 
@@ -725,16 +725,16 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">request</span>: <span class="ident">Request</span>,
         <span class="ident">extra_params</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span>::<span class="ident">IncomingResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">Request</span>::<span class="ident">EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request::IncomingResponse</span>, <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">Request::EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">http_request</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">session</span>;
-            <span class="kw">let</span> <span class="ident">access_token</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">Request</span>::<span class="ident">METADATA</span>.<span class="ident">authentication</span> <span class="op">=</span><span class="op">=</span> <span class="ident">AuthScheme</span>::<span class="ident">AccessToken</span> {
+            <span class="kw">let</span> <span class="ident">access_token</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">Request::METADATA</span>.<span class="ident">authentication</span> <span class="op">=</span><span class="op">=</span> <span class="ident">AuthScheme::AccessToken</span> {
                 <span class="ident">session</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">session</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">session</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">s</span>.<span class="ident">access_token</span>.<span class="ident">as_str</span>())
                 } <span class="kw">else</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">AuthenticationRequired</span>);
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::AuthenticationRequired</span>);
                 }
             } <span class="kw">else</span> {
                 <span class="prelude-val">None</span>
@@ -743,25 +743,25 @@
             <span class="ident">request</span>.<span class="ident">try_into_http_request</span>(<span class="kw-2">&amp;</span><span class="ident">client</span>.<span class="ident">homeserver_url</span>.<span class="ident">to_string</span>(), <span class="ident">access_token</span>)<span class="question-mark">?</span>
         };
 
-        <span class="kw">let</span> <span class="ident">extra_params</span> <span class="op">=</span> <span class="ident">urlencoded</span>::<span class="ident">to_string</span>(<span class="ident">extra_params</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">extra_params</span> <span class="op">=</span> <span class="ident">urlencoded::to_string</span>(<span class="ident">extra_params</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">http_request</span>.<span class="ident">uri_mut</span>();
         <span class="kw">let</span> <span class="ident">new_path_and_query</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">uri</span>.<span class="ident">query</span>() {
             <span class="prelude-val">Some</span>(<span class="ident">params</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;{}?{}&amp;{}&quot;</span>, <span class="ident">uri</span>.<span class="ident">path</span>(), <span class="ident">params</span>, <span class="ident">extra_params</span>),
             <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format!</span>(<span class="string">&quot;{}?{}&quot;</span>, <span class="ident">uri</span>.<span class="ident">path</span>(), <span class="ident">extra_params</span>),
         };
-        <span class="kw-2">*</span><span class="ident">uri</span> <span class="op">=</span> <span class="ident">Uri</span>::<span class="ident">from_parts</span>(<span class="macro">assign!</span>(<span class="ident">uri</span>.<span class="ident">clone</span>().<span class="ident">into_parts</span>(), {
+        <span class="kw-2">*</span><span class="ident">uri</span> <span class="op">=</span> <span class="ident">Uri::from_parts</span>(<span class="macro">assign!</span>(<span class="ident">uri</span>.<span class="ident">clone</span>().<span class="ident">into_parts</span>(), {
             <span class="ident">path_and_query</span>: <span class="prelude-val">Some</span>(<span class="ident">new_path_and_query</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>),
         }))<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="ident">hyper_response</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">hyper</span>.<span class="ident">request</span>(<span class="ident">http_request</span>.<span class="ident">map</span>(<span class="ident">hyper</span>::<span class="ident">Body</span>::<span class="ident">from</span>)).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">hyper_response</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">hyper</span>.<span class="ident">request</span>(<span class="ident">http_request</span>.<span class="ident">map</span>(<span class="ident">hyper::Body::from</span>)).<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">head</span>, <span class="ident">body</span>) <span class="op">=</span> <span class="ident">hyper_response</span>.<span class="ident">into_parts</span>();
 
         <span class="comment">// FIXME: We read the response into a contiguous buffer here (not actually required for</span>
         <span class="comment">// deserialization) and then copy the whole thing to convert from Bytes to Vec&lt;u8&gt;.</span>
-        <span class="kw">let</span> <span class="ident">full_body</span> <span class="op">=</span> <span class="ident">hyper</span>::<span class="ident">body</span>::<span class="ident">to_bytes</span>(<span class="ident">body</span>).<span class="kw">await</span><span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">full_response</span> <span class="op">=</span> <span class="ident">HttpResponse</span>::<span class="ident">from_parts</span>(<span class="ident">head</span>, <span class="ident">full_body</span>.<span class="ident">as_ref</span>().<span class="ident">to_owned</span>());
+        <span class="kw">let</span> <span class="ident">full_body</span> <span class="op">=</span> <span class="ident">hyper::body::to_bytes</span>(<span class="ident">body</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">full_response</span> <span class="op">=</span> <span class="ident">HttpResponse::from_parts</span>(<span class="ident">head</span>, <span class="ident">full_body</span>.<span class="ident">as_ref</span>().<span class="ident">to_owned</span>());
 
-        <span class="prelude-val">Ok</span>(<span class="ident">Request</span>::<span class="ident">IncomingResponse</span>::<span class="ident">try_from</span>(<span class="ident">full_response</span>)<span class="question-mark">?</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">Request::IncomingResponse::try_from</span>(<span class="ident">full_response</span>)<span class="question-mark">?</span>)
     }
 }
 </pre></div>

@@ -61,9 +61,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room_key_request* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceIdBox</span>, <span class="ident">EventEncryptionAlgorithm</span>, <span class="ident">RoomId</span>};
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="doccomment">/// The payload for `RoomKeyRequestEvent`.</span>

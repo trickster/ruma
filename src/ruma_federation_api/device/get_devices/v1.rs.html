@@ -77,9 +77,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/federation/v1/user/devices/{userId}](https://matrix.org/docs/spec/server_server/r0.1.4#get-matrix-federation-v1-user-devices-userid)</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">encryption</span>::<span class="ident">DeviceKeys</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::encryption::DeviceKeys</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceIdBox</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
@@ -125,7 +125,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The device list will be empty.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">user_id</span>: <span class="ident">UserId</span>, <span class="ident">stream_id</span>: <span class="ident">UInt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">user_id</span>, <span class="ident">stream_id</span>, <span class="ident">devices</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }
+        <span class="self">Self</span> { <span class="ident">user_id</span>, <span class="ident">stream_id</span>, <span class="ident">devices</span>: <span class="ident">Vec::new</span>() }
     }
 }
 

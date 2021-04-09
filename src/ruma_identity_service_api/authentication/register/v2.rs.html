@@ -61,11 +61,11 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/identity/v2/account/register](https://matrix.org/docs/spec/identity_service/r0.3.0#post-matrix-identity-v2-account-register)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
+<span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">authentication</span>::<span class="ident">TokenType</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">ServerName</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::authentication::TokenType</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::ServerName</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {

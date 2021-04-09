@@ -492,7 +492,7 @@
 <span class="doccomment">//! Implementation of the top level `*Event` derive macro.</span>
 
 <span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Span</span>, <span class="ident">TokenStream</span>};
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
+<span class="kw">use</span> <span class="ident">quote::quote</span>;
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">Data</span>, <span class="ident">DataStruct</span>, <span class="ident">DeriveInput</span>, <span class="ident">Field</span>, <span class="ident">Fields</span>, <span class="ident">FieldsNamed</span>, <span class="ident">Ident</span>, <span class="ident">Meta</span>, <span class="ident">MetaList</span>, <span class="ident">NestedMeta</span>,
 };
@@ -503,32 +503,32 @@
 };
 
 <span class="doccomment">/// Derive `Event` macro code generation.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_event</span>(<span class="ident">input</span>: <span class="ident">DeriveInput</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_event</span>(<span class="ident">input</span>: <span class="ident">DeriveInput</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">ruma_events</span> <span class="op">=</span> <span class="ident">import_ruma_events</span>();
 
     <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">ident</span>;
     <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">var</span>) <span class="op">=</span> <span class="ident">to_kind_variation</span>(<span class="ident">ident</span>).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-        <span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>(), <span class="string">&quot;not a valid ruma event struct identifier&quot;</span>)
+        <span class="ident">syn::Error::new</span>(<span class="ident">Span::call_site</span>(), <span class="string">&quot;not a valid ruma event struct identifier&quot;</span>)
     })<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">fields</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Data</span>::<span class="ident">Struct</span>(<span class="ident">DataStruct</span> { <span class="ident">fields</span>, .. }) <span class="op">=</span> <span class="ident">input</span>.<span class="ident">data</span>.<span class="ident">clone</span>() {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="ident">FieldsNamed</span> { <span class="ident">named</span>, .. }) <span class="op">=</span> <span class="ident">fields</span> {
+    <span class="kw">let</span> <span class="ident">fields</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Data::Struct</span>(<span class="ident">DataStruct</span> { <span class="ident">fields</span>, .. }) <span class="op">=</span> <span class="ident">input</span>.<span class="ident">data</span>.<span class="ident">clone</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Fields::Named</span>(<span class="ident">FieldsNamed</span> { <span class="ident">named</span>, .. }) <span class="op">=</span> <span class="ident">fields</span> {
             <span class="kw">if</span> <span class="op">!</span><span class="ident">named</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">ident</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span>) {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
-                    <span class="ident">Span</span>::<span class="ident">call_site</span>(),
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new</span>(
+                    <span class="ident">Span::call_site</span>(),
                     <span class="string">&quot;struct must contain a `content` field&quot;</span>,
                 ));
             }
 
             <span class="ident">named</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>()
         } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new_spanned</span>(
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(
                 <span class="ident">fields</span>,
                 <span class="string">&quot;the `Event` derive only supports named fields&quot;</span>,
             ));
         }
     } <span class="kw">else</span> {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new_spanned</span>(
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(
             <span class="ident">input</span>.<span class="ident">ident</span>,
             <span class="string">&quot;the `Event` derive only supports structs with named fields&quot;</span>,
         ));
@@ -554,8 +554,8 @@
     <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">Field</span>],
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">js_int</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">js_int</span> };
-    <span class="kw">let</span> <span class="ident">serde</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">serde</span> };
+    <span class="kw">let</span> <span class="ident">js_int</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::js_int</span> };
+    <span class="kw">let</span> <span class="ident">serde</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::serde</span> };
 
     <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">ident</span>;
     <span class="kw">let</span> (<span class="ident">impl_gen</span>, <span class="ident">ty_gen</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="ident">input</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>();
@@ -565,7 +565,7 @@
             <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">ident</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
             <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span> <span class="op">&amp;&amp;</span> <span class="ident">var</span>.<span class="ident">is_redacted</span>() {
                 <span class="macro">quote!</span> {
-                    <span class="kw">if</span> #<span class="ident">ruma_events</span>::<span class="ident">RedactedEventContent</span>::<span class="ident">has_serialize_fields</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>) {
+                    <span class="kw">if</span> #<span class="ident">ruma_events::RedactedEventContent::has_serialize_fields</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>) {
                         <span class="ident">state</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;content&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>)<span class="question-mark">?</span>;
                     }
                 }
@@ -578,11 +578,11 @@
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;origin_server_ts&quot;</span> {
                 <span class="macro">quote!</span> {
                     <span class="kw">let</span> <span class="ident">time_since_epoch</span> <span class="op">=</span>
-                        <span class="self">self</span>.<span class="ident">origin_server_ts</span>.<span class="ident">duration_since</span>(::<span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">UNIX_EPOCH</span>).<span class="ident">unwrap</span>();
+                        <span class="self">self</span>.<span class="ident">origin_server_ts</span>.<span class="ident">duration_since</span>(<span class="ident">::std::time::UNIX_EPOCH</span>).<span class="ident">unwrap</span>();
 
-                    <span class="kw">let</span> <span class="ident">timestamp</span> <span class="op">=</span> <span class="op">&lt;</span>#<span class="ident">js_int</span>::<span class="ident">UInt</span> <span class="kw">as</span> ::<span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">try_from</span>(
+                    <span class="kw">let</span> <span class="ident">timestamp</span> <span class="op">=</span> <span class="op">&lt;</span>#<span class="ident">js_int::UInt</span> <span class="kw">as</span> <span class="ident">::std::convert::TryFrom</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::try_from</span>(
                         <span class="ident">time_since_epoch</span>.<span class="ident">as_millis</span>(),
-                    ).<span class="ident">map_err</span>(<span class="ident">S</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>;
+                    ).<span class="ident">map_err</span>(<span class="ident">S::Error::custom</span>)<span class="question-mark">?</span>;
 
                     <span class="ident">state</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;origin_server_ts&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">timestamp</span>)<span class="question-mark">?</span>;
                 }
@@ -602,14 +602,14 @@
 
     <span class="macro">quote!</span> {
         <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">impl_gen</span> #<span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
-            <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+        <span class="kw">impl</span> #<span class="ident">impl_gen</span> #<span class="ident">serde::ser::Serialize</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
+            <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
-                <span class="ident">S</span>: #<span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">Serializer</span>,
+                <span class="ident">S</span>: #<span class="ident">serde::ser::Serializer</span>,
             {
-                <span class="kw">use</span> #<span class="ident">serde</span>::<span class="ident">ser</span>::{<span class="ident">SerializeStruct</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="kw">_</span>};
+                <span class="kw">use</span> #<span class="ident">serde::ser</span>::{<span class="ident">SerializeStruct</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="kw">_</span>};
 
-                <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span> #<span class="ident">ruma_events</span>::<span class="ident">EventContent</span>::<span class="ident">event_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>);
+                <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span> #<span class="ident">ruma_events::EventContent::event_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>);
 
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="macro">stringify!</span>(#<span class="ident">ident</span>), <span class="number">7</span>)<span class="question-mark">?</span>;
 
@@ -626,10 +626,10 @@
     <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="ident">EventKindVariation</span>,
     <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">Field</span>],
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">js_int</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">js_int</span> };
-    <span class="kw">let</span> <span class="ident">serde</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">serde</span> };
-    <span class="kw">let</span> <span class="ident">serde_json</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">serde_json</span> };
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">js_int</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::js_int</span> };
+    <span class="kw">let</span> <span class="ident">serde</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::serde</span> };
+    <span class="kw">let</span> <span class="ident">serde_json</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::serde_json</span> };
 
     <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">ident</span>;
     <span class="comment">// we know there is a content field already</span>
@@ -658,12 +658,12 @@
             <span class="kw">let</span> <span class="ident">ty</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">field</span>.<span class="ident">ty</span>;
             <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;prev_content&quot;</span> {
                 <span class="kw">if</span> <span class="ident">is_generic</span> {
-                    <span class="macro">quote!</span> { <span class="ident">Box</span><span class="op">&lt;</span>#<span class="ident">serde_json</span>::<span class="ident">value</span>::<span class="ident">RawValue</span><span class="op">&gt;</span> }
+                    <span class="macro">quote!</span> { <span class="ident">Box</span><span class="op">&lt;</span>#<span class="ident">serde_json::value::RawValue</span><span class="op">&gt;</span> }
                 } <span class="kw">else</span> {
                     <span class="macro">quote!</span> { #<span class="ident">content_type</span> }
                 }
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;origin_server_ts&quot;</span> {
-                <span class="macro">quote!</span> { #<span class="ident">js_int</span>::<span class="ident">UInt</span> }
+                <span class="macro">quote!</span> { #<span class="ident">js_int::UInt</span> }
             } <span class="kw">else</span> {
                 <span class="macro">quote!</span> { #<span class="ident">ty</span> }
             }
@@ -677,35 +677,35 @@
             <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span> {
                 <span class="kw">if</span> <span class="ident">is_generic</span> <span class="op">&amp;&amp;</span> <span class="ident">var</span>.<span class="ident">is_redacted</span>() {
                     <span class="macro">quote!</span> {
-                        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">C</span>::<span class="ident">has_deserialize_fields</span>() {
-                            #<span class="ident">ruma_events</span>::<span class="ident">HasDeserializeFields</span>::<span class="ident">False</span> <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="ident">C</span>::<span class="ident">empty</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>).<span class="ident">map_err</span>(<span class="ident">A</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>
+                        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">C::has_deserialize_fields</span>() {
+                            #<span class="ident">ruma_events::HasDeserializeFields::False</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="ident">C::empty</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>).<span class="ident">map_err</span>(<span class="ident">A::Error::custom</span>)<span class="question-mark">?</span>
                             },
-                            #<span class="ident">ruma_events</span>::<span class="ident">HasDeserializeFields</span>::<span class="ident">True</span> <span class="op">=</span><span class="op">&gt;</span> {
+                            #<span class="ident">ruma_events::HasDeserializeFields::True</span> <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">ok_or_else</span>(
-                                    <span class="op">|</span><span class="op">|</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="string">&quot;content&quot;</span>),
+                                    <span class="op">|</span><span class="op">|</span> #<span class="ident">serde::de::Error::missing_field</span>(<span class="string">&quot;content&quot;</span>),
                                 )<span class="question-mark">?</span>;
-                                <span class="ident">C</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>
+                                <span class="ident">C::from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A::Error::custom</span>)<span class="question-mark">?</span>
                             },
-                            #<span class="ident">ruma_events</span>::<span class="ident">HasDeserializeFields</span>::<span class="ident">Optional</span> <span class="op">=</span><span class="op">&gt;</span> {
+                            #<span class="ident">ruma_events::HasDeserializeFields::Optional</span> <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">unwrap_or</span>(
-                                    #<span class="ident">serde_json</span>::<span class="ident">value</span>::<span class="ident">RawValue</span>::<span class="ident">from_string</span>(<span class="string">&quot;{}&quot;</span>.<span class="ident">to_string</span>())
+                                    #<span class="ident">serde_json::value::RawValue::from_string</span>(<span class="string">&quot;{}&quot;</span>.<span class="ident">to_string</span>())
                                         .<span class="ident">unwrap</span>()
                                 );
-                                <span class="ident">C</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>
+                                <span class="ident">C::from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A::Error::custom</span>)<span class="question-mark">?</span>
                             },
                         };
                     }
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">is_generic</span> {
                     <span class="macro">quote!</span> {
                         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span>
-                            <span class="ident">content</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="string">&quot;content&quot;</span>))<span class="question-mark">?</span>;
-                        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>;
+                            <span class="ident">content</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde::de::Error::missing_field</span>(<span class="string">&quot;content&quot;</span>))<span class="question-mark">?</span>;
+                        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">C::from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A::Error::custom</span>)<span class="question-mark">?</span>;
                     }
                 } <span class="kw">else</span> {
                     <span class="macro">quote!</span> {
                         <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">ok_or_else</span>(
-                            <span class="op">|</span><span class="op">|</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="string">&quot;content&quot;</span>),
+                            <span class="op">|</span><span class="op">|</span> #<span class="ident">serde::de::Error::missing_field</span>(<span class="string">&quot;content&quot;</span>),
                         )<span class="question-mark">?</span>;
                     }
                 }
@@ -713,7 +713,7 @@
                 <span class="kw">if</span> <span class="ident">is_generic</span> {
                     <span class="macro">quote!</span> {
                         <span class="kw">let</span> <span class="ident">prev_content</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">json</span>) <span class="op">=</span> <span class="ident">prev_content</span> {
-                            <span class="prelude-val">Some</span>(<span class="ident">C</span>::<span class="ident">from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)<span class="question-mark">?</span>)
+                            <span class="prelude-val">Some</span>(<span class="ident">C::from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">json</span>).<span class="ident">map_err</span>(<span class="ident">A::Error::custom</span>)<span class="question-mark">?</span>)
                         } <span class="kw">else</span> {
                             <span class="prelude-val">None</span>
                         };
@@ -732,9 +732,9 @@
                     <span class="kw">let</span> <span class="ident">origin_server_ts</span> <span class="op">=</span> <span class="ident">origin_server_ts</span>
                         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">time</span><span class="op">|</span> {
                             <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">time</span>.<span class="ident">into</span>();
-                            ::<span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">UNIX_EPOCH</span> <span class="op">+</span> ::<span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="ident">t</span>)
+                            <span class="ident">::std::time::UNIX_EPOCH</span> <span class="op">+</span> <span class="ident">::std::time::Duration::from_millis</span>(<span class="ident">t</span>)
                         })
-                        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="string">&quot;origin_server_ts&quot;</span>))<span class="question-mark">?</span>;
+                        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde::de::Error::missing_field</span>(<span class="string">&quot;origin_server_ts&quot;</span>))<span class="question-mark">?</span>;
                 }
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;unsigned&quot;</span> {
                 <span class="macro">quote!</span> { <span class="kw">let</span> <span class="ident">unsigned</span> <span class="op">=</span> <span class="ident">unsigned</span>.<span class="ident">unwrap_or_default</span>(); }
@@ -744,14 +744,14 @@
                     .<span class="ident">iter</span>()
                     .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;ruma_event&quot;</span>))
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">parse_meta</span>())
-                    .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">syn</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+                    .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">syn::Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
                 <span class="kw">let</span> <span class="ident">has_default_attr</span> <span class="op">=</span> <span class="ident">attrs</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> {
                     <span class="macro">matches!</span>(
                         <span class="ident">a</span>,
-                        <span class="ident">Meta</span>::<span class="ident">List</span>(<span class="ident">MetaList</span> { <span class="ident">nested</span>, .. })
+                        <span class="ident">Meta::List</span>(<span class="ident">MetaList</span> { <span class="ident">nested</span>, .. })
                         <span class="kw">if</span> <span class="ident">nested</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> {
-                            <span class="macro">matches!</span>(<span class="ident">n</span>, <span class="ident">NestedMeta</span>::<span class="ident">Meta</span>(<span class="ident">Meta</span>::<span class="ident">Path</span>(<span class="ident">p</span>)) <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_ident</span>(<span class="string">&quot;default&quot;</span>))
+                            <span class="macro">matches!</span>(<span class="ident">n</span>, <span class="ident">NestedMeta::Meta</span>(<span class="ident">Meta::Path</span>(<span class="ident">p</span>)) <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">is_ident</span>(<span class="string">&quot;default&quot;</span>))
                         })
                     )
                 });
@@ -763,13 +763,13 @@
                 } <span class="kw">else</span> {
                     <span class="macro">quote!</span> {
                         <span class="kw">let</span> #<span class="ident">name</span> <span class="op">=</span> #<span class="ident">name</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-                            #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="macro">stringify!</span>(#<span class="ident">name</span>))
+                            #<span class="ident">serde::de::Error::missing_field</span>(<span class="macro">stringify!</span>(#<span class="ident">name</span>))
                         })<span class="question-mark">?</span>;
                     }
                 }
             })
         })
-        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">syn</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">syn::Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">field_names</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">fields</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">f</span>.<span class="ident">ident</span>).<span class="ident">collect</span>();
 
@@ -780,19 +780,19 @@
         <span class="macro">quote!</span> { <span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> }
     };
     <span class="kw">let</span> <span class="ident">deserialize_phantom_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_generic</span> {
-        <span class="macro">quote!</span> { ::<span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span> }
+        <span class="macro">quote!</span> { <span class="ident">::std::marker::PhantomData</span> }
     } <span class="kw">else</span> {
         <span class="macro">quote!</span> {}
     };
 
     <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
         <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">deserialize_impl_gen</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
-            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+        <span class="kw">impl</span> #<span class="ident">deserialize_impl_gen</span> #<span class="ident">serde::de::Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
+            <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
-                <span class="ident">D</span>: #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+                <span class="ident">D</span>: #<span class="ident">serde::de::Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
             {
-                <span class="attribute">#[<span class="ident">derive</span>(#<span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
+                <span class="attribute">#[<span class="ident">derive</span>(#<span class="ident">serde::Deserialize</span>)]</span>
                 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">field_identifier</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;snake_case&quot;</span>)]</span>
                 <span class="kw">enum</span> <span class="ident">Field</span> {
                     <span class="comment">// since this is represented as an enum we have to add it so the JSON picks it</span>
@@ -808,42 +808,42 @@
                 <span class="kw">struct</span> <span class="ident">EventVisitor</span> #<span class="ident">impl_generics</span> (#<span class="ident">deserialize_phantom_type</span> #<span class="ident">ty_gen</span>);
 
                 <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                <span class="kw">impl</span> #<span class="ident">deserialize_impl_gen</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
+                <span class="kw">impl</span> #<span class="ident">deserialize_impl_gen</span> #<span class="ident">serde::de::Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
                     <span class="kw">for</span> <span class="ident">EventVisitor</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span>
                 {
                     <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span>;
 
                     <span class="kw">fn</span> <span class="ident">expecting</span>(
                         <span class="kw-2">&amp;</span><span class="self">self</span>,
-                        <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-                    ) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                        <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">::std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
+                    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::fmt::Result</span> {
                         <span class="macro">write!</span>(<span class="ident">formatter</span>, <span class="string">&quot;struct implementing {}&quot;</span>, <span class="macro">stringify!</span>(#<span class="ident">content_type</span>))
                     }
 
-                    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">A</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+                    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">A::Error</span><span class="op">&gt;</span>
                     <span class="kw">where</span>
-                        <span class="ident">A</span>: #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+                        <span class="ident">A</span>: #<span class="ident">serde::de::MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
                     {
-                        <span class="kw">use</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="kw">_</span>;
+                        <span class="kw">use</span> #<span class="ident">serde::de::Error</span> <span class="kw">as</span> <span class="kw">_</span>;
 
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">event_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                         #( <span class="kw">let</span> <span class="kw-2">mut</span> #<span class="ident">field_names</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>#<span class="ident">deserialize_var_types</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>; )<span class="op">*</span>
 
                         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">key</span>) <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_key</span>()<span class="question-mark">?</span> {
                             <span class="kw">match</span> <span class="ident">key</span> {
-                                <span class="ident">Field</span>::<span class="ident">Unknown</span> <span class="op">=</span><span class="op">&gt;</span> {
-                                    <span class="kw">let</span> <span class="kw">_</span>: #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">IgnoredAny</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
+                                <span class="ident">Field::Unknown</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                    <span class="kw">let</span> <span class="kw">_</span>: #<span class="ident">serde::de::IgnoredAny</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
                                 },
-                                <span class="ident">Field</span>::<span class="ident">Type</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="ident">Field::Type</span> <span class="op">=</span><span class="op">&gt;</span> {
                                     <span class="kw">if</span> <span class="ident">event_type</span>.<span class="ident">is_some</span>() {
-                                        <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">duplicate_field</span>(<span class="string">&quot;type&quot;</span>));
+                                        <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde::de::Error::duplicate_field</span>(<span class="string">&quot;type&quot;</span>));
                                     }
                                     <span class="ident">event_type</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>);
                                 }
                                 #(
                                     <span class="ident">Field</span>::#<span class="ident">enum_variants</span> <span class="op">=</span><span class="op">&gt;</span> {
                                         <span class="kw">if</span> #<span class="ident">field_names</span>.<span class="ident">is_some</span>() {
-                                            <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">duplicate_field</span>(
+                                            <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde::de::Error::duplicate_field</span>(
                                                 <span class="macro">stringify!</span>(#<span class="ident">field_names</span>),
                                             ));
                                         }
@@ -854,7 +854,7 @@
                         }
 
                         <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span>
-                            <span class="ident">event_type</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">missing_field</span>(<span class="string">&quot;type&quot;</span>))<span class="question-mark">?</span>;
+                            <span class="ident">event_type</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> #<span class="ident">serde::de::Error::missing_field</span>(<span class="string">&quot;type&quot;</span>))<span class="question-mark">?</span>;
                         #( #<span class="ident">ok_or_else_fields</span> )<span class="op">*</span>
 
                         <span class="prelude-val">Ok</span>(#<span class="ident">ident</span> {
@@ -876,7 +876,7 @@
     <span class="ident">fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">Field</span>],
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ruma_identifiers</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::<span class="ident">exports</span>::<span class="ident">ruma_identifiers</span> };
+    <span class="kw">let</span> <span class="ident">ruma_identifiers</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::ruma_identifiers</span> };
 
     <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">ident</span>;
 
@@ -889,13 +889,13 @@
 
     <span class="kw">let</span> (<span class="ident">into</span>, <span class="ident">into_full_event</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">var</span>.<span class="ident">is_redacted</span>() {
         (<span class="macro">quote!</span> { <span class="ident">unsigned</span>: <span class="ident">unsigned</span>.<span class="ident">into</span>(), }, <span class="macro">quote!</span> { <span class="ident">unsigned</span>: <span class="ident">unsigned</span>.<span class="ident">into_full</span>(<span class="ident">room_id</span>), })
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">EventKind</span>::<span class="ident">Ephemeral</span> {
-        (<span class="ident">TokenStream</span>::<span class="ident">new</span>(), <span class="ident">TokenStream</span>::<span class="ident">new</span>())
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">EventKind::Ephemeral</span> {
+        (<span class="ident">TokenStream::new</span>(), <span class="ident">TokenStream::new</span>())
     } <span class="kw">else</span> {
         (<span class="macro">quote!</span> { <span class="ident">unsigned</span>, }, <span class="macro">quote!</span> { <span class="ident">unsigned</span>, })
     };
 
-    <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation</span>::<span class="ident">Sync</span> <span class="op">|</span> <span class="ident">EventKindVariation</span>::<span class="ident">RedactedSync</span> <span class="op">=</span> <span class="ident">var</span> {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">|</span> <span class="ident">EventKindVariation::RedactedSync</span> <span class="op">=</span> <span class="ident">var</span> {
         <span class="kw">let</span> <span class="ident">full_struct</span> <span class="op">=</span> <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="kw-2">&amp;</span><span class="ident">var</span>.<span class="ident">to_full_variation</span>());
         <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
@@ -913,7 +913,7 @@
                 <span class="doccomment">/// Convert this sync event into a full event, one with a room_id field.</span>
                 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_full_event</span>(
                     <span class="self">self</span>,
-                    <span class="ident">room_id</span>: #<span class="ident">ruma_identifiers</span>::<span class="ident">RoomId</span>,
+                    <span class="ident">room_id</span>: #<span class="ident">ruma_identifiers::RoomId</span>,
                 ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">full_struct</span> #<span class="ident">ty_gen</span> {
                     <span class="kw">let</span> <span class="self">Self</span> { #( #<span class="ident">fields</span>, )<span class="op">*</span> } <span class="op">=</span> <span class="self">self</span>;
                     #<span class="ident">full_struct</span> {
@@ -936,28 +936,28 @@
 
         <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">impl_gen</span> ::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">PartialEq</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
+            <span class="kw">impl</span> #<span class="ident">impl_gen</span> <span class="ident">::std::cmp::PartialEq</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
                 <span class="doccomment">/// This checks if two `EventId`s are equal.</span>
-                <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">std</span>::<span class="ident">primitive</span>::<span class="ident">bool</span> {
+                <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::primitive::bool</span> {
                     <span class="self">self</span>.<span class="ident">event_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">event_id</span>
                 }
             }
 
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">impl_gen</span> ::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Eq</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {}
+            <span class="kw">impl</span> #<span class="ident">impl_gen</span> <span class="ident">::std::cmp::Eq</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {}
 
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">impl_gen</span> ::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">PartialOrd</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
+            <span class="kw">impl</span> #<span class="ident">impl_gen</span> <span class="ident">::std::cmp::PartialOrd</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
                 <span class="doccomment">/// This compares `EventId`s and orders them lexicographically.</span>
-                <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">std</span>::<span class="ident">option</span>::<span class="prelude-ty">Option</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::option::Option</span><span class="op">&lt;</span><span class="ident">::std::cmp::Ordering</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">event_id</span>.<span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">event_id</span>)
                 }
             }
 
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">impl_gen</span> ::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ord</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
+            <span class="kw">impl</span> #<span class="ident">impl_gen</span> <span class="ident">::std::cmp::Ord</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_gen</span> #<span class="ident">where_clause</span> {
                 <span class="doccomment">/// This compares `EventId`s and orders them lexicographically.</span>
-                <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span> {
+                <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::cmp::Ordering</span> {
                     <span class="self">self</span>.<span class="ident">event_id</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">event_id</span>)
                 }
             }
@@ -976,7 +976,7 @@
         .<span class="ident">split</span>(<span class="string">&#39;_&#39;</span>)
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">chars</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">to_uppercase</span>().<span class="ident">to_string</span>() <span class="op">+</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..])
         .<span class="ident">collect</span>();
-    <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="ident">span</span>)
+    <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="ident">span</span>)
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_events_macros" data-search-js="../../search-index.js"></div>

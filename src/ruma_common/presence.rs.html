@@ -38,7 +38,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [presence]: https://matrix.org/docs/spec/client_server/r0.6.1#id62</span>
 
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 
 <span class="doccomment">/// A description of a user&#39;s connectivity and availability for chat.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">StringEnum</span>)]</span>
@@ -59,13 +59,13 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">PresenceState</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">Online</span>
+        <span class="self">Self</span><span class="ident">::Online</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="ident">PresenceState</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw-2">&amp;</span><span class="ident">PresenceState</span>::<span class="ident">Online</span>
+        <span class="kw-2">&amp;</span><span class="ident">PresenceState::Online</span>
     }
 }
 </pre></div>

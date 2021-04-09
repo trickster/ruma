@@ -89,7 +89,7 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [PUT /_matrix/client/r0/profile/{userId}/avatar_url](https://matrix.org/docs/spec/client_server/r0.6.0#put-matrix-client-r0-profile-userid-avatar-url)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">MxcUri</span>, <span class="ident">UserId</span>};
 
 <span class="macro">ruma_api!</span> {
@@ -124,7 +124,7 @@
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
     <span class="ident">response</span>: {}
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -143,30 +143,30 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">matches</span>::<span class="ident">assert_matches</span>;
-    <span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">IncomingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
+    <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api::IncomingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">IncomingRequest</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::IncomingRequest</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_unset_request</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">deserialize_unset_request</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="macro">assert_matches!</span>(
-            <span class="ident">IncomingRequest</span>::<span class="ident">try_from_http_request</span>(
-                <span class="ident">http</span>::<span class="ident">Request</span>::<span class="ident">builder</span>()
+            <span class="ident">IncomingRequest::try_from_http_request</span>(
+                <span class="ident">http::Request::builder</span>()
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
-                    .<span class="ident">body</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>::<span class="ident">new</span>())<span class="question-mark">?</span>,
+                    .<span class="ident">body</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="ident">::new</span>())<span class="question-mark">?</span>,
             )<span class="question-mark">?</span>,
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>)]</span>
         <span class="macro">assert_matches!</span>(
-            <span class="ident">IncomingRequest</span>::<span class="ident">try_from_http_request</span>(
-                <span class="ident">http</span>::<span class="ident">Request</span>::<span class="ident">builder</span>()
+            <span class="ident">IncomingRequest::try_from_http_request</span>(
+                <span class="ident">http::Request::builder</span>()
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
-                    .<span class="ident">body</span>(<span class="ident">serde_json</span>::<span class="ident">to_vec</span>(<span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="macro">json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> }))<span class="question-mark">?</span>)<span class="question-mark">?</span>,
+                    .<span class="ident">body</span>(<span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="macro">serde_json::json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> }))<span class="question-mark">?</span>)<span class="question-mark">?</span>,
             )<span class="question-mark">?</span>,
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );

@@ -58,10 +58,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.dummy* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">BasicEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::BasicEvent</span>;
 
 <span class="doccomment">/// This event type is used to indicate new Olm sessions for end-to-end encryption.</span>
 <span class="doccomment">///</span>
@@ -84,7 +84,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+    <span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>};
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">DummyEvent</span>, <span class="ident">DummyEventContent</span>};

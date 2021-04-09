@@ -31,7 +31,7 @@
 <span id="30">30</span>
 <span id="31">31</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">NonZeroU8</span>;
+<span class="kw">use</span> <span class="ident">std::num::NonZeroU8</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">parse_id</span>, <span class="ident">Error</span>};
 
@@ -57,7 +57,7 @@
     <span class="comment">// for historical user IDs. If there are, return an error.</span>
     <span class="comment">// See https://matrix.org/docs/spec/appendices#historical-user-ids</span>
     <span class="kw">if</span> <span class="op">!</span><span class="ident">is_fully_conforming</span> <span class="op">&amp;&amp;</span> <span class="ident">localpart</span>.<span class="ident">bytes</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="number">0x21</span> <span class="op">|</span><span class="op">|</span> <span class="ident">b</span> <span class="op">=</span><span class="op">=</span> <span class="string">b&#39;:&#39;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">b</span> <span class="op">&gt;</span> <span class="number">0x7E</span>) {
-        <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidCharacters</span>)
+        <span class="prelude-val">Err</span>(<span class="ident">Error::InvalidCharacters</span>)
     } <span class="kw">else</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">is_fully_conforming</span>)
     }

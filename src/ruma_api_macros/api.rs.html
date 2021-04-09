@@ -90,9 +90,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Details of the `ruma_api` procedural macro.</span>
 
-<span class="kw">use</span> <span class="ident">proc_macro2</span>::<span class="ident">TokenStream</span>;
-<span class="kw">use</span> <span class="ident">quote</span>::<span class="ident">quote</span>;
-<span class="kw">use</span> <span class="ident">syn</span>::<span class="ident">Type</span>;
+<span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
+<span class="kw">use</span> <span class="ident">quote::quote</span>;
+<span class="kw">use</span> <span class="ident">syn::Type</span>;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">attribute</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">metadata</span>;
@@ -100,8 +100,8 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">request</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">response</span>;
 
-<span class="kw">use</span> <span class="self">self</span>::{<span class="ident">metadata</span>::<span class="ident">Metadata</span>, <span class="ident">request</span>::<span class="ident">Request</span>, <span class="ident">response</span>::<span class="ident">Response</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">util</span>;
+<span class="kw">use</span> <span class="self">self</span>::{<span class="ident">metadata::Metadata</span>, <span class="ident">request::Request</span>, <span class="ident">response::Response</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::util</span>;
 
 <span class="doccomment">/// The result of processing the `ruma_api` macro, ready for output back to source code.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Api</span> {
@@ -118,9 +118,9 @@
     <span class="ident">error_ty</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_all</span>(<span class="ident">api</span>: <span class="ident">Api</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ruma_api</span> <span class="op">=</span> <span class="ident">util</span>::<span class="ident">import_ruma_api</span>();
-    <span class="kw">let</span> <span class="ident">http</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api</span>::<span class="ident">exports</span>::<span class="ident">http</span> };
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_all</span>(<span class="ident">api</span>: <span class="ident">Api</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">ruma_api</span> <span class="op">=</span> <span class="ident">util::import_ruma_api</span>();
+    <span class="kw">let</span> <span class="ident">http</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::exports::http</span> };
 
     <span class="kw">let</span> <span class="ident">metadata</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">api</span>.<span class="ident">metadata</span>;
     <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">metadata</span>.<span class="ident">description</span>;
@@ -148,13 +148,13 @@
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">r</span>.<span class="ident">value</span>;
             <span class="macro">quote!</span> {
                 #( #<span class="ident">attrs</span> )<span class="op">*</span>
-                <span class="ident">authentication</span>: #<span class="ident">ruma_api</span>::<span class="ident">AuthScheme</span>::#<span class="ident">value</span>,
+                <span class="ident">authentication</span>: #<span class="ident">ruma_api::AuthScheme</span>::#<span class="ident">value</span>,
             }
         })
         .<span class="ident">collect</span>();
 
     <span class="kw">let</span> <span class="ident">error_ty</span> <span class="op">=</span>
-        <span class="ident">api</span>.<span class="ident">error_ty</span>.<span class="ident">map_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api</span>::<span class="ident">error</span>::<span class="ident">Void</span> }, <span class="op">|</span><span class="ident">err_ty</span><span class="op">|</span> <span class="macro">quote!</span> { #<span class="ident">err_ty</span> });
+        <span class="ident">api</span>.<span class="ident">error_ty</span>.<span class="ident">map_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::error::Void</span> }, <span class="op">|</span><span class="ident">err_ty</span><span class="op">|</span> <span class="macro">quote!</span> { #<span class="ident">err_ty</span> });
 
     <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">request</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">req</span><span class="op">|</span> <span class="ident">req</span>.<span class="ident">expand</span>(<span class="ident">metadata</span>, <span class="kw-2">&amp;</span><span class="ident">error_ty</span>, <span class="kw-2">&amp;</span><span class="ident">ruma_api</span>));
     <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">response</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> <span class="ident">res</span>.<span class="ident">expand</span>(<span class="ident">metadata</span>, <span class="kw-2">&amp;</span><span class="ident">error_ty</span>, <span class="kw-2">&amp;</span><span class="ident">ruma_api</span>));
@@ -163,9 +163,9 @@
 
     <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> #<span class="ident">metadata_doc</span>]</span>
-        <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METADATA</span>: #<span class="ident">ruma_api</span>::<span class="ident">Metadata</span> <span class="op">=</span> #<span class="ident">ruma_api</span>::<span class="ident">Metadata</span> {
+        <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">METADATA</span>: #<span class="ident">ruma_api::Metadata</span> <span class="op">=</span> #<span class="ident">ruma_api::Metadata</span> {
             <span class="ident">description</span>: #<span class="ident">description</span>,
-            <span class="ident">method</span>: #<span class="ident">http</span>::<span class="ident">Method</span>::#<span class="ident">method</span>,
+            <span class="ident">method</span>: #<span class="ident">http::Method</span>::#<span class="ident">method</span>,
             <span class="ident">name</span>: #<span class="ident">name</span>,
             <span class="ident">path</span>: #<span class="ident">path</span>,
             #<span class="ident">rate_limited</span>

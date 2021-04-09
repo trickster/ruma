@@ -12,7 +12,7 @@
 or serialized back into a string as needed.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="macro">assert_eq!</span>(<span class="ident">RoomVersionId</span>::<span class="ident">try_from</span>(<span class="string">&quot;1&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="string">&quot;1&quot;</span>);</pre></div>
+<span class="macro">assert_eq!</span>(<span class="ident">RoomVersionId::try_from</span>(<span class="string">&quot;1&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="string">&quot;1&quot;</span>);</pre></div>
 <p>Any string consisting of at minimum 1, at maximum 32 unicode codepoints is a room version ID.
 Custom room versions or ones that were introduced into the specification after this code was
 written are represented by a hidden enum variant. You can still construct them the same, and

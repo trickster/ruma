@@ -299,17 +299,17 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Common types for room directory endpoints.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std::fmt</span>;
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">MxcUri</span>, <span class="ident">RoomAliasId</span>, <span class="ident">RoomId</span>};
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Outgoing</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Error</span>, <span class="ident">MapAccess</span>, <span class="ident">Visitor</span>},
-    <span class="ident">ser</span>::<span class="ident">SerializeStruct</span>,
+    <span class="ident">ser::SerializeStruct</span>,
     <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>,
 };
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
 
 <span class="doccomment">/// A chunk of a room list response, describing one room.</span>
 <span class="doccomment">///</span>
@@ -387,7 +387,7 @@
             <span class="ident">init</span>;
 
         <span class="self">Self</span> {
-            <span class="ident">aliases</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">aliases</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">canonical_alias</span>: <span class="prelude-val">None</span>,
             <span class="ident">name</span>: <span class="prelude-val">None</span>,
             <span class="ident">num_joined_members</span>,
@@ -413,7 +413,7 @@
 <span class="kw">impl</span> <span class="ident">Filter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates an empty `Filter`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if the filter is empty.</span>
@@ -440,25 +440,25 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">RoomNetwork</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomNetwork</span>::<span class="ident">Matrix</span>
+        <span class="ident">RoomNetwork::Matrix</span>
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">RoomNetwork</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Serializer</span>,
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span>;
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Matrix</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::Matrix</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="string">&quot;RoomNetwork&quot;</span>, <span class="number">0</span>)<span class="question-mark">?</span>;
             }
-            <span class="self">Self</span>::<span class="ident">All</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::All</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="string">&quot;RoomNetwork&quot;</span>, <span class="number">1</span>)<span class="question-mark">?</span>;
                 <span class="ident">state</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;include_all_networks&quot;</span>, <span class="kw-2">&amp;</span><span class="bool-val">true</span>)<span class="question-mark">?</span>;
             }
-            <span class="self">Self</span>::<span class="ident">ThirdParty</span>(<span class="ident">network</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::ThirdParty</span>(<span class="ident">network</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="string">&quot;RoomNetwork&quot;</span>, <span class="number">1</span>)<span class="question-mark">?</span>;
                 <span class="ident">state</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;third_party_instance_id&quot;</span>, <span class="ident">network</span>)<span class="question-mark">?</span>;
             }
@@ -468,7 +468,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">IncomingRoomNetwork</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
@@ -480,11 +480,11 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomNetworkVisitor</span> {
     <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">IncomingRoomNetwork</span>;
 
-    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;Network selection&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">access</span>: <span class="ident">M</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">M</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">access</span>: <span class="ident">M</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">M::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">M</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
@@ -507,16 +507,16 @@
 
         <span class="kw">if</span> <span class="ident">include_all_networks</span> {
             <span class="kw">if</span> <span class="ident">third_party_instance_id</span>.<span class="ident">is_none</span>() {
-                <span class="prelude-val">Ok</span>(<span class="ident">IncomingRoomNetwork</span>::<span class="ident">All</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">IncomingRoomNetwork::All</span>)
             } <span class="kw">else</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">M</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(
+                <span class="prelude-val">Err</span>(<span class="ident">M::Error::custom</span>(
                     <span class="string">&quot;`include_all_networks = true` and `third_party_instance_id` are mutually exclusive.&quot;</span>,
                 ))
             }
         } <span class="kw">else</span> {
             <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">third_party_instance_id</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">network</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">IncomingRoomNetwork</span>::<span class="ident">ThirdParty</span>(<span class="ident">network</span>),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">IncomingRoomNetwork</span>::<span class="ident">Matrix</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">network</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">IncomingRoomNetwork::ThirdParty</span>(<span class="ident">network</span>),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">IncomingRoomNetwork::Matrix</span>,
             })
         }
     }
@@ -531,7 +531,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_matrix_network_only</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({});
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork</span>::<span class="ident">Matrix</span>).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork::Matrix</span>).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -539,14 +539,14 @@
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;include_all_networks&quot;</span>: <span class="bool-val">false</span> });
         <span class="macro">assert_eq!</span>(
             <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomNetwork</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">IncomingRoomNetwork</span>::<span class="ident">Matrix</span>
+            <span class="ident">IncomingRoomNetwork::Matrix</span>
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_default_network_is_empty</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({});
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork</span>::<span class="ident">default</span>()).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork::default</span>()).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -554,26 +554,26 @@
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({});
         <span class="macro">assert_eq!</span>(
             <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomNetwork</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">IncomingRoomNetwork</span>::<span class="ident">Matrix</span>
+            <span class="ident">IncomingRoomNetwork::Matrix</span>
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_include_all_networks</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;include_all_networks&quot;</span>: <span class="bool-val">true</span> });
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork</span>::<span class="ident">All</span>).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork::All</span>).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_include_all_networks</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;include_all_networks&quot;</span>: <span class="bool-val">true</span> });
-        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomNetwork</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">IncomingRoomNetwork</span>::<span class="ident">All</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomNetwork</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">IncomingRoomNetwork::All</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_third_party_network</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;third_party_instance_id&quot;</span>: <span class="string">&quot;freenode&quot;</span> });
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork</span>::<span class="ident">ThirdParty</span>(<span class="string">&quot;freenode&quot;</span>)).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomNetwork::ThirdParty</span>(<span class="string">&quot;freenode&quot;</span>)).<span class="ident">unwrap</span>(), <span class="ident">json</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -581,7 +581,7 @@
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;third_party_instance_id&quot;</span>: <span class="string">&quot;freenode&quot;</span> });
         <span class="macro">assert_eq!</span>(
             <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomNetwork</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">IncomingRoomNetwork</span>::<span class="ident">ThirdParty</span>(<span class="string">&quot;freenode&quot;</span>.<span class="ident">into</span>())
+            <span class="ident">IncomingRoomNetwork::ThirdParty</span>(<span class="string">&quot;freenode&quot;</span>.<span class="ident">into</span>())
         );
     }
 

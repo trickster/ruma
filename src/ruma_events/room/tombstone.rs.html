@@ -28,11 +28,11 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.tombstone* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">StateEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">RoomId</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::StateEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::RoomId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">StateEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::StateEvent</span>;
 
 <span class="doccomment">/// A state event signifying that a room has been upgraded to a different room version, and that</span>
 <span class="doccomment">/// clients should go there.</span>

@@ -586,22 +586,22 @@
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>, <span class="ident">rust_2018_idioms</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">feature</span>(<span class="ident">doc_cfg</span>))]</span>
 <span class="comment">// This lint is no good</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">new_without_default</span>)]</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::new_without_default</span>)]</span>
 <span class="comment">// Remove this once our MSRV is &gt;= 1.53</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">unnested_or_patterns</span>)]</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::unnested_or_patterns</span>)]</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>;
+<span class="kw">use</span> <span class="ident">std::fmt::Debug</span>;
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">Int</span>;
+<span class="kw">use</span> <span class="ident">js_int::Int</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventEncryptionAlgorithm</span>, <span class="ident">RoomId</span>};
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">IgnoredAny</span>},
     <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>,
 };
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">value</span>::<span class="ident">RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
 
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">room</span>::<span class="ident">redaction</span>::{<span class="ident">RedactionEvent</span>, <span class="ident">SyncRedactionEvent</span>};
+<span class="kw">use</span> <span class="self">self</span><span class="ident">::room::redaction</span>::{<span class="ident">RedactionEvent</span>, <span class="ident">SyncRedactionEvent</span>};
 
 <span class="kw">mod</span> <span class="ident">enums</span>;
 <span class="kw">mod</span> <span class="ident">error</span>;
@@ -656,7 +656,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">typing</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">relation</span>::<span class="ident">Relations</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::relation::Relations</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">enums</span>::{
         <span class="ident">AnyBasicEvent</span>, <span class="ident">AnyBasicEventContent</span>, <span class="ident">AnyEphemeralRoomEvent</span>, <span class="ident">AnyEphemeralRoomEventContent</span>,
@@ -676,7 +676,7 @@
         <span class="ident">RedactedSyncStateEvent</span>, <span class="ident">StateEvent</span>, <span class="ident">StrippedStateEvent</span>, <span class="ident">SyncEphemeralRoomEvent</span>,
         <span class="ident">SyncMessageEvent</span>, <span class="ident">SyncStateEvent</span>, <span class="ident">ToDeviceEvent</span>,
     },
-    <span class="ident">event_type</span>::<span class="ident">EventType</span>,
+    <span class="ident">event_type::EventType</span>,
 };
 
 <span class="doccomment">/// Extra information about an event that is not incorporated into the event&#39;s</span>
@@ -755,7 +755,7 @@
                 <span class="ident">unsigned</span>,
                 ..
             }) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span> {
-                <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">SyncRedactionEvent</span> {
+                <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">SyncRedactionEvent</span> {
                     <span class="ident">content</span>,
                     <span class="ident">redacts</span>,
                     <span class="ident">event_id</span>,
@@ -792,7 +792,7 @@
                 <span class="ident">origin_server_ts</span>,
                 <span class="ident">unsigned</span>,
             }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">RedactedUnsigned</span> {
-                <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">RedactionEvent</span> {
+                <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">RedactionEvent</span> {
                     <span class="ident">content</span>,
                     <span class="ident">redacts</span>,
                     <span class="ident">event_id</span>,
@@ -815,13 +815,13 @@
     <span class="kw">fn</span> <span class="ident">event_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>;
 
     <span class="doccomment">/// Constructs the given event content.</span>
-    <span class="kw">fn</span> <span class="ident">from_parts</span>(<span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">content</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">from_parts</span>(<span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">content</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">serde_json::Error</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Extension trait for Raw&lt;EventContent&gt;</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RawExt</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">EventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Try to deserialize the JSON as event content</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_content</span>(<span class="self">self</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">deserialize_content</span>(<span class="self">self</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">serde_json::Error</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">EventContent</span><span class="op">&gt;</span> <span class="ident">RawExt</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
@@ -829,8 +829,8 @@
     <span class="ident">T</span>: <span class="ident">EventContent</span>,
 {
     <span class="doccomment">/// Try to deserialize the JSON as event content</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_content</span>(<span class="self">self</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="ident">T</span>::<span class="ident">from_parts</span>(<span class="ident">event_type</span>, <span class="self">self</span>.<span class="ident">into_json</span>())
+    <span class="kw">fn</span> <span class="ident">deserialize_content</span>(<span class="self">self</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+        <span class="ident">T::from_parts</span>(<span class="ident">event_type</span>, <span class="self">self</span>.<span class="ident">into_json</span>())
     }
 }
 
@@ -861,8 +861,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If called for anything but &quot;empty&quot; redacted content this will error.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">_event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;this event is not redacted&quot;</span>))
+    <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">_event_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">serde::de::Error::custom</span>(<span class="string">&quot;this event is not redacted&quot;</span>))
     }
 
     <span class="doccomment">/// Determines if the redacted event content needs to serialize fields.</span>
@@ -933,10 +933,10 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_raw_json_value</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="ident">RawJsonValue</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">de</span>::<span class="ident">DeserializeOwned</span>,
-    <span class="ident">E</span>: <span class="ident">de</span>::<span class="ident">Error</span>,
+    <span class="ident">T</span>: <span class="ident">de::DeserializeOwned</span>,
+    <span class="ident">E</span>: <span class="ident">de::Error</span>,
 {
-    <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">val</span>.<span class="ident">get</span>()).<span class="ident">map_err</span>(<span class="ident">E</span>::<span class="ident">custom</span>)
+    <span class="ident">serde_json::from_str</span>(<span class="ident">val</span>.<span class="ident">get</span>()).<span class="ident">map_err</span>(<span class="ident">E::custom</span>)
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_events" data-search-js="../../search-index.js"></div>

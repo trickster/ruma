@@ -72,7 +72,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [encryption]: https://matrix.org/docs/spec/client_server/r0.6.1#id76</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceIdBox</span>, <span class="ident">DeviceKeyId</span>, <span class="ident">EventEncryptionAlgorithm</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -112,7 +112,7 @@
         <span class="ident">keys</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">DeviceKeyId</span>, <span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">signatures</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">UserId</span>, <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">DeviceKeyId</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">user_id</span>, <span class="ident">device_id</span>, <span class="ident">algorithms</span>, <span class="ident">keys</span>, <span class="ident">signatures</span>, <span class="ident">unsigned</span>: <span class="ident">Default</span>::<span class="ident">default</span>() }
+        <span class="self">Self</span> { <span class="ident">user_id</span>, <span class="ident">device_id</span>, <span class="ident">algorithms</span>, <span class="ident">keys</span>, <span class="ident">signatures</span>, <span class="ident">unsigned</span>: <span class="ident">Default::default</span>() }
     }
 }
 
@@ -128,7 +128,7 @@
 <span class="kw">impl</span> <span class="ident">UnsignedDeviceInfo</span> {
     <span class="doccomment">/// Creates an empty `UnsignedDeviceInfo`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Checks whether all fields are empty / `None`.</span>

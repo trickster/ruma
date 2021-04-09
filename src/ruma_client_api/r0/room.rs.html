@@ -35,7 +35,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">report_content</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">upgrade_room</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 
 <span class="doccomment">/// Whether or not a newly created room will be listed in the room directory.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">StringEnum</span>)]</span>
@@ -53,7 +53,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Visibility</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">Private</span>
+        <span class="self">Self</span><span class="ident">::Private</span>
     }
 }
 </pre></div>

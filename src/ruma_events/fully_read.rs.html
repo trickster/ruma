@@ -23,11 +23,11 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.fully_read* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">EphemeralRoomEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">EventId</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EphemeralRoomEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::EventId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">EphemeralRoomEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::EphemeralRoomEvent</span>;
 
 <span class="doccomment">/// The current location of the user&#39;s read marker in a room.</span>
 <span class="doccomment">///</span>

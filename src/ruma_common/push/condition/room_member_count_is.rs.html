@@ -217,10 +217,10 @@
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">fmt</span>,
     <span class="ident">ops</span>::{<span class="ident">Bound</span>, <span class="ident">RangeBounds</span>, <span class="ident">RangeFrom</span>, <span class="ident">RangeTo</span>, <span class="ident">RangeToInclusive</span>},
-    <span class="ident">str</span>::<span class="ident">FromStr</span>,
+    <span class="ident">str::FromStr</span>,
 };
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
 
 <span class="doccomment">/// One of `==`, `&lt;`, `&gt;`, `&gt;=` or `&lt;=`.</span>
@@ -246,7 +246,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ComparisonOperator</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">ComparisonOperator</span>::<span class="ident">Eq</span>
+        <span class="ident">ComparisonOperator::Eq</span>
     }
 }
 
@@ -289,44 +289,44 @@
     <span class="doccomment">/// Creates an instance of `RoomMemberCount` equivalent to `&lt;X`,</span>
     <span class="doccomment">/// where X is the specified member count.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gt</span>(<span class="ident">count</span>: <span class="ident">UInt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator</span>::<span class="ident">Gt</span>, <span class="ident">count</span> }
+        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator::Gt</span>, <span class="ident">count</span> }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">x</span>: <span class="ident">UInt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator</span>::<span class="ident">Eq</span>, <span class="ident">count</span>: <span class="ident">x</span> }
+        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator::Eq</span>, <span class="ident">count</span>: <span class="ident">x</span> }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RangeFrom</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">x</span>: <span class="ident">RangeFrom</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator</span>::<span class="ident">Ge</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">start</span> }
+        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator::Ge</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">start</span> }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RangeTo</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">x</span>: <span class="ident">RangeTo</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator</span>::<span class="ident">Lt</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">end</span> }
+        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator::Lt</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">end</span> }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RangeToInclusive</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">x</span>: <span class="ident">RangeToInclusive</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator</span>::<span class="ident">Le</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">end</span> }
+        <span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>: <span class="ident">ComparisonOperator::Le</span>, <span class="ident">count</span>: <span class="ident">x</span>.<span class="ident">end</span> }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">use</span> <span class="ident">ComparisonOperator</span> <span class="kw">as</span> <span class="ident">Op</span>;
 
         <span class="kw">let</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">prefix</span> {
-            <span class="ident">Op</span>::<span class="ident">Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>,
-            <span class="ident">Op</span>::<span class="ident">Lt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&lt;&quot;</span>,
-            <span class="ident">Op</span>::<span class="ident">Gt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&gt;&quot;</span>,
-            <span class="ident">Op</span>::<span class="ident">Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&gt;=&quot;</span>,
-            <span class="ident">Op</span>::<span class="ident">Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&lt;=&quot;</span>,
+            <span class="ident">Op::Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>,
+            <span class="ident">Op::Lt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&lt;&quot;</span>,
+            <span class="ident">Op::Gt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&gt;&quot;</span>,
+            <span class="ident">Op::Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&gt;=&quot;</span>,
+            <span class="ident">Op::Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&lt;=&quot;</span>,
         };
 
         <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}{}&quot;</span>, <span class="ident">prefix</span>, <span class="self">self</span>.<span class="ident">count</span>)
@@ -334,7 +334,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
-    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Serializer</span>,
     {
@@ -344,31 +344,31 @@
 }
 
 <span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
-    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">js_int</span>::<span class="ident">ParseIntError</span>;
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">js_int::ParseIntError</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="prelude-val">Err</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Err</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">ComparisonOperator</span> <span class="kw">as</span> <span class="ident">Op</span>;
 
         <span class="kw">let</span> (<span class="ident">prefix</span>, <span class="ident">count_str</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;=&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Le</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
-            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;&lt;&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Lt</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]),
-            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&gt;=&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Ge</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
-            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;&gt;&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Gt</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]),
-            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;==&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Eq</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
-            <span class="ident">s</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op</span>::<span class="ident">Eq</span>, <span class="ident">s</span>),
+            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;=&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Le</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
+            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;&lt;&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Lt</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]),
+            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&gt;=&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Ge</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
+            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;&gt;&#39;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Gt</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]),
+            <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;==&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Eq</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..]),
+            <span class="ident">s</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Op::Eq</span>, <span class="ident">s</span>),
         };
 
-        <span class="prelude-val">Ok</span>(<span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>, <span class="ident">count</span>: <span class="ident">UInt</span>::<span class="ident">from_str</span>(<span class="ident">count_str</span>)<span class="question-mark">?</span> })
+        <span class="prelude-val">Ok</span>(<span class="ident">RoomMemberCountIs</span> { <span class="ident">prefix</span>, <span class="ident">count</span>: <span class="ident">UInt::from_str</span>(<span class="ident">count_str</span>)<span class="question-mark">?</span> })
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoomMemberCountIs</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">ruma_serde</span>::<span class="ident">deserialize_cow_str</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
-        <span class="ident">FromStr</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>).<span class="ident">map_err</span>(<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">ruma_serde::deserialize_cow_str</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
+        <span class="ident">FromStr::from_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>).<span class="ident">map_err</span>(<span class="ident">serde::de::Error::custom</span>)
     }
 }
 
@@ -377,10 +377,10 @@
         <span class="kw">use</span> <span class="ident">ComparisonOperator</span> <span class="kw">as</span> <span class="ident">Op</span>;
 
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">prefix</span> {
-            <span class="ident">Op</span>::<span class="ident">Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
-            <span class="ident">Op</span>::<span class="ident">Lt</span> <span class="op">|</span> <span class="ident">Op</span>::<span class="ident">Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Unbounded</span>,
-            <span class="ident">Op</span>::<span class="ident">Gt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Excluded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
-            <span class="ident">Op</span>::<span class="ident">Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Lt</span> <span class="op">|</span> <span class="ident">Op::Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Unbounded</span>,
+            <span class="ident">Op::Gt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Excluded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
         }
     }
 
@@ -388,33 +388,33 @@
         <span class="kw">use</span> <span class="ident">ComparisonOperator</span> <span class="kw">as</span> <span class="ident">Op</span>;
 
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">prefix</span> {
-            <span class="ident">Op</span>::<span class="ident">Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
-            <span class="ident">Op</span>::<span class="ident">Gt</span> <span class="op">|</span> <span class="ident">Op</span>::<span class="ident">Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Unbounded</span>,
-            <span class="ident">Op</span>::<span class="ident">Lt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Excluded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
-            <span class="ident">Op</span>::<span class="ident">Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound</span>::<span class="ident">Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Eq</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Gt</span> <span class="op">|</span> <span class="ident">Op::Ge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Unbounded</span>,
+            <span class="ident">Op::Lt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Excluded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
+            <span class="ident">Op::Le</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Bound::Included</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">count</span>),
         }
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">RangeBounds</span>;
+    <span class="kw">use</span> <span class="ident">std::ops::RangeBounds</span>;
 
-    <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">uint</span>;
+    <span class="kw">use</span> <span class="ident">js_int::uint</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">RoomMemberCountIs</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::RoomMemberCountIs</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">eq_range_contains_its_own_count</span>() {
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">2u32</span>.<span class="ident">into</span>();
-        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs</span>::<span class="ident">from</span>(<span class="ident">count</span>);
+        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs::from</span>(<span class="ident">count</span>);
 
         <span class="macro">assert!</span>(<span class="ident">range</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">count</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">ge_range_contains_large_number</span>() {
-        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs</span>::<span class="ident">from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)..);
+        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs::from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)..);
         <span class="kw">let</span> <span class="ident">large_number</span> <span class="op">=</span> <span class="number">9001u32</span>.<span class="ident">into</span>();
 
         <span class="macro">assert!</span>(<span class="ident">range</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">large_number</span>));
@@ -422,7 +422,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">gt_range_does_not_contain_initial_point</span>() {
-        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs</span>::<span class="ident">gt</span>(<span class="macro">uint!</span>(<span class="number">2</span>));
+        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RoomMemberCountIs::gt</span>(<span class="macro">uint!</span>(<span class="number">2</span>));
         <span class="kw">let</span> <span class="ident">initial_point</span> <span class="op">=</span> <span class="macro">uint!</span>(<span class="number">2</span>);
 
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">range</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">initial_point</span>));

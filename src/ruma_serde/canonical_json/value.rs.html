@@ -200,16 +200,16 @@
 <span id="199">199</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">collections</span>::<span class="ident">BTreeMap</span>,
+    <span class="ident">collections::BTreeMap</span>,
     <span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>},
     <span class="ident">fmt</span>,
 };
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">Int</span>;
-<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>::<span class="ident">Deserializer</span>, <span class="ident">ser</span>::<span class="ident">Serializer</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">js_int::Int</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de::Deserializer</span>, <span class="ident">ser::Serializer</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">to_string</span> <span class="kw">as</span> <span class="ident">to_json_string</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Error</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Error</span>;
 
 <span class="doccomment">/// The inner type of `CanonicalJsonValue::Object`.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Object</span> <span class="op">=</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">CanonicalJsonValue</span><span class="op">&gt;</span>;
@@ -281,32 +281,32 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">Null</span>
+        <span class="self">Self</span><span class="ident">::Null</span>
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;Null&quot;</span>).<span class="ident">finish</span>(),
-            <span class="self">Self</span>::<span class="ident">Bool</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;Bool&quot;</span>).<span class="ident">field</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>).<span class="ident">finish</span>(),
-            <span class="self">Self</span>::<span class="ident">Integer</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>),
-            <span class="self">Self</span>::<span class="ident">String</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;String&quot;</span>).<span class="ident">field</span>(<span class="ident">v</span>).<span class="ident">finish</span>(),
-            <span class="self">Self</span>::<span class="ident">Array</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;Null&quot;</span>).<span class="ident">finish</span>(),
+            <span class="self">Self</span><span class="ident">::Bool</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;Bool&quot;</span>).<span class="ident">field</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>).<span class="ident">finish</span>(),
+            <span class="self">Self</span><span class="ident">::Integer</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">fmt::Debug::fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>),
+            <span class="self">Self</span><span class="ident">::String</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">formatter</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;String&quot;</span>).<span class="ident">field</span>(<span class="ident">v</span>).<span class="ident">finish</span>(),
+            <span class="self">Self</span><span class="ident">::Array</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;Array(&quot;</span>)<span class="question-mark">?</span>;
-                <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>)<span class="question-mark">?</span>;
+                <span class="ident">fmt::Debug::fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>)<span class="question-mark">?</span>;
                 <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;)&quot;</span>)
             }
-            <span class="self">Self</span>::<span class="ident">Object</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::Object</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;Object(&quot;</span>)<span class="question-mark">?</span>;
-                <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>)<span class="question-mark">?</span>;
+                <span class="ident">fmt::Debug::fmt</span>(<span class="ident">v</span>, <span class="ident">formatter</span>)<span class="question-mark">?</span>;
                 <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;)&quot;</span>)
             }
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="doccomment">/// Display this value as a string.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This `Display` implementation is intentionally unaffected by any formatting parameters,</span>
@@ -315,49 +315,49 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you want to pretty-print a `CanonicalJsonValue` for debugging purposes, use</span>
     <span class="doccomment">/// one of `serde_json::{to_string_pretty, to_vec_pretty, to_writer_pretty}`.</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">to_json_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt</span>::<span class="ident">Error</span>)<span class="question-mark">?</span>)
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
+        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">to_json_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">fmt::Error</span>)<span class="question-mark">?</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">json</span>: <span class="ident">JsonValue</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">json</span>: <span class="ident">JsonValue</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">json</span> {
-            <span class="ident">JsonValue</span>::<span class="ident">Bool</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Bool</span>(<span class="ident">b</span>),
-            <span class="ident">JsonValue</span>::<span class="ident">Number</span>(<span class="ident">num</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Integer</span>(
-                <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">num</span>.<span class="ident">as_i64</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">IntConvert</span>)<span class="question-mark">?</span>)
-                    .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">IntConvert</span>)<span class="question-mark">?</span>,
+            <span class="ident">JsonValue::Bool</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Bool</span>(<span class="ident">b</span>),
+            <span class="ident">JsonValue::Number</span>(<span class="ident">num</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Integer</span>(
+                <span class="ident">Int::try_from</span>(<span class="ident">num</span>.<span class="ident">as_i64</span>().<span class="ident">ok_or</span>(<span class="ident">Error::IntConvert</span>)<span class="question-mark">?</span>)
+                    .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error::IntConvert</span>)<span class="question-mark">?</span>,
             ),
-            <span class="ident">JsonValue</span>::<span class="ident">Array</span>(<span class="ident">vec</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="self">Self</span>::<span class="ident">Array</span>(<span class="ident">vec</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">TryInto</span>::<span class="ident">try_into</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>)
+            <span class="ident">JsonValue::Array</span>(<span class="ident">vec</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="self">Self</span><span class="ident">::Array</span>(<span class="ident">vec</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">TryInto::try_into</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>)
             }
-            <span class="ident">JsonValue</span>::<span class="ident">String</span>(<span class="ident">string</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">String</span>(<span class="ident">string</span>),
-            <span class="ident">JsonValue</span>::<span class="ident">Object</span>(<span class="ident">obj</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Object</span>(
+            <span class="ident">JsonValue::String</span>(<span class="ident">string</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::String</span>(<span class="ident">string</span>),
+            <span class="ident">JsonValue::Object</span>(<span class="ident">obj</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Object</span>(
                 <span class="ident">obj</span>.<span class="ident">into_iter</span>()
                     .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">k</span>, <span class="ident">v</span>.<span class="ident">try_into</span>()<span class="question-mark">?</span>)))
                     .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Object</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>,
             ),
-            <span class="ident">JsonValue</span>::<span class="ident">Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Null</span>,
+            <span class="ident">JsonValue::Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Null</span>,
         })
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Serializer</span>,
     {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit</span>(),
-            <span class="self">Self</span>::<span class="ident">Bool</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="kw-2">*</span><span class="ident">b</span>),
-            <span class="self">Self</span>::<span class="ident">Integer</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
-            <span class="self">Self</span>::<span class="ident">String</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="ident">s</span>),
-            <span class="self">Self</span>::<span class="ident">Array</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
-            <span class="self">Self</span>::<span class="ident">Object</span>(<span class="ident">m</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">ser</span>::<span class="ident">SerializeMap</span>;
+            <span class="self">Self</span><span class="ident">::Null</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit</span>(),
+            <span class="self">Self</span><span class="ident">::Bool</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="kw-2">*</span><span class="ident">b</span>),
+            <span class="self">Self</span><span class="ident">::Integer</span>(<span class="ident">n</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">n</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
+            <span class="self">Self</span><span class="ident">::String</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="ident">s</span>),
+            <span class="self">Self</span><span class="ident">::Array</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
+            <span class="self">Self</span><span class="ident">::Object</span>(<span class="ident">m</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">use</span> <span class="ident">serde::ser::SerializeMap</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_map</span>(<span class="prelude-val">Some</span>(<span class="ident">m</span>.<span class="ident">len</span>()))<span class="question-mark">?</span>;
                 <span class="kw">for</span> (<span class="ident">k</span>, <span class="ident">v</span>) <span class="kw">in</span> <span class="ident">m</span> {
                     <span class="ident">map</span>.<span class="ident">serialize_entry</span>(<span class="ident">k</span>, <span class="ident">v</span>)<span class="question-mark">?</span>;
@@ -370,22 +370,22 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CanonicalJsonValue</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CanonicalJsonValue</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">JsonValue</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
-        <span class="ident">val</span>.<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>::<span class="ident">custom</span>)
+        <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">JsonValue::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
+        <span class="ident">val</span>.<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="ident">serde::de::Error::custom</span>)
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;
+    <span class="kw">use</span> <span class="ident">std::convert::TryInto</span>;
 
-    <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
+    <span class="kw">use</span> <span class="ident">serde_json::json</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">CanonicalJsonValue</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::CanonicalJsonValue</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">to_string</span>() {

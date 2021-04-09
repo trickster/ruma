@@ -50,8 +50,8 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v2</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_events</span>::<span class="ident">pdu</span>::<span class="ident">Pdu</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+<span class="kw">use</span> <span class="ident">ruma_events::pdu::Pdu</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="doccomment">/// Full state of the room.</span>
@@ -73,7 +73,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">RoomState</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>()
+        <span class="self">Self</span><span class="ident">::new</span>()
     }
 }
 
@@ -81,13 +81,13 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>))]</span>
     <span class="doccomment">/// Creates an empty `RoomState` with the given `origin`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">origin</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">origin</span>, <span class="ident">auth_chain</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(), <span class="ident">state</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }
+        <span class="self">Self</span> { <span class="ident">origin</span>, <span class="ident">auth_chain</span>: <span class="ident">Vec::new</span>(), <span class="ident">state</span>: <span class="ident">Vec::new</span>() }
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
     <span class="doccomment">/// Creates an empty `RoomState` with the given `origin`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">auth_chain</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(), <span class="ident">state</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }
+        <span class="self">Self</span> { <span class="ident">auth_chain</span>: <span class="ident">Vec::new</span>(), <span class="ident">state</span>: <span class="ident">Vec::new</span>() }
     }
 }
 </pre></div>

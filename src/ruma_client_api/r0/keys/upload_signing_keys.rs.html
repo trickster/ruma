@@ -63,10 +63,10 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Defined in [MSC 1756](https://github.com/matrix-org/matrix-doc/blob/master/proposals/1756-cross-signing.md#uploading-signing-keys)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">CrossSigningKey</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">uiaa</span>::{<span class="ident">AuthData</span>, <span class="ident">IncomingAuthData</span>, <span class="ident">UiaaResponse</span>};
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::CrossSigningKey</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::uiaa</span>::{<span class="ident">AuthData</span>, <span class="ident">IncomingAuthData</span>, <span class="ident">UiaaResponse</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -108,7 +108,7 @@
 <span class="kw">impl</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates an empty `Request`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 

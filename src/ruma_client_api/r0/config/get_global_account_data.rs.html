@@ -51,10 +51,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/user/{userId}/account_data/{type}](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-user-userid-account-data-type)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_events</span>::<span class="ident">AnyBasicEvent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">UserId</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_events::AnyBasicEvent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::UserId</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -82,7 +82,7 @@
         <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyBasicEvent</span><span class="op">&gt;</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {

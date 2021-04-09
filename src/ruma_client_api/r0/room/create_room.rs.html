@@ -179,12 +179,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/createRoom](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-createroom)</span>
 
-<span class="kw">use</span> <span class="ident">assign</span>::<span class="ident">assign</span>;
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">assign::assign</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{
     <span class="ident">room</span>::{
         <span class="ident">create</span>::{<span class="ident">CreateEventContent</span>, <span class="ident">PreviousRoom</span>},
-        <span class="ident">power_levels</span>::<span class="ident">PowerLevelsEventContent</span>,
+        <span class="ident">power_levels::PowerLevelsEventContent</span>,
     },
     <span class="ident">AnyInitialStateEvent</span>,
 };
@@ -192,8 +192,8 @@
 <span class="kw">use</span> <span class="ident">ruma_serde</span>::{<span class="ident">Raw</span>, <span class="ident">StringEnum</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Visibility</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">membership</span>::{<span class="ident">IncomingInvite3pid</span>, <span class="ident">Invite3pid</span>};
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Visibility</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::membership</span>::{<span class="ident">IncomingInvite3pid</span>, <span class="ident">Invite3pid</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -271,13 +271,13 @@
         <span class="kw">pub</span> <span class="ident">room_id</span>: <span class="ident">RoomId</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a `Request` will all-default parameters.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -323,7 +323,7 @@
         <span class="ident">creator</span>: <span class="ident">UserId</span>,
         <span class="ident">room_version</span>: <span class="ident">RoomVersionId</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CreateEventContent</span> {
-        <span class="macro">assign!</span>(<span class="ident">CreateEventContent</span>::<span class="ident">new</span>(<span class="ident">creator</span>), { <span class="ident">federate</span>, <span class="ident">room_version</span>, <span class="ident">predecessor</span> })
+        <span class="macro">assign!</span>(<span class="ident">CreateEventContent::new</span>(<span class="ident">creator</span>), { <span class="ident">federate</span>, <span class="ident">room_version</span>, <span class="ident">predecessor</span> })
     }
 
     <span class="doccomment">/// Returns whether all fields have their default value.</span>
@@ -334,7 +334,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">CreationContent</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>()
+        <span class="self">Self</span><span class="ident">::new</span>()
     }
 }
 

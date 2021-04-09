@@ -5,7 +5,7 @@ needed.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="macro">assert_eq!</span>(
-    <span class="ident">RoomAliasId</span>::<span class="ident">try_from</span>(<span class="string">&quot;#ruma:example.com&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
+    <span class="ident">RoomAliasId::try_from</span>(<span class="string">&quot;#ruma:example.com&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
     <span class="string">&quot;#ruma:example.com&quot;</span>
 );</pre></div>
 </div><h2 id="implementations" class="small-section-header">Implementations<a href="#implementations" class="anchor"></a></h2><h3 id="impl" class="impl"><code class="in-band">impl <a class="struct" href="../../ruma/struct.RoomAliasId.html" title="struct ruma::RoomAliasId">RoomAliasId</a></code><a href="#impl" class="anchor"></a><a class="srclink" href="../../src/ruma_identifiers/room_alias_id.rs.html#32-42" title="goto source code">[src]</a></h3><div class="impl-items"><h4 id="method.alias" class="method"><code>pub fn <a href="#method.alias" class="fnname">alias</a>(&amp;self) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code><a class="srclink" href="../../src/ruma_identifiers/room_alias_id.rs.html#34" title="goto source code">[src]</a></h4><div class="docblock"><p>Returns the room’s alias.</p>

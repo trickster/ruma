@@ -48,9 +48,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/capabilities](https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-capabilities)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Capabilities</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Capabilities</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -70,7 +70,7 @@
         <span class="kw">pub</span> <span class="ident">capabilities</span>: <span class="ident">Capabilities</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span> <span class="ident">Request</span> {
@@ -89,7 +89,7 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Capabilities</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Response</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">capabilities</span>: <span class="ident">Capabilities</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">capabilities</span>)
+        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">capabilities</span>)
     }
 }
 </pre></div>

@@ -46,9 +46,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/versions](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-versions)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -72,7 +72,7 @@
         <span class="kw">pub</span> <span class="ident">unstable_features</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">bool</span><span class="op">&gt;</span>
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span> <span class="ident">Request</span> {
@@ -85,7 +85,7 @@
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="doccomment">/// Creates a `Response` with the given `versions`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">versions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">versions</span>, <span class="ident">unstable_features</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>() }
+        <span class="self">Self</span> { <span class="ident">versions</span>, <span class="ident">unstable_features</span>: <span class="ident">BTreeMap::new</span>() }
     }
 }
 </pre></div>

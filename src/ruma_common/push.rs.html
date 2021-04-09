@@ -1237,7 +1237,7 @@
 <span class="doccomment">//! - sender rules</span>
 <span class="doccomment">//! - underride rules</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
+<span class="kw">use</span> <span class="ident">std::hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
 
 <span class="kw">use</span> <span class="ident">indexmap</span>::{
     <span class="ident">set</span>::{<span class="ident">IndexSet</span>, <span class="ident">IntoIter</span> <span class="kw">as</span> <span class="ident">IndexSetIter</span>},
@@ -1288,7 +1288,7 @@
 <span class="kw">impl</span> <span class="ident">Ruleset</span> {
     <span class="doccomment">/// Creates an empty `Ruleset`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Adds a rule to the rule set.</span>
@@ -1298,11 +1298,11 @@
     <span class="doccomment">/// of rule.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rule</span>: <span class="ident">AnyPushRule</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="ident">rule</span> {
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">override_</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">underride</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Content</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Room</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Sender</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">override_</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
+            <span class="ident">AnyPushRule::Underride</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">underride</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
+            <span class="ident">AnyPushRule::Content</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
+            <span class="ident">AnyPushRule::Room</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
+            <span class="ident">AnyPushRule::Sender</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">insert</span>(<span class="ident">r</span>),
         }
     }
 
@@ -1322,7 +1322,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Serialize</span>,
     {
-        <span class="kw">let</span> <span class="ident">event_map</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">FlattenedJson</span>::<span class="ident">from_raw</span>(<span class="ident">event</span>);
+        <span class="kw">let</span> <span class="ident">event_map</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">FlattenedJson::from_raw</span>(<span class="ident">event</span>);
 
         <span class="kw">for</span> <span class="ident">rule</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">override_</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">enabled</span>) {
             <span class="kw">if</span> <span class="ident">rule</span>.<span class="ident">applies</span>(<span class="ident">event_map</span>, <span class="ident">context</span>) {
@@ -1330,7 +1330,7 @@
             }
         }
         <span class="kw">for</span> <span class="ident">rule</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">enabled</span>) {
-            <span class="kw">let</span> <span class="ident">condition</span> <span class="op">=</span> <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> {
+            <span class="kw">let</span> <span class="ident">condition</span> <span class="op">=</span> <span class="ident">PushCondition::EventMatch</span> {
                 <span class="ident">key</span>: <span class="string">&quot;content.body&quot;</span>.<span class="ident">into</span>(),
                 <span class="ident">pattern</span>: <span class="ident">rule</span>.<span class="ident">pattern</span>.<span class="ident">clone</span>(),
             };
@@ -1341,7 +1341,7 @@
         }
         <span class="kw">for</span> <span class="ident">rule</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">enabled</span>) {
             <span class="kw">let</span> <span class="ident">condition</span> <span class="op">=</span>
-                <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;room_id&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="ident">rule</span>.<span class="ident">rule_id</span>.<span class="ident">clone</span>() };
+                <span class="ident">PushCondition::EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;room_id&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="ident">rule</span>.<span class="ident">rule_id</span>.<span class="ident">clone</span>() };
 
             <span class="kw">if</span> <span class="ident">condition</span>.<span class="ident">applies</span>(<span class="ident">event_map</span>, <span class="ident">context</span>) {
                 <span class="kw">return</span> <span class="ident">rule</span>.<span class="ident">actions</span>.<span class="ident">iter</span>();
@@ -1349,7 +1349,7 @@
         }
         <span class="kw">for</span> <span class="ident">rule</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">enabled</span>) {
             <span class="kw">let</span> <span class="ident">condition</span> <span class="op">=</span>
-                <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;sender&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="ident">rule</span>.<span class="ident">rule_id</span>.<span class="ident">clone</span>() };
+                <span class="ident">PushCondition::EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;sender&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="ident">rule</span>.<span class="ident">rule_id</span>.<span class="ident">clone</span>() };
 
             <span class="kw">if</span> <span class="ident">condition</span>.<span class="ident">applies</span>(<span class="ident">event_map</span>, <span class="ident">context</span>) {
                 <span class="kw">return</span> <span class="ident">rule</span>.<span class="ident">actions</span>.<span class="ident">iter</span>();
@@ -1378,14 +1378,14 @@
 <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">RulesetIter</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Item</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">override_</span>
             .<span class="ident">next</span>()
-            .<span class="ident">map</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>)
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Content</span>))
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Room</span>))
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Sender</span>))
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">underride</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>))
+            .<span class="ident">map</span>(<span class="ident">AnyPushRule::Override</span>)
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule::Content</span>))
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule::Room</span>))
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule::Sender</span>))
+            .<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">underride</span>.<span class="ident">next</span>().<span class="ident">map</span>(<span class="ident">AnyPushRule::Underride</span>))
     }
 }
 
@@ -1393,7 +1393,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>;
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="ident">RulesetIter</span>;
 
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntoIter</span> {
         <span class="ident">RulesetIter</span> {
             <span class="ident">content</span>: <span class="self">self</span>.<span class="ident">content</span>.<span class="ident">into_iter</span>(),
             <span class="ident">override_</span>: <span class="self">self</span>.<span class="ident">override_</span>.<span class="ident">into_iter</span>(),
@@ -1427,11 +1427,11 @@
     <span class="doccomment">/// Get the `rule_id` of the push rule.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rule_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Override</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
-            <span class="self">Self</span>::<span class="ident">Underride</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
-            <span class="self">Self</span>::<span class="ident">Content</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
-            <span class="self">Self</span>::<span class="ident">Room</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
-            <span class="self">Self</span>::<span class="ident">Sender</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
+            <span class="self">Self</span><span class="ident">::Override</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
+            <span class="self">Self</span><span class="ident">::Underride</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
+            <span class="self">Self</span><span class="ident">::Content</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
+            <span class="self">Self</span><span class="ident">::Room</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
+            <span class="self">Self</span><span class="ident">::Sender</span>(<span class="ident">rule</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">rule</span>.<span class="ident">rule_id</span>,
         }
     }
 }
@@ -1708,7 +1708,7 @@
 <span class="kw">impl</span> <span class="ident">PusherData</span> {
     <span class="doccomment">/// Creates an empty `PusherData`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -1728,18 +1728,18 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+    <span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-    <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">uint</span>;
-    <span class="kw">use</span> <span class="ident">matches</span>::<span class="ident">assert_matches</span>;
+    <span class="kw">use</span> <span class="ident">js_int::uint</span>;
+    <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
     <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">room_id</span>, <span class="ident">user_id</span>};
-    <span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+    <span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{
         <span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>,
-        <span class="ident">value</span>::<span class="ident">RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>,
+        <span class="ident">value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>,
     };
 
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">power_levels</span>::<span class="ident">NotificationPowerLevels</span>;
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::power_levels::NotificationPowerLevels</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::{
         <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">Tweak</span>},
@@ -1748,14 +1748,14 @@
     };
 
     <span class="kw">fn</span> <span class="ident">example_ruleset</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ruleset</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset::new</span>();
 
-        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
-            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> {
+        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
+            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition::EventMatch</span> {
                 <span class="ident">key</span>: <span class="string">&quot;type&quot;</span>.<span class="ident">into</span>(),
                 <span class="ident">pattern</span>: <span class="string">&quot;m.call.invite&quot;</span>.<span class="ident">into</span>(),
             }],
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">Notify</span>, <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))],
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::Notify</span>, <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.call&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">default</span>: <span class="bool-val">true</span>,
@@ -1768,7 +1768,7 @@
     <span class="kw">fn</span> <span class="ident">cannot_add_same_rule_id</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">example_ruleset</span>();
 
-        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
+        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[],
             <span class="ident">actions</span>: <span class="macro">vec!</span>[],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.call&quot;</span>.<span class="ident">into</span>(),
@@ -1783,7 +1783,7 @@
     <span class="kw">fn</span> <span class="ident">can_add_same_rule_id_different_kind</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">example_ruleset</span>();
 
-        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>(<span class="ident">ConditionalPushRule</span> {
+        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Underride</span>(<span class="ident">ConditionalPushRule</span> {
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[],
             <span class="ident">actions</span>: <span class="macro">vec!</span>[],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.call&quot;</span>.<span class="ident">into</span>(),
@@ -1810,19 +1810,19 @@
     <span class="kw">fn</span> <span class="ident">iter</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">example_ruleset</span>();
 
-        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
-            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> {
+        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
+            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition::EventMatch</span> {
                 <span class="ident">key</span>: <span class="string">&quot;room_id&quot;</span>.<span class="ident">into</span>(),
                 <span class="ident">pattern</span>: <span class="string">&quot;!roomid:matrix.org&quot;</span>.<span class="ident">into</span>(),
             }],
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">DontNotify</span>],
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::DontNotify</span>],
             <span class="ident">rule_id</span>: <span class="string">&quot;!roomid:matrix.org&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">default</span>: <span class="bool-val">false</span>,
         }));
         <span class="macro">assert!</span>(<span class="ident">added</span>);
 
-        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
+        <span class="kw">let</span> <span class="ident">added</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[],
             <span class="ident">actions</span>: <span class="macro">vec!</span>[],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.suppress_notices&quot;</span>.<span class="ident">into</span>(),
@@ -1837,7 +1837,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;.m.rule.call&quot;</span>
         );
 
@@ -1845,7 +1845,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;!roomid:matrix.org&quot;</span>
         );
 
@@ -1853,7 +1853,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;.m.rule.suppress_notices&quot;</span>
         );
 
@@ -1863,15 +1863,15 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_conditional_push_rule</span>() {
         <span class="kw">let</span> <span class="ident">rule</span> <span class="op">=</span> <span class="ident">ConditionalPushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">Notify</span>, <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))],
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::Notify</span>, <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))],
             <span class="ident">default</span>: <span class="bool-val">true</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.call&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[
-                <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;type&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="string">&quot;m.call.invite&quot;</span>.<span class="ident">into</span>() },
-                <span class="ident">PushCondition</span>::<span class="ident">ContainsDisplayName</span>,
-                <span class="ident">PushCondition</span>::<span class="ident">RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs</span>::<span class="ident">gt</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
-                <span class="ident">PushCondition</span>::<span class="ident">SenderNotificationPermission</span> { <span class="ident">key</span>: <span class="string">&quot;room&quot;</span>.<span class="ident">into</span>() },
+                <span class="ident">PushCondition::EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;type&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="string">&quot;m.call.invite&quot;</span>.<span class="ident">into</span>() },
+                <span class="ident">PushCondition::ContainsDisplayName</span>,
+                <span class="ident">PushCondition::RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs::gt</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
+                <span class="ident">PushCondition::SenderNotificationPermission</span> { <span class="ident">key</span>: <span class="string">&quot;room&quot;</span>.<span class="ident">into</span>() },
             ],
         };
 
@@ -1913,7 +1913,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_simple_push_rule</span>() {
         <span class="kw">let</span> <span class="ident">rule</span> <span class="op">=</span> <span class="ident">SimplePushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">DontNotify</span>],
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::DontNotify</span>],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">false</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;!roomid:server.name&quot;</span>.<span class="ident">into</span>(),
@@ -1937,11 +1937,11 @@
     <span class="kw">fn</span> <span class="ident">serialize_patterned_push_rule</span>() {
         <span class="kw">let</span> <span class="ident">rule</span> <span class="op">=</span> <span class="ident">PatternedPushRule</span> {
             <span class="ident">actions</span>: <span class="macro">vec!</span>[
-                <span class="ident">Action</span>::<span class="ident">Notify</span>,
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Custom</span> {
+                <span class="ident">Action::Notify</span>,
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Custom</span> {
                     <span class="ident">name</span>: <span class="string">&quot;dance&quot;</span>.<span class="ident">into</span>(),
-                    <span class="ident">value</span>: <span class="ident">RawJsonValue</span>::<span class="ident">from_string</span>(<span class="string">&quot;true&quot;</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>(),
+                    <span class="ident">value</span>: <span class="ident">RawJsonValue::from_string</span>(<span class="string">&quot;true&quot;</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>(),
                 }),
             ],
             <span class="ident">default</span>: <span class="bool-val">true</span>,
@@ -1977,25 +1977,25 @@
     <span class="kw">fn</span> <span class="ident">serialize_ruleset</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">example_ruleset</span>();
 
-        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
+        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[
-                <span class="ident">PushCondition</span>::<span class="ident">RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs</span>::<span class="ident">from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
-                <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;type&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="string">&quot;m.room.message&quot;</span>.<span class="ident">into</span>() },
+                <span class="ident">PushCondition::RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs::from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
+                <span class="ident">PushCondition::EventMatch</span> { <span class="ident">key</span>: <span class="string">&quot;type&quot;</span>.<span class="ident">into</span>(), <span class="ident">pattern</span>: <span class="string">&quot;m.room.message&quot;</span>.<span class="ident">into</span>() },
             ],
             <span class="ident">actions</span>: <span class="macro">vec!</span>[
-                <span class="ident">Action</span>::<span class="ident">Notify</span>,
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">false</span>)),
+                <span class="ident">Action::Notify</span>,
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>)),
             ],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.room_one_to_one&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">default</span>: <span class="bool-val">true</span>,
         }));
-        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule</span>::<span class="ident">Content</span>(<span class="ident">PatternedPushRule</span> {
+        <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">AnyPushRule::Content</span>(<span class="ident">PatternedPushRule</span> {
             <span class="ident">actions</span>: <span class="macro">vec!</span>[
-                <span class="ident">Action</span>::<span class="ident">Notify</span>,
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
-                <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>)),
+                <span class="ident">Action::Notify</span>,
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>())),
+                <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>)),
             ],
             <span class="ident">rule_id</span>: <span class="string">&quot;.m.rule.contains_user_name&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">pattern</span>: <span class="string">&quot;user_id&quot;</span>.<span class="ident">into</span>(),
@@ -2112,9 +2112,9 @@
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">rule</span>.<span class="ident">actions</span>.<span class="ident">iter</span>();
-        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
-        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;default&quot;</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;default&quot;</span>);
+        <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))));
         <span class="macro">assert_matches!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
     }
 
@@ -2180,7 +2180,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;!roomid:server.name&quot;</span>
         );
 
@@ -2188,7 +2188,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;.m.rule.call&quot;</span>
         );
 
@@ -2196,7 +2196,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Content</span>(<span class="ident">PatternedPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Content</span>(<span class="ident">PatternedPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;.m.rule.contains_user_name&quot;</span>
         );
 
@@ -2204,7 +2204,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Content</span>(<span class="ident">PatternedPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Content</span>(<span class="ident">PatternedPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;ruma&quot;</span>
         );
 
@@ -2212,7 +2212,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Room</span>(<span class="ident">SimplePushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Room</span>(<span class="ident">SimplePushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;!roomid:server.name&quot;</span>
         );
 
@@ -2220,7 +2220,7 @@
         <span class="macro">assert!</span>(<span class="ident">rule_opt</span>.<span class="ident">is_some</span>());
         <span class="macro">assert_matches!</span>(
             <span class="ident">rule_opt</span>.<span class="ident">unwrap</span>(),
-            <span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
+            <span class="ident">AnyPushRule::Underride</span>(<span class="ident">ConditionalPushRule</span> { <span class="ident">rule_id</span>, .. })
             <span class="kw">if</span> <span class="ident">rule_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;.m.rule.room_one_to_one&quot;</span>
         );
 
@@ -2229,13 +2229,13 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">default_ruleset_applies</span>() {
-        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset</span>::<span class="ident">server_default</span>(<span class="kw-2">&amp;</span><span class="macro">user_id!</span>(<span class="string">&quot;@jolly_jumper:server.name&quot;</span>));
+        <span class="kw">let</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset::server_default</span>(<span class="kw-2">&amp;</span><span class="macro">user_id!</span>(<span class="string">&quot;@jolly_jumper:server.name&quot;</span>));
 
         <span class="kw">let</span> <span class="ident">context_one_to_one</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">PushConditionRoomCtx</span> {
             <span class="ident">room_id</span>: <span class="macro">room_id!</span>(<span class="string">&quot;!dm:server.name&quot;</span>),
             <span class="ident">member_count</span>: <span class="number">2u32</span>.<span class="ident">into</span>(),
             <span class="ident">user_display_name</span>: <span class="string">&quot;Jolly Jumper&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
+            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap::new</span>(),
             <span class="ident">default_power_level</span>: <span class="number">50</span>.<span class="ident">into</span>(),
             <span class="ident">notification_power_levels</span>: <span class="ident">NotificationPowerLevels</span> { <span class="ident">room</span>: <span class="number">50</span>.<span class="ident">into</span>() },
         };
@@ -2244,30 +2244,30 @@
             <span class="ident">room_id</span>: <span class="macro">room_id!</span>(<span class="string">&quot;!far_west:server.name&quot;</span>),
             <span class="ident">member_count</span>: <span class="number">100u32</span>.<span class="ident">into</span>(),
             <span class="ident">user_display_name</span>: <span class="string">&quot;Jolly Jumper&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
+            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap::new</span>(),
             <span class="ident">default_power_level</span>: <span class="number">50</span>.<span class="ident">into</span>(),
             <span class="ident">notification_power_levels</span>: <span class="ident">NotificationPowerLevels</span> { <span class="ident">room</span>: <span class="number">50</span>.<span class="ident">into</span>() },
         };
 
-        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;type&quot;: &quot;m.room.message&quot;
             }&quot;#</span>,
         )
         .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions_one_to_one</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="kw">_</span>))));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">false</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="kw">_</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>))));
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions_public_room</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_public_room</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
         <span class="macro">assert_matches!</span>(
             <span class="ident">actions_public_room</span>.<span class="ident">next</span>(),
-            <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">false</span>)))
+            <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>)))
         );
 
-        <span class="kw">let</span> <span class="ident">user_name</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">user_name</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;type&quot;: &quot;m.room.message&quot;,
                 &quot;content&quot;: {
@@ -2277,16 +2277,16 @@
         )
         .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions_one_to_one</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">user_name</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="kw">_</span>))));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="kw">_</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_one_to_one</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))));
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions_public_room</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">user_name</span>, <span class="ident">context_public_room</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="kw">_</span>))));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="kw">_</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions_public_room</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))));
 
-        <span class="kw">let</span> <span class="ident">notice</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">notice</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;type&quot;: &quot;m.room.message&quot;,
                 &quot;content&quot;: {
@@ -2296,9 +2296,9 @@
         )
         .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">notice</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">DontNotify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::DontNotify</span>));
 
-        <span class="kw">let</span> <span class="ident">at_room</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">at_room</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;type&quot;: &quot;m.room.message&quot;,
                 &quot;sender&quot;: &quot;@rantanplan:server.name&quot;,
@@ -2310,10 +2310,10 @@
         )
         .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">at_room</span>, <span class="ident">context_public_room</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))));
 
-        <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">r#&quot;{}&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">r#&quot;{}&quot;#</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">empty</span>, <span class="ident">context_one_to_one</span>);
         <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
     }
@@ -2324,12 +2324,12 @@
             <span class="ident">room_id</span>: <span class="macro">room_id!</span>(<span class="string">&quot;!dm:server.name&quot;</span>),
             <span class="ident">member_count</span>: <span class="number">2u32</span>.<span class="ident">into</span>(),
             <span class="ident">user_display_name</span>: <span class="string">&quot;Jolly Jumper&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
+            <span class="ident">users_power_levels</span>: <span class="ident">BTreeMap::new</span>(),
             <span class="ident">default_power_level</span>: <span class="number">50</span>.<span class="ident">into</span>(),
             <span class="ident">notification_power_levels</span>: <span class="ident">NotificationPowerLevels</span> { <span class="ident">room</span>: <span class="number">50</span>.<span class="ident">into</span>() },
         };
 
-        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;sender&quot;: &quot;@rantanplan:server.name&quot;,
                 &quot;type&quot;: &quot;m.room.message&quot;,
@@ -2341,14 +2341,14 @@
         )
         .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="ident">disabled</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>(<span class="ident">ConditionalPushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">Notify</span>],
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">Ruleset::new</span>();
+        <span class="kw">let</span> <span class="ident">disabled</span> <span class="op">=</span> <span class="ident">AnyPushRule::Underride</span>(<span class="ident">ConditionalPushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::Notify</span>],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">false</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;disabled&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition</span>::<span class="ident">RoomMemberCount</span> {
-                <span class="ident">is</span>: <span class="ident">RoomMemberCountIs</span>::<span class="ident">from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)),
+            <span class="ident">conditions</span>: <span class="macro">vec!</span>[<span class="ident">PushCondition::RoomMemberCount</span> {
+                <span class="ident">is</span>: <span class="ident">RoomMemberCountIs::from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)),
             }],
         });
         <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">disabled</span>);
@@ -2357,8 +2357,8 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">test_set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
         <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);
 
-        <span class="kw">let</span> <span class="ident">no_conditions</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Underride</span>(<span class="ident">ConditionalPushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))],
+        <span class="kw">let</span> <span class="ident">no_conditions</span> <span class="op">=</span> <span class="ident">AnyPushRule::Underride</span>(<span class="ident">ConditionalPushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;no.conditions&quot;</span>.<span class="ident">into</span>(),
@@ -2368,10 +2368,10 @@
 
         <span class="kw">let</span> <span class="ident">test_set</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">test_set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))));
 
-        <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Sender</span>(<span class="ident">SimplePushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">Notify</span>],
+        <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">AnyPushRule::Sender</span>(<span class="ident">SimplePushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::Notify</span>],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;@rantanplan:server.name&quot;</span>.<span class="ident">into</span>(),
@@ -2380,10 +2380,10 @@
 
         <span class="kw">let</span> <span class="ident">test_set</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">test_set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::Notify</span>));
 
-        <span class="kw">let</span> <span class="ident">room</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Room</span>(<span class="ident">SimplePushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">DontNotify</span>],
+        <span class="kw">let</span> <span class="ident">room</span> <span class="op">=</span> <span class="ident">AnyPushRule::Room</span>(<span class="ident">SimplePushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::DontNotify</span>],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;!dm:server.name&quot;</span>.<span class="ident">into</span>(),
@@ -2392,10 +2392,10 @@
 
         <span class="kw">let</span> <span class="ident">test_set</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">test_set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">DontNotify</span>));
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::DontNotify</span>));
 
-        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Content</span>(<span class="ident">PatternedPushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;content&quot;</span>.<span class="ident">into</span>()))],
+        <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">AnyPushRule::Content</span>(<span class="ident">PatternedPushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;content&quot;</span>.<span class="ident">into</span>()))],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;content&quot;</span>.<span class="ident">into</span>(),
@@ -2405,17 +2405,17 @@
 
         <span class="kw">let</span> <span class="ident">test_set</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">test_set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span>);
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">three_conditions</span> <span class="op">=</span> <span class="ident">AnyPushRule</span>::<span class="ident">Override</span>(<span class="ident">ConditionalPushRule</span> {
-            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;three&quot;</span>.<span class="ident">into</span>()))],
+        <span class="kw">let</span> <span class="ident">three_conditions</span> <span class="op">=</span> <span class="ident">AnyPushRule::Override</span>(<span class="ident">ConditionalPushRule</span> {
+            <span class="ident">actions</span>: <span class="macro">vec!</span>[<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;three&quot;</span>.<span class="ident">into</span>()))],
             <span class="ident">default</span>: <span class="bool-val">false</span>,
             <span class="ident">enabled</span>: <span class="bool-val">true</span>,
             <span class="ident">rule_id</span>: <span class="string">&quot;three.conditions&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">conditions</span>: <span class="macro">vec!</span>[
-                <span class="ident">PushCondition</span>::<span class="ident">RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs</span>::<span class="ident">from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
-                <span class="ident">PushCondition</span>::<span class="ident">ContainsDisplayName</span>,
-                <span class="ident">PushCondition</span>::<span class="ident">EventMatch</span> {
+                <span class="ident">PushCondition::RoomMemberCount</span> { <span class="ident">is</span>: <span class="ident">RoomMemberCountIs::from</span>(<span class="macro">uint!</span>(<span class="number">2</span>)) },
+                <span class="ident">PushCondition::ContainsDisplayName</span>,
+                <span class="ident">PushCondition::EventMatch</span> {
                     <span class="ident">key</span>: <span class="string">&quot;room_id&quot;</span>.<span class="ident">into</span>(),
                     <span class="ident">pattern</span>: <span class="string">&quot;!dm:server.name&quot;</span>.<span class="ident">into</span>(),
                 },
@@ -2424,9 +2424,9 @@
         <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">three_conditions</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span>);
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;content&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">new_message</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
+        <span class="kw">let</span> <span class="ident">new_message</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
             <span class="string">r#&quot;{
                 &quot;sender&quot;: &quot;@rantanplan:server.name&quot;,
                 &quot;type&quot;: &quot;m.room.message&quot;,
@@ -2439,7 +2439,7 @@
         .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">new_message</span>, <span class="ident">context_one_to_one</span>);
-        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;three&quot;</span>);
+        <span class="macro">assert_matches!</span>(<span class="ident">actions</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="ident">sound</span>))) <span class="kw">if</span> <span class="ident">sound</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;three&quot;</span>);
     }
 }
 </pre></div>

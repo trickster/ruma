@@ -87,12 +87,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Endpoint for inviting a remote user to a room</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>;
+<span class="kw">use</span> <span class="ident">std::time::SystemTime</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">room</span>::<span class="ident">member</span>::<span class="ident">MemberEventContent</span>, <span class="ident">EventType</span>};
+<span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">room::member::MemberEventContent</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">ServerName</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v2</span>;
@@ -164,7 +164,7 @@
             <span class="ident">sender</span>: <span class="ident">init</span>.<span class="ident">sender</span>,
             <span class="ident">origin</span>: <span class="ident">init</span>.<span class="ident">origin</span>,
             <span class="ident">origin_server_ts</span>: <span class="ident">init</span>.<span class="ident">origin_server_ts</span>,
-            <span class="ident">kind</span>: <span class="ident">EventType</span>::<span class="ident">RoomMember</span>,
+            <span class="ident">kind</span>: <span class="ident">EventType::RoomMember</span>,
             <span class="ident">state_key</span>: <span class="ident">init</span>.<span class="ident">state_key</span>,
             <span class="ident">content</span>: <span class="ident">init</span>.<span class="ident">content</span>,
         }

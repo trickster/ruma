@@ -476,16 +476,16 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/search](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-search)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
 <span class="kw">use</span> <span class="ident">js_int</span>::{<span class="ident">uint</span>, <span class="ident">UInt</span>};
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">AnyRoomEvent</span>, <span class="ident">AnyStateEvent</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">MxcUri</span>, <span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">ruma_serde</span>::{<span class="ident">Outgoing</span>, <span class="ident">Raw</span>, <span class="ident">StringEnum</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">filter</span>::{<span class="ident">IncomingRoomEventFilter</span>, <span class="ident">RoomEventFilter</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::filter</span>::{<span class="ident">IncomingRoomEventFilter</span>, <span class="ident">RoomEventFilter</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -513,7 +513,7 @@
         <span class="kw">pub</span> <span class="ident">search_categories</span>: <span class="ident">ResultCategories</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -542,7 +542,7 @@
 <span class="kw">impl</span> <span class="ident">Categories</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates an empty `Categories`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -586,9 +586,9 @@
             <span class="ident">keys</span>: <span class="prelude-val">None</span>,
             <span class="ident">filter</span>: <span class="prelude-val">None</span>,
             <span class="ident">order_by</span>: <span class="prelude-val">None</span>,
-            <span class="ident">event_context</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+            <span class="ident">event_context</span>: <span class="ident">Default::default</span>(),
             <span class="ident">include_state</span>: <span class="prelude-val">None</span>,
-            <span class="ident">groupings</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+            <span class="ident">groupings</span>: <span class="ident">Default::default</span>(),
         }
     }
 }
@@ -621,7 +621,7 @@
     <span class="macro">uint!</span>(<span class="number">5</span>)
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
 <span class="kw">fn</span> <span class="ident">is_default_event_context_limit</span>(<span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="ident">UInt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw-2">*</span><span class="ident">val</span> <span class="op">=</span><span class="op">=</span> <span class="ident">default_event_context_limit</span>()
 }
@@ -646,7 +646,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">EventContext</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>()
+        <span class="self">Self</span><span class="ident">::new</span>()
     }
 }
 
@@ -678,7 +678,7 @@
 <span class="kw">impl</span> <span class="ident">EventContextResult</span> {
     <span class="doccomment">/// Creates an empty `EventContextResult`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns whether all fields are `None` or an empty list.</span>
@@ -702,7 +702,7 @@
 <span class="kw">impl</span> <span class="ident">Grouping</span> {
     <span class="doccomment">/// Creates an empty `Grouping`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns whether `key` is `None`.</span>
@@ -738,7 +738,7 @@
 <span class="kw">impl</span> <span class="ident">Groupings</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates an empty `Groupings`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
@@ -794,7 +794,7 @@
 <span class="kw">impl</span> <span class="ident">ResultCategories</span> {
     <span class="doccomment">/// Creates an empty `ResultCategories`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -833,7 +833,7 @@
 <span class="kw">impl</span> <span class="ident">ResultRoomEvents</span> {
     <span class="doccomment">/// Creates an empty `ResultRoomEvents`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty / `None`.</span>
@@ -869,7 +869,7 @@
 <span class="kw">impl</span> <span class="ident">ResultGroup</span> {
     <span class="doccomment">/// Creates an empty `ResultGroup`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty / `None`.</span>
@@ -898,7 +898,7 @@
 <span class="kw">impl</span> <span class="ident">SearchResult</span> {
     <span class="doccomment">/// Creates an empty `SearchResult`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty / `None`.</span>
@@ -930,7 +930,7 @@
 <span class="kw">impl</span> <span class="ident">UserProfile</span> {
     <span class="doccomment">/// Creates an empty `UserProfile`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 
     <span class="doccomment">/// Returns `true` if all fields are `None`.</span>

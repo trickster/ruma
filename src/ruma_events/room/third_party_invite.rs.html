@@ -59,10 +59,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.third_party_invite* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">StateEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::StateEventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">StateEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::StateEvent</span>;
 
 <span class="doccomment">/// An invitation to a room issued to a third party identifier, rather than a matrix user ID.</span>
 <span class="doccomment">///</span>

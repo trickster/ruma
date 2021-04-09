@@ -34,13 +34,13 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.key.verification.request* event.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>;
+<span class="kw">use</span> <span class="ident">std::time::SystemTime</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">BasicEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">DeviceIdBox</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::DeviceIdBox</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">VerificationMethod</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::VerificationMethod</span>;
 
 <span class="doccomment">/// The payload for `RequestEvent`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">BasicEventContent</span>)]</span>

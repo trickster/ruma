@@ -417,21 +417,21 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.key.verification.accept* event.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Relation</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Relation</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">HashAlgorithm</span>, <span class="ident">KeyAgreementProtocol</span>, <span class="ident">MessageAuthenticationCode</span>, <span class="ident">ShortAuthenticationString</span>,
 };
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">MessageEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::MessageEvent</span>;
 
 <span class="doccomment">/// Accepts a previously sent *m.key.verification.start* message.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
@@ -562,13 +562,13 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+    <span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-    <span class="kw">use</span> <span class="ident">matches</span>::<span class="ident">assert_matches</span>;
+    <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-    <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">event_id</span>;
-    <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">user_id</span>;
-    <span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+    <span class="kw">use</span> <span class="ident">ruma_identifiers::event_id</span>;
+    <span class="kw">use</span> <span class="ident">ruma_identifiers::user_id</span>;
+    <span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{
         <span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>,
     };
@@ -579,17 +579,17 @@
         <span class="ident">AcceptMethod</span>, <span class="ident">AcceptToDeviceEventContent</span>, <span class="ident">CustomContent</span>, <span class="ident">HashAlgorithm</span>,
         <span class="ident">KeyAgreementProtocol</span>, <span class="ident">MSasV1Content</span>, <span class="ident">MessageAuthenticationCode</span>, <span class="ident">ShortAuthenticationString</span>,
     };
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ToDeviceEvent</span>;
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::ToDeviceEvent</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialization</span>() {
         <span class="kw">let</span> <span class="ident">key_verification_accept_content</span> <span class="op">=</span> <span class="ident">AcceptToDeviceEventContent</span> {
             <span class="ident">transaction_id</span>: <span class="string">&quot;456&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">MSasV1</span>(<span class="ident">MSasV1Content</span> {
-                <span class="ident">hash</span>: <span class="ident">HashAlgorithm</span>::<span class="ident">Sha256</span>,
-                <span class="ident">key_agreement_protocol</span>: <span class="ident">KeyAgreementProtocol</span>::<span class="ident">Curve25519</span>,
-                <span class="ident">message_authentication_code</span>: <span class="ident">MessageAuthenticationCode</span>::<span class="ident">HkdfHmacSha256</span>,
-                <span class="ident">short_authentication_string</span>: <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString</span>::<span class="ident">Decimal</span>],
+            <span class="ident">method</span>: <span class="ident">AcceptMethod::MSasV1</span>(<span class="ident">MSasV1Content</span> {
+                <span class="ident">hash</span>: <span class="ident">HashAlgorithm::Sha256</span>,
+                <span class="ident">key_agreement_protocol</span>: <span class="ident">KeyAgreementProtocol::Curve25519</span>,
+                <span class="ident">message_authentication_code</span>: <span class="ident">MessageAuthenticationCode::HkdfHmacSha256</span>,
+                <span class="ident">short_authentication_string</span>: <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString::Decimal</span>],
                 <span class="ident">commitment</span>: <span class="string">&quot;test_commitment&quot;</span>.<span class="ident">into</span>(),
             }),
         };
@@ -629,9 +629,9 @@
 
         <span class="kw">let</span> <span class="ident">key_verification_accept_content</span> <span class="op">=</span> <span class="ident">AcceptToDeviceEventContent</span> {
             <span class="ident">transaction_id</span>: <span class="string">&quot;456&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">Custom</span>(<span class="ident">CustomContent</span> {
+            <span class="ident">method</span>: <span class="ident">AcceptMethod::Custom</span>(<span class="ident">CustomContent</span> {
                 <span class="ident">method</span>: <span class="string">&quot;m.sas.custom&quot;</span>.<span class="ident">to_owned</span>(),
-                <span class="ident">data</span>: <span class="macro">vec!</span>[(<span class="string">&quot;test&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">JsonValue</span>::<span class="ident">from</span>(<span class="string">&quot;field&quot;</span>))]
+                <span class="ident">data</span>: <span class="macro">vec!</span>[(<span class="string">&quot;test&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">JsonValue::from</span>(<span class="string">&quot;field&quot;</span>))]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(),
             }),
@@ -650,11 +650,11 @@
 
         <span class="kw">let</span> <span class="ident">key_verification_accept_content</span> <span class="op">=</span> <span class="ident">AcceptEventContent</span> {
             <span class="ident">relation</span>: <span class="ident">Relation</span> { <span class="ident">event_id</span>: <span class="ident">event_id</span>.<span class="ident">clone</span>() },
-            <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">MSasV1</span>(<span class="ident">MSasV1Content</span> {
-                <span class="ident">hash</span>: <span class="ident">HashAlgorithm</span>::<span class="ident">Sha256</span>,
-                <span class="ident">key_agreement_protocol</span>: <span class="ident">KeyAgreementProtocol</span>::<span class="ident">Curve25519</span>,
-                <span class="ident">message_authentication_code</span>: <span class="ident">MessageAuthenticationCode</span>::<span class="ident">HkdfHmacSha256</span>,
-                <span class="ident">short_authentication_string</span>: <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString</span>::<span class="ident">Decimal</span>],
+            <span class="ident">method</span>: <span class="ident">AcceptMethod::MSasV1</span>(<span class="ident">MSasV1Content</span> {
+                <span class="ident">hash</span>: <span class="ident">HashAlgorithm::Sha256</span>,
+                <span class="ident">key_agreement_protocol</span>: <span class="ident">KeyAgreementProtocol::Curve25519</span>,
+                <span class="ident">message_authentication_code</span>: <span class="ident">MessageAuthenticationCode::HkdfHmacSha256</span>,
+                <span class="ident">short_authentication_string</span>: <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString::Decimal</span>],
                 <span class="ident">commitment</span>: <span class="string">&quot;test_commitment&quot;</span>.<span class="ident">into</span>(),
             }),
         };
@@ -695,7 +695,7 @@
                 .<span class="ident">unwrap</span>(),
             <span class="ident">AcceptToDeviceEventContent</span> {
                 <span class="ident">transaction_id</span>,
-                <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">MSasV1</span>(<span class="ident">MSasV1Content</span> {
+                <span class="ident">method</span>: <span class="ident">AcceptMethod::MSasV1</span>(<span class="ident">MSasV1Content</span> {
                     <span class="ident">commitment</span>,
                     <span class="ident">hash</span>,
                     <span class="ident">key_agreement_protocol</span>,
@@ -704,10 +704,10 @@
                 })
             } <span class="kw">if</span> <span class="ident">commitment</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;test_commitment&quot;</span>
                 <span class="op">&amp;&amp;</span> <span class="ident">transaction_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;456&quot;</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm</span>::<span class="ident">Sha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol</span>::<span class="ident">Curve25519</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode</span>::<span class="ident">HkdfHmacSha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString</span>::<span class="ident">Decimal</span>]
+                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm::Sha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol::Curve25519</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode::HkdfHmacSha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString::Decimal</span>]
         );
 
         <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="macro">user_id!</span>(<span class="string">&quot;@example:localhost&quot;</span>);
@@ -735,7 +735,7 @@
                 <span class="ident">sender</span>,
                 <span class="ident">content</span>: <span class="ident">AcceptToDeviceEventContent</span> {
                     <span class="ident">transaction_id</span>,
-                    <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">MSasV1</span>(<span class="ident">MSasV1Content</span> {
+                    <span class="ident">method</span>: <span class="ident">AcceptMethod::MSasV1</span>(<span class="ident">MSasV1Content</span> {
                         <span class="ident">commitment</span>,
                         <span class="ident">hash</span>,
                         <span class="ident">key_agreement_protocol</span>,
@@ -746,10 +746,10 @@
             } <span class="kw">if</span> <span class="ident">commitment</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;test_commitment&quot;</span>
                 <span class="op">&amp;&amp;</span> <span class="ident">sender</span> <span class="op">=</span><span class="op">=</span> <span class="macro">user_id!</span>(<span class="string">&quot;@example:localhost&quot;</span>)
                 <span class="op">&amp;&amp;</span> <span class="ident">transaction_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;456&quot;</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm</span>::<span class="ident">Sha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol</span>::<span class="ident">Curve25519</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode</span>::<span class="ident">HkdfHmacSha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString</span>::<span class="ident">Decimal</span>]
+                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm::Sha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol::Curve25519</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode::HkdfHmacSha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString::Decimal</span>]
         );
 
         <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="macro">user_id!</span>(<span class="string">&quot;@example:localhost&quot;</span>);
@@ -774,7 +774,7 @@
                 <span class="ident">sender</span>,
                 <span class="ident">content</span>: <span class="ident">AcceptToDeviceEventContent</span> {
                     <span class="ident">transaction_id</span>,
-                    <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">Custom</span>(<span class="ident">CustomContent</span> {
+                    <span class="ident">method</span>: <span class="ident">AcceptMethod::Custom</span>(<span class="ident">CustomContent</span> {
                         <span class="ident">method</span>,
                         <span class="ident">data</span>,
                     })
@@ -782,7 +782,7 @@
             } <span class="kw">if</span> <span class="ident">transaction_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;456&quot;</span>
                 <span class="op">&amp;&amp;</span> <span class="ident">sender</span> <span class="op">=</span><span class="op">=</span> <span class="macro">user_id!</span>(<span class="string">&quot;@example:localhost&quot;</span>)
                 <span class="op">&amp;&amp;</span> <span class="ident">method</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;m.sas.custom&quot;</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">get</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">unwrap</span>() <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">JsonValue</span>::<span class="ident">from</span>(<span class="string">&quot;field&quot;</span>)
+                <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">get</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">unwrap</span>() <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">JsonValue::from</span>(<span class="string">&quot;field&quot;</span>)
         );
     }
 
@@ -814,7 +814,7 @@
                 <span class="ident">relation</span>: <span class="ident">Relation</span> {
                     <span class="ident">event_id</span>
                 },
-                <span class="ident">method</span>: <span class="ident">AcceptMethod</span>::<span class="ident">MSasV1</span>(<span class="ident">MSasV1Content</span> {
+                <span class="ident">method</span>: <span class="ident">AcceptMethod::MSasV1</span>(<span class="ident">MSasV1Content</span> {
                     <span class="ident">commitment</span>,
                     <span class="ident">hash</span>,
                     <span class="ident">key_agreement_protocol</span>,
@@ -823,10 +823,10 @@
                 })
             } <span class="kw">if</span> <span class="ident">commitment</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;test_commitment&quot;</span>
                 <span class="op">&amp;&amp;</span> <span class="ident">event_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">id</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm</span>::<span class="ident">Sha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol</span>::<span class="ident">Curve25519</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode</span>::<span class="ident">HkdfHmacSha256</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString</span>::<span class="ident">Decimal</span>]
+                <span class="op">&amp;&amp;</span> <span class="ident">hash</span> <span class="op">=</span><span class="op">=</span> <span class="ident">HashAlgorithm::Sha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">key_agreement_protocol</span> <span class="op">=</span><span class="op">=</span> <span class="ident">KeyAgreementProtocol::Curve25519</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">message_authentication_code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MessageAuthenticationCode::HkdfHmacSha256</span>
+                <span class="op">&amp;&amp;</span> <span class="ident">short_authentication_string</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">ShortAuthenticationString::Decimal</span>]
         );
     }
 }

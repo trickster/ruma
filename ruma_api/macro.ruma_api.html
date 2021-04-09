@@ -90,7 +90,7 @@ a JSON objects. A field with <code>#[ruma_api(raw_body)]</code> needs to have th
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">some_endpoint</span> {
-    <span class="kw">use</span> <span class="ident">ruma_api_macros</span>::<span class="ident">ruma_api</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api_macros::ruma_api</span>;
 
     <span class="macro">ruma_api!</span> {
         <span class="ident">metadata</span>: {
@@ -125,7 +125,7 @@ a JSON objects. A field with <code>#[ruma_api(raw_body)]</code> needs to have th
 }
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">newtype_body_endpoint</span> {
-    <span class="kw">use</span> <span class="ident">ruma_api_macros</span>::<span class="ident">ruma_api</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api_macros::ruma_api</span>;
     <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
@@ -154,9 +154,5 @@ a JSON objects. A field with <code>#[ruma_api(raw_body)]</code> needs to have th
         }
     }
 }</pre></div>
-<h2 id="fallible-deserialization" class="section-header"><a href="#fallible-deserialization">Fallible deserialization</a></h2>
-<p>All request and response types also derive <a href="../ruma_serde/trait.Outgoing.html" title="ruma_serde::Outgoing"><code>Outgoing</code></a>. As
-such, to allow fallible deserialization, you can use the <code>#[wrap_incoming]</code> attribute. For
-details, see the documentation for <a href="../ruma_serde_macros/derive.Outgoing.html">the derive macro</a>.</p>
 </div></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="ruma_api" data-search-js="../search-index.js"></div>
     <script src="../main.js"></script></body></html>

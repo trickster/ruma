@@ -41,11 +41,11 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.call.candidates* event.</span>
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">MessageEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::MessageEvent</span>;
 
 <span class="doccomment">/// This event is sent by callers after sending an invite and by the callee after answering. Its</span>
 <span class="doccomment">/// purpose is to give the other party additional ICE candidates to try using to communicate.</span>

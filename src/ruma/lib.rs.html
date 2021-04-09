@@ -226,7 +226,7 @@
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">feature</span>(<span class="ident">doc_cfg</span>))]</span>
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">assign</span>::<span class="ident">assign</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">assign::assign</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">js_int</span>::{<span class="ident">int</span>, <span class="ident">uint</span>, <span class="ident">Int</span>, <span class="ident">UInt</span>};
 
@@ -236,7 +236,7 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde</span> <span class="kw">as</span> <span class="ident">serde</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Outgoing</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span> <span class="comment">// Allow re-export of deprecated items</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{

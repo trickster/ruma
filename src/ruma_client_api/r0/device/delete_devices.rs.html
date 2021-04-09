@@ -47,10 +47,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/delete_devices](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-delete-devices)</span>
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">DeviceIdBox</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::DeviceIdBox</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">uiaa</span>::{<span class="ident">AuthData</span>, <span class="ident">IncomingAuthData</span>, <span class="ident">UiaaResponse</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::uiaa</span>::{<span class="ident">AuthData</span>, <span class="ident">IncomingAuthData</span>, <span class="ident">UiaaResponse</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {

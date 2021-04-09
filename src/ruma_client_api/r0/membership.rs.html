@@ -68,12 +68,12 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">leave_room</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">unban_user</span>;
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">thirdparty</span>::<span class="ident">Medium</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::thirdparty::Medium</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">ServerNameBox</span>, <span class="ident">ServerSigningKeyId</span>};
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Outgoing</span>;
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
+<span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 
 <span class="doccomment">/// A signature of an `m.third_party_invite` token to prove that this user owns a third party</span>
 <span class="doccomment">/// identity which has been invited to the room.</span>

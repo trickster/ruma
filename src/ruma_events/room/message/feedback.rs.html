@@ -50,12 +50,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.message.feedback* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">MessageEventContent</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">EventId</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::EventId</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">MessageEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::MessageEvent</span>;
 
 <span class="doccomment">/// An acknowledgement of a message.</span>
 <span class="doccomment">///</span>

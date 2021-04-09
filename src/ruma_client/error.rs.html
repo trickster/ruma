@@ -82,9 +82,9 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Error conditions.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>};
+<span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>};
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">error</span>::{<span class="ident">FromHttpResponseError</span>, <span class="ident">IntoHttpError</span>};
+<span class="kw">use</span> <span class="ident">ruma_api::error</span>::{<span class="ident">FromHttpResponseError</span>, <span class="ident">IntoHttpError</span>};
 
 <span class="doccomment">/// An error that can occur during client operations.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -107,59 +107,59 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">AuthenticationRequired</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::AuthenticationRequired</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;The queried endpoint requires authentication but was called with an anonymous client.&quot;</span>)
             }
-            <span class="self">Self</span>::<span class="ident">IntoHttp</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;HTTP request construction failed: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="self">Self</span>::<span class="ident">Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Invalid URL: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="self">Self</span>::<span class="ident">Response</span>(<span class="ident">ResponseError</span>(<span class="ident">err</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Couldn&#39;t obtain a response: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="self">Self</span>::<span class="ident">FromHttpResponse</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;HTTP response conversion failed: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="self">Self</span><span class="ident">::IntoHttp</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;HTTP request construction failed: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="self">Self</span><span class="ident">::Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Invalid URL: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="self">Self</span><span class="ident">::Response</span>(<span class="ident">ResponseError</span>(<span class="ident">err</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Couldn&#39;t obtain a response: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="self">Self</span><span class="ident">::FromHttpResponse</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;HTTP response conversion failed: {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">IntoHttpError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">IntoHttpError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Error</span>::<span class="ident">IntoHttp</span>(<span class="ident">err</span>)
+        <span class="ident">Error::IntoHttp</span>(<span class="ident">err</span>)
     }
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUri</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUri</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Error</span>::<span class="ident">Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>.<span class="ident">into</span>()))
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">http::uri::InvalidUri</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">http::uri::InvalidUri</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Error::Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>.<span class="ident">into</span>()))
     }
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUriParts</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUriParts</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Error</span>::<span class="ident">Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>.<span class="ident">into</span>()))
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">http::uri::InvalidUriParts</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">http::uri::InvalidUriParts</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Error::Url</span>(<span class="ident">UrlError</span>(<span class="ident">err</span>.<span class="ident">into</span>()))
     }
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">hyper</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">hyper</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Error</span>::<span class="ident">Response</span>(<span class="ident">ResponseError</span>(<span class="ident">err</span>))
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">hyper::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">hyper::Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Error::Response</span>(<span class="ident">ResponseError</span>(<span class="ident">err</span>))
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">FromHttpResponseError</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">FromHttpResponseError</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Error</span>::<span class="ident">FromHttpResponse</span>(<span class="ident">err</span>)
+        <span class="ident">Error::FromHttpResponse</span>(<span class="ident">err</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">Error</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {}
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UrlError</span>(<span class="ident">http</span>::<span class="ident">Error</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UrlError</span>(<span class="ident">http::Error</span>);
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResponseError</span>(<span class="ident">hyper</span>::<span class="ident">Error</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResponseError</span>(<span class="ident">hyper::Error</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_client" data-search-js="../../search-index.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

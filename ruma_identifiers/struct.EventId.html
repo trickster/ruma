@@ -13,17 +13,17 @@ original event format.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="comment">// Original format</span>
 <span class="macro">assert_eq!</span>(
-    <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$h29iv0s8:example.com&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
+    <span class="ident">EventId::try_from</span>(<span class="string">&quot;$h29iv0s8:example.com&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
     <span class="string">&quot;$h29iv0s8:example.com&quot;</span>
 );
 <span class="comment">// Room version 3 format</span>
 <span class="macro">assert_eq!</span>(
-    <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
+    <span class="ident">EventId::try_from</span>(<span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
     <span class="string">&quot;$acR1l0raoZnm60CBwAVgqbZqoO/mYU81xysh1u7XcJk&quot;</span>
 );
 <span class="comment">// Room version 4 format</span>
 <span class="macro">assert_eq!</span>(
-    <span class="ident">EventId</span>::<span class="ident">try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
+    <span class="ident">EventId::try_from</span>(<span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(),
     <span class="string">&quot;$Rqnc-F-dvnEYJTyHq_iKxU2bZ1CI92-kuZq3a5lr5Zg&quot;</span>
 );</pre></div>
 </div><h2 id="implementations" class="small-section-header">Implementations<a href="#implementations" class="anchor"></a></h2><h3 id="impl" class="impl"><code class="in-band">impl <a class="struct" href="../ruma_identifiers/struct.EventId.html" title="struct ruma_identifiers::EventId">EventId</a></code><a href="#impl" class="anchor"></a><a class="srclink" href="../src/ruma_identifiers/event_id.rs.html#52-68" title="goto source code">[src]</a></h3><div class="impl-items"><h4 id="method.new" class="method"><code>pub fn <a href="#method.new" class="fnname">new</a>(server_name: &amp;<a class="struct" href="../ruma_identifiers/struct.ServerName.html" title="struct ruma_identifiers::ServerName">ServerName</a>) -&gt; Self</code><a class="srclink" href="../src/ruma_identifiers/event_id.rs.html#61-67" title="goto source code">[src]</a></h4><div class="item-info"><div class="stab portability">This is supported on <strong>crate feature <code>rand</code></strong> only.</div></div><div class="docblock"><p>Attempts to generate an <code>EventId</code> for the given origin server with a localpart consisting

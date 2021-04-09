@@ -237,10 +237,10 @@
 <span id="236">236</span>
 <span id="237">237</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="self">self</span>, <span class="ident">Formatter</span>};
+<span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Formatter</span>};
 
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
-<span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">value</span>::<span class="ident">RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
+<span class="kw">use</span> <span class="ident">serde_json::value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
 
 <span class="doccomment">/// This represents the different actions that should be taken when a rule is matched, and</span>
 <span class="doccomment">/// controls how notifications are delivered to the client.</span>
@@ -294,40 +294,40 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Action</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
-        <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::{<span class="ident">MapAccess</span>, <span class="ident">Visitor</span>};
+        <span class="kw">use</span> <span class="ident">serde::de</span>::{<span class="ident">MapAccess</span>, <span class="ident">Visitor</span>};
 
         <span class="kw">struct</span> <span class="ident">ActionVisitor</span>;
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ActionVisitor</span> {
             <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">Action</span>;
 
-            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
                 <span class="macro">write!</span>(<span class="ident">formatter</span>, <span class="string">&quot;a valid action object&quot;</span>)
             }
 
             <span class="doccomment">/// Match a simple action type</span>
-            <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">E</span><span class="op">&gt;</span>
+            <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span>
             <span class="kw">where</span>
-                <span class="ident">E</span>: <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>,
+                <span class="ident">E</span>: <span class="ident">serde::de::Error</span>,
             {
                 <span class="kw">match</span> <span class="ident">v</span> {
-                    <span class="string">&quot;notify&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action</span>::<span class="ident">Notify</span>),
-                    <span class="string">&quot;dont_notify&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action</span>::<span class="ident">DontNotify</span>),
-                    <span class="string">&quot;coalesce&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action</span>::<span class="ident">Coalesce</span>),
-                    <span class="ident">s</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">E</span>::<span class="ident">unknown_variant</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;notify&quot;</span>, <span class="string">&quot;dont_notify&quot;</span>, <span class="string">&quot;coalesce&quot;</span>])),
+                    <span class="string">&quot;notify&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action::Notify</span>),
+                    <span class="string">&quot;dont_notify&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action::DontNotify</span>),
+                    <span class="string">&quot;coalesce&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Action::Coalesce</span>),
+                    <span class="ident">s</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">E::unknown_variant</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;notify&quot;</span>, <span class="string">&quot;dont_notify&quot;</span>, <span class="string">&quot;coalesce&quot;</span>])),
                 }
             }
 
             <span class="doccomment">/// Match the more complex set_tweaks action object as a key-value map</span>
-            <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">A</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+            <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">A::Error</span><span class="op">&gt;</span>
             <span class="kw">where</span>
                 <span class="ident">A</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
             {
-                <span class="ident">Tweak</span>::<span class="ident">deserialize</span>(<span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">value</span>::<span class="ident">MapAccessDeserializer</span>::<span class="ident">new</span>(<span class="ident">map</span>))
-                    .<span class="ident">map</span>(<span class="ident">Action</span>::<span class="ident">SetTweak</span>)
+                <span class="ident">Tweak::deserialize</span>(<span class="ident">serde::de::value::MapAccessDeserializer::new</span>(<span class="ident">map</span>))
+                    .<span class="ident">map</span>(<span class="ident">Action::SetTweak</span>)
             }
         }
 
@@ -336,22 +336,22 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Action</span> {
-    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Serializer</span>,
     {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Action</span>::<span class="ident">Notify</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">0</span>, <span class="string">&quot;notify&quot;</span>),
-            <span class="ident">Action</span>::<span class="ident">DontNotify</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">1</span>, <span class="string">&quot;dont_notify&quot;</span>),
-            <span class="ident">Action</span>::<span class="ident">Coalesce</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">2</span>, <span class="string">&quot;coalesce&quot;</span>),
-            <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">kind</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">kind</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
+            <span class="ident">Action::Notify</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">0</span>, <span class="string">&quot;notify&quot;</span>),
+            <span class="ident">Action::DontNotify</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">1</span>, <span class="string">&quot;dont_notify&quot;</span>),
+            <span class="ident">Action::Coalesce</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_unit_variant</span>(<span class="string">&quot;Action&quot;</span>, <span class="number">2</span>, <span class="string">&quot;coalesce&quot;</span>),
+            <span class="ident">Action::SetTweak</span>(<span class="ident">kind</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">kind</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
         }
     }
 }
 
 <span class="kw">mod</span> <span class="ident">tweak_serde</span> {
     <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
-    <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">value</span>::<span class="ident">RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
+    <span class="kw">use</span> <span class="ident">serde_json::value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
 
     <span class="doccomment">/// Values for the `set_tweak` action.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
@@ -379,26 +379,26 @@
         <span class="ident">value</span>: <span class="ident">bool</span>,
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Tweak</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Tweak</span> {
-        <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">tweak</span>: <span class="kw">super</span>::<span class="ident">Tweak</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-            <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Tweak</span>::<span class="kw-2">*</span>;
+    <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw">super</span><span class="ident">::Tweak</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Tweak</span> {
+        <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">tweak</span>: <span class="kw">super</span><span class="ident">::Tweak</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Tweak</span>::<span class="kw-2">*</span>;
 
             <span class="kw">match</span> <span class="ident">tweak</span> {
-                <span class="ident">Sound</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Sound</span>(<span class="ident">SoundTweak</span> { <span class="ident">value</span> }),
-                <span class="ident">Highlight</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Highlight</span>(<span class="ident">HighlightTweak</span> { <span class="ident">value</span> }),
-                <span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> },
+                <span class="ident">Sound</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Sound</span>(<span class="ident">SoundTweak</span> { <span class="ident">value</span> }),
+                <span class="ident">Highlight</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Highlight</span>(<span class="ident">HighlightTweak</span> { <span class="ident">value</span> }),
+                <span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> },
             }
         }
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Tweak</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw">super</span>::<span class="ident">Tweak</span> {
+    <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Tweak</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw">super</span><span class="ident">::Tweak</span> {
         <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">tweak</span>: <span class="ident">Tweak</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
             <span class="kw">use</span> <span class="ident">Tweak</span>::<span class="kw-2">*</span>;
 
             <span class="kw">match</span> <span class="ident">tweak</span> {
-                <span class="ident">Sound</span>(<span class="ident">SoundTweak</span> { <span class="ident">value</span> }) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Sound</span>(<span class="ident">value</span>),
-                <span class="ident">Highlight</span>(<span class="ident">HighlightTweak</span> { <span class="ident">value</span> }) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Highlight</span>(<span class="ident">value</span>),
-                <span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> },
+                <span class="ident">Sound</span>(<span class="ident">SoundTweak</span> { <span class="ident">value</span> }) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Sound</span>(<span class="ident">value</span>),
+                <span class="ident">Highlight</span>(<span class="ident">HighlightTweak</span> { <span class="ident">value</span> }) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Highlight</span>(<span class="ident">value</span>),
+                <span class="ident">Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Custom</span> { <span class="ident">name</span>, <span class="ident">value</span> },
             }
         }
     }
@@ -406,20 +406,20 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">matches</span>::<span class="ident">assert_matches</span>;
+    <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>};
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Action</span>, <span class="ident">Tweak</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_string</span>() {
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>::<span class="ident">Notify</span>).<span class="ident">unwrap</span>(), <span class="macro">json!</span>(<span class="string">&quot;notify&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action::Notify</span>).<span class="ident">unwrap</span>(), <span class="macro">json!</span>(<span class="string">&quot;notify&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_tweak_sound</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>()))).<span class="ident">unwrap</span>(),
+            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="string">&quot;default&quot;</span>.<span class="ident">into</span>()))).<span class="ident">unwrap</span>(),
             <span class="macro">json!</span>({ <span class="string">&quot;set_tweak&quot;</span>: <span class="string">&quot;sound&quot;</span>, <span class="string">&quot;value&quot;</span>: <span class="string">&quot;default&quot;</span> })
         );
     }
@@ -427,19 +427,19 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_tweak_highlight</span>() {
         <span class="macro">assert_eq!</span>(
-            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))).<span class="ident">unwrap</span>(),
+            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))).<span class="ident">unwrap</span>(),
             <span class="macro">json!</span>({ <span class="string">&quot;set_tweak&quot;</span>: <span class="string">&quot;highlight&quot;</span> })
         );
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">false</span>))).<span class="ident">unwrap</span>(),
+            <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>))).<span class="ident">unwrap</span>(),
             <span class="macro">json!</span>({ <span class="string">&quot;set_tweak&quot;</span>: <span class="string">&quot;highlight&quot;</span>, <span class="string">&quot;value&quot;</span>: <span class="bool-val">false</span> })
         );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_string</span>() {
-        <span class="macro">assert_matches!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>(<span class="macro">json!</span>(<span class="string">&quot;notify&quot;</span>)).<span class="ident">unwrap</span>(), <span class="ident">Action</span>::<span class="ident">Notify</span>);
+        <span class="macro">assert_matches!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>(<span class="macro">json!</span>(<span class="string">&quot;notify&quot;</span>)).<span class="ident">unwrap</span>(), <span class="ident">Action::Notify</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -450,7 +450,7 @@
         });
         <span class="macro">assert_matches!</span>(
             <span class="kw-2">&amp;</span><span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>(<span class="ident">json_data</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Sound</span>(<span class="ident">value</span>)) <span class="kw">if</span> <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;default&quot;</span>
+            <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Sound</span>(<span class="ident">value</span>)) <span class="kw">if</span> <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;default&quot;</span>
         );
     }
 
@@ -462,7 +462,7 @@
         });
         <span class="macro">assert_matches!</span>(
             <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>(<span class="ident">json_data</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))
+            <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))
         );
     }
 
@@ -470,7 +470,7 @@
     <span class="kw">fn</span> <span class="ident">deserialize_tweak_highlight_with_default_value</span>() {
         <span class="macro">assert_matches!</span>(
             <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Action</span><span class="op">&gt;</span>(<span class="macro">json!</span>({ <span class="string">&quot;set_tweak&quot;</span>: <span class="string">&quot;highlight&quot;</span> })).<span class="ident">unwrap</span>(),
-            <span class="ident">Action</span>::<span class="ident">SetTweak</span>(<span class="ident">Tweak</span>::<span class="ident">Highlight</span>(<span class="bool-val">true</span>))
+            <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">true</span>))
         );
     }
 }

@@ -269,7 +269,7 @@
 <span id="268">268</span>
 <span id="269">269</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">StringEnum</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 
 <span class="doccomment">/// The type of an event.</span>
 <span class="doccomment">///</span>
@@ -481,61 +481,61 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">test</span>::<span class="ident">serde_json_eq</span>;
-    <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
+    <span class="kw">use</span> <span class="ident">ruma_serde::test::serde_json_eq</span>;
+    <span class="kw">use</span> <span class="ident">serde_json::json</span>;
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">EventType</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::EventType</span>;
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">cognitive_complexity</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::cognitive_complexity</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_and_deserialize_from_display_form</span>() {
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">CallAnswer</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.answer&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">CallCandidates</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.candidates&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">CallHangup</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.hangup&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">CallInvite</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.invite&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Direct</span>, <span class="macro">json!</span>(<span class="string">&quot;m.direct&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Dummy</span>, <span class="macro">json!</span>(<span class="string">&quot;m.dummy&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">ForwardedRoomKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.forwarded_room_key&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">FullyRead</span>, <span class="macro">json!</span>(<span class="string">&quot;m.fully_read&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationAccept</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.accept&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationCancel</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.cancel&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.key&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationMac</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.mac&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationRequest</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.request&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">KeyVerificationStart</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.start&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">IgnoredUserList</span>, <span class="macro">json!</span>(<span class="string">&quot;m.ignored_user_list&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">PolicyRuleRoom</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.room&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">PolicyRuleServer</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.server&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">PolicyRuleUser</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.user&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Presence</span>, <span class="macro">json!</span>(<span class="string">&quot;m.presence&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">PushRules</span>, <span class="macro">json!</span>(<span class="string">&quot;m.push_rules&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Receipt</span>, <span class="macro">json!</span>(<span class="string">&quot;m.receipt&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomAliases</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.aliases&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomAvatar</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.avatar&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomCanonicalAlias</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.canonical_alias&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomCreate</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.create&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomEncrypted</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.encrypted&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomEncryption</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.encryption&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomGuestAccess</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.guest_access&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomHistoryVisibility</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.history_visibility&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomJoinRules</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.join_rules&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomMember</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.member&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomMessage</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.message&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomMessageFeedback</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.message.feedback&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomName</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.name&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomPinnedEvents</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.pinned_events&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomPowerLevels</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.power_levels&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomRedaction</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.redaction&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomServerAcl</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.server_acl&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomThirdPartyInvite</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.third_party_invite&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomTombstone</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.tombstone&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomTopic</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.topic&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room_key&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">RoomKeyRequest</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room_key_request&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Sticker</span>, <span class="macro">json!</span>(<span class="string">&quot;m.sticker&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Tag</span>, <span class="macro">json!</span>(<span class="string">&quot;m.tag&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">Typing</span>, <span class="macro">json!</span>(<span class="string">&quot;m.typing&quot;</span>));
-        <span class="ident">serde_json_eq</span>(<span class="ident">EventType</span>::<span class="ident">_Custom</span>(<span class="string">&quot;io.ruma.test&quot;</span>.<span class="ident">into</span>()), <span class="macro">json!</span>(<span class="string">&quot;io.ruma.test&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::CallAnswer</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.answer&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::CallCandidates</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.candidates&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::CallHangup</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.hangup&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::CallInvite</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.invite&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Direct</span>, <span class="macro">json!</span>(<span class="string">&quot;m.direct&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Dummy</span>, <span class="macro">json!</span>(<span class="string">&quot;m.dummy&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::ForwardedRoomKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.forwarded_room_key&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::FullyRead</span>, <span class="macro">json!</span>(<span class="string">&quot;m.fully_read&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationAccept</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.accept&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationCancel</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.cancel&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.key&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationMac</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.mac&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationRequest</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.request&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationStart</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.start&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::IgnoredUserList</span>, <span class="macro">json!</span>(<span class="string">&quot;m.ignored_user_list&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::PolicyRuleRoom</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.room&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::PolicyRuleServer</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.server&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::PolicyRuleUser</span>, <span class="macro">json!</span>(<span class="string">&quot;m.policy.rule.user&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Presence</span>, <span class="macro">json!</span>(<span class="string">&quot;m.presence&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::PushRules</span>, <span class="macro">json!</span>(<span class="string">&quot;m.push_rules&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Receipt</span>, <span class="macro">json!</span>(<span class="string">&quot;m.receipt&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomAliases</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.aliases&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomAvatar</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.avatar&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomCanonicalAlias</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.canonical_alias&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomCreate</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.create&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomEncrypted</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.encrypted&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomEncryption</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.encryption&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomGuestAccess</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.guest_access&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomHistoryVisibility</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.history_visibility&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomJoinRules</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.join_rules&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomMember</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.member&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomMessage</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.message&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomMessageFeedback</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.message.feedback&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomName</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.name&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomPinnedEvents</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.pinned_events&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomPowerLevels</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.power_levels&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomRedaction</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.redaction&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomServerAcl</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.server_acl&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomThirdPartyInvite</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.third_party_invite&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomTombstone</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.tombstone&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomTopic</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room.topic&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room_key&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::RoomKeyRequest</span>, <span class="macro">json!</span>(<span class="string">&quot;m.room_key_request&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Sticker</span>, <span class="macro">json!</span>(<span class="string">&quot;m.sticker&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Tag</span>, <span class="macro">json!</span>(<span class="string">&quot;m.tag&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::Typing</span>, <span class="macro">json!</span>(<span class="string">&quot;m.typing&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::_Custom</span>(<span class="string">&quot;io.ruma.test&quot;</span>.<span class="ident">into</span>()), <span class="macro">json!</span>(<span class="string">&quot;io.ruma.test&quot;</span>));
     }
 }
 </pre></div>

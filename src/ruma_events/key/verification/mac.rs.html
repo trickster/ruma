@@ -57,17 +57,17 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.key.verification.mac* event.</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">ruma_events_macros</span>::<span class="ident">MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Relation</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Relation</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">MessageEvent</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::MessageEvent</span>;
 
 <span class="doccomment">/// Sends the MAC of a device&#39;s key to the partner device.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>

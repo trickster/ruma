@@ -63,10 +63,10 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/user/{userId}/openid/request_token](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-user-userid-openid-request-token)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
+<span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::<span class="ident">authentication</span>::<span class="ident">TokenType</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::authentication::TokenType</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">ServerNameBox</span>, <span class="ident">UserId</span>};
 
 <span class="macro">ruma_api!</span> {
@@ -100,7 +100,7 @@
         <span class="kw">pub</span> <span class="ident">expires_in</span>: <span class="ident">Duration</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {

@@ -475,13 +475,13 @@
 <span class="kw">mod</span> <span class="ident">lazy_load</span>;
 <span class="kw">mod</span> <span class="ident">url</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lazy_load</span>::<span class="ident">LazyLoadOptions</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">UrlFilter</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lazy_load::LazyLoadOptions</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">url::UrlFilter</span>;
 
-<span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">UInt</span>;
+<span class="kw">use</span> <span class="ident">js_int::UInt</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">ruma_serde</span>::{<span class="ident">Outgoing</span>, <span class="ident">StringEnum</span>};
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
+<span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 
 <span class="doccomment">/// Format to use for returned events.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">StringEnum</span>)]</span>
@@ -499,7 +499,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">EventFormat</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">Client</span>
+        <span class="self">Self</span><span class="ident">::Client</span>
     }
 }
 
@@ -573,12 +573,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// You can also use the [`Default`] implementation.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">default</span>()
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 
     <span class="doccomment">/// Creates a `RoomEventFilter` that can be used to ignore all room events.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_all</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">types</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default</span>::<span class="ident">default</span>() }
+        <span class="self">Self</span> { <span class="ident">types</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default::default</span>() }
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
@@ -659,12 +659,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// You can also use the [`Default`] implementation.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">default</span>()
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 
     <span class="doccomment">/// Creates a `RoomFilter` that can be used to ignore all room events (of any type).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_all</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">rooms</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default</span>::<span class="ident">default</span>() }
+        <span class="self">Self</span> { <span class="ident">rooms</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default::default</span>() }
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
@@ -735,12 +735,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// You can also use the [`Default`] implementation.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">default</span>()
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 
     <span class="doccomment">/// Creates a `Filter` that can be used to ignore all events.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_all</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">types</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default</span>::<span class="ident">default</span>() }
+        <span class="self">Self</span> { <span class="ident">types</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[]), ..<span class="ident">Default::default</span>() }
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
@@ -803,23 +803,23 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// You can also use the [`Default`] implementation.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">default</span>()
+        <span class="self">Self</span><span class="ident">::default</span>()
     }
 
     <span class="doccomment">/// Creates a `FilterDefinition` that can be used to ignore all events.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_all</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">account_data</span>: <span class="ident">Filter</span>::<span class="ident">ignore_all</span>(),
-            <span class="ident">room</span>: <span class="ident">RoomFilter</span>::<span class="ident">ignore_all</span>(),
-            <span class="ident">presence</span>: <span class="ident">Filter</span>::<span class="ident">ignore_all</span>(),
-            ..<span class="ident">Default</span>::<span class="ident">default</span>()
+            <span class="ident">account_data</span>: <span class="ident">Filter::ignore_all</span>(),
+            <span class="ident">room</span>: <span class="ident">RoomFilter::ignore_all</span>(),
+            <span class="ident">presence</span>: <span class="ident">Filter::ignore_all</span>(),
+            ..<span class="ident">Default::default</span>()
         }
     }
 
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">event_fields</span>.<span class="ident">is_none</span>()
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">event_format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventFormat</span>::<span class="ident">Client</span>
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">event_format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventFormat::Client</span>
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">presence</span>.<span class="ident">is_empty</span>()
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">account_data</span>.<span class="ident">is_empty</span>()
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">is_empty</span>()
@@ -830,7 +830,7 @@
     <span class="doccomment">/// Returns `true` if all fields are empty.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">event_fields</span>.<span class="ident">is_none</span>()
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">event_format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventFormat</span>::<span class="ident">Client</span>
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">event_format</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventFormat::Client</span>
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">presence</span>.<span class="ident">is_empty</span>()
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">account_data</span>.<span class="ident">is_empty</span>()
             <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">room</span>.<span class="ident">is_empty</span>()
@@ -839,7 +839,7 @@
 
 <span class="macro">macro_rules!</span> <span class="ident">can_be_empty</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">gen</span>:<span class="ident">tt</span><span class="op">&gt;</span>)<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="kw">impl</span> $(<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">gen</span><span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="ident">ruma_serde</span>::<span class="ident">CanBeEmpty</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> $(<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">gen</span><span class="op">&gt;</span>)<span class="question-mark">?</span> {
+        <span class="kw">impl</span> $(<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">gen</span><span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="ident">ruma_serde::CanBeEmpty</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> $(<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">gen</span><span class="op">&gt;</span>)<span class="question-mark">?</span> {
             <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                 <span class="self">self</span>.<span class="ident">is_empty</span>()
             }
@@ -859,7 +859,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">matches</span>::<span class="ident">assert_matches</span>;
+    <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>};
 
     <span class="kw">use</span> <span class="kw">super</span>::{
@@ -868,18 +868,18 @@
     };
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">default_filters_are_empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">Filter</span>::<span class="ident">default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">FilterDefinition</span>::<span class="ident">default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomEventFilter</span>::<span class="ident">default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
-        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomFilter</span>::<span class="ident">default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
+    <span class="kw">fn</span> <span class="ident">default_filters_are_empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">Filter::default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">FilterDefinition::default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomEventFilter::default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
+        <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">RoomFilter::default</span>())<span class="question-mark">?</span>, <span class="macro">json!</span>({}));
 
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">filter_definition_roundtrip</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">FilterDefinition</span>::<span class="ident">default</span>();
+    <span class="kw">fn</span> <span class="ident">filter_definition_roundtrip</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">FilterDefinition::default</span>();
         <span class="kw">let</span> <span class="ident">filter_str</span> <span class="op">=</span> <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">filter</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">incoming_filter</span> <span class="op">=</span> <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingFilterDefinition</span><span class="op">&gt;</span>(<span class="ident">filter_str</span>)<span class="question-mark">?</span>;
@@ -889,8 +889,8 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">room_filter_definition_roundtrip</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">RoomFilter</span>::<span class="ident">default</span>();
+    <span class="kw">fn</span> <span class="ident">room_filter_definition_roundtrip</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">RoomFilter::default</span>();
         <span class="kw">let</span> <span class="ident">room_filter</span> <span class="op">=</span> <span class="ident">to_json_value</span>(<span class="kw-2">&amp;</span><span class="ident">filter</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">incoming_room_filter</span> <span class="op">=</span> <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">IncomingRoomFilter</span><span class="op">&gt;</span>(<span class="ident">room_filter</span>)<span class="question-mark">?</span>;
@@ -900,7 +900,7 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">issue_366</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">issue_366</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="macro">json!</span>({
             <span class="string">&quot;lazy_load_members&quot;</span>: <span class="bool-val">true</span>,
             <span class="string">&quot;filter_json&quot;</span>: { <span class="string">&quot;contains_url&quot;</span>: <span class="bool-val">true</span>, <span class="string">&quot;types&quot;</span>: [<span class="string">&quot;m.room.message&quot;</span>] },
@@ -923,8 +923,8 @@
                 <span class="ident">senders</span>: <span class="prelude-val">None</span>,
                 <span class="ident">not_senders</span>,
                 <span class="ident">limit</span>: <span class="prelude-val">None</span>,
-                <span class="ident">url_filter</span>: <span class="prelude-val">Some</span>(<span class="ident">UrlFilter</span>::<span class="ident">EventsWithUrl</span>),
-                <span class="ident">lazy_load_options</span>: <span class="ident">LazyLoadOptions</span>::<span class="ident">Enabled</span> { <span class="ident">include_redundant_members</span>: <span class="bool-val">false</span> },
+                <span class="ident">url_filter</span>: <span class="prelude-val">Some</span>(<span class="ident">UrlFilter::EventsWithUrl</span>),
+                <span class="ident">lazy_load_options</span>: <span class="ident">LazyLoadOptions::Enabled</span> { <span class="ident">include_redundant_members</span>: <span class="bool-val">false</span> },
             } <span class="kw">if</span> <span class="ident">types</span> <span class="op">=</span><span class="op">=</span> <span class="macro">vec!</span>[<span class="string">&quot;m.room.message&quot;</span>.<span class="ident">to_owned</span>()]
                 <span class="op">&amp;&amp;</span> <span class="ident">not_types</span>.<span class="ident">is_empty</span>()
                 <span class="op">&amp;&amp;</span> <span class="ident">not_rooms</span>.<span class="ident">is_empty</span>()

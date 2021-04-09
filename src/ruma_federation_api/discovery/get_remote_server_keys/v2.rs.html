@@ -56,12 +56,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/key/v2/query/{serverName}/{keyId}](https://matrix.org/docs/spec/server_server/r0.1.4#get-matrix-key-v2-query-servername-keyid)</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>;
+<span class="kw">use</span> <span class="ident">std::time::SystemTime</span>;
 
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">ServerName</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::ServerName</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">discovery</span>::<span class="ident">ServerSigningKeys</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::discovery::ServerSigningKeys</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {

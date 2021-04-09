@@ -85,25 +85,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">UrlFilter</span> {
-    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">S</span>: <span class="ident">Serializer</span>,
     {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">EventsWithUrl</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="bool-val">true</span>),
-            <span class="self">Self</span>::<span class="ident">EventsWithoutUrl</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="bool-val">false</span>),
+            <span class="self">Self</span><span class="ident">::EventsWithUrl</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="bool-val">true</span>),
+            <span class="self">Self</span><span class="ident">::EventsWithoutUrl</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_bool</span>(<span class="bool-val">false</span>),
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UrlFilter</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
-        <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">bool</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span> {
-            <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">EventsWithUrl</span>,
-            <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">EventsWithoutUrl</span>,
+        <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">bool::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span> {
+            <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EventsWithUrl</span>,
+            <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EventsWithoutUrl</span>,
         })
     }
 }
@@ -112,30 +112,30 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>, <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>};
 
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">UrlFilter</span>;
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::UrlFilter</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_filter_events_with_url</span>() {
-        <span class="kw">let</span> <span class="ident">events_with_url</span> <span class="op">=</span> <span class="ident">UrlFilter</span>::<span class="ident">EventsWithUrl</span>;
+        <span class="kw">let</span> <span class="ident">events_with_url</span> <span class="op">=</span> <span class="ident">UrlFilter::EventsWithUrl</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">events_with_url</span>).<span class="ident">unwrap</span>(), <span class="macro">json!</span>(<span class="bool-val">true</span>))
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_filter_events_without_url</span>() {
-        <span class="kw">let</span> <span class="ident">events_without_url</span> <span class="op">=</span> <span class="ident">UrlFilter</span>::<span class="ident">EventsWithoutUrl</span>;
+        <span class="kw">let</span> <span class="ident">events_without_url</span> <span class="op">=</span> <span class="ident">UrlFilter::EventsWithoutUrl</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">to_json_value</span>(<span class="ident">events_without_url</span>).<span class="ident">unwrap</span>(), <span class="macro">json!</span>(<span class="bool-val">false</span>))
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_filter_events_with_url</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>(<span class="bool-val">true</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">UrlFilter</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">UrlFilter</span>::<span class="ident">EventsWithUrl</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">UrlFilter</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">UrlFilter::EventsWithUrl</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_filter_events_without_url</span>() {
         <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>(<span class="bool-val">false</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">UrlFilter</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">UrlFilter</span>::<span class="ident">EventsWithoutUrl</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">UrlFilter</span><span class="op">&gt;</span>(<span class="ident">json</span>).<span class="ident">unwrap</span>(), <span class="ident">UrlFilter::EventsWithoutUrl</span>);
     }
 }
 </pre></div>

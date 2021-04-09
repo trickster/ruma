@@ -216,13 +216,13 @@
 <span class="doccomment">//! [GET /_matrix/client/r0/rooms/{roomId}/messages](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-rooms-roomid-messages)</span>
 
 <span class="kw">use</span> <span class="ident">js_int</span>::{<span class="ident">uint</span>, <span class="ident">UInt</span>};
-<span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">AnyRoomEvent</span>, <span class="ident">AnyStateEvent</span>};
-<span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">RoomId</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde</span>::<span class="ident">Raw</span>;
+<span class="kw">use</span> <span class="ident">ruma_identifiers::RoomId</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">filter</span>::{<span class="ident">IncomingRoomEventFilter</span>, <span class="ident">RoomEventFilter</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::filter</span>::{<span class="ident">IncomingRoomEventFilter</span>, <span class="ident">RoomEventFilter</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -296,7 +296,7 @@
         <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyStateEvent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     }
 
-    <span class="ident">error</span>: <span class="kw">crate</span>::<span class="ident">Error</span>
+    <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -309,19 +309,19 @@
 
     <span class="doccomment">/// Creates a new `Request` with the given room ID and from token, and `dir` set to `Backward`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">backward</span>(<span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RoomId</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">room_id</span>, <span class="ident">from</span>, <span class="ident">Direction</span>::<span class="ident">Backward</span>)
+        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">room_id</span>, <span class="ident">from</span>, <span class="ident">Direction::Backward</span>)
     }
 
     <span class="doccomment">/// Creates a new `Request` with the given room ID and from token, and `dir` set to `Forward`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">forward</span>(<span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RoomId</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">room_id</span>, <span class="ident">from</span>, <span class="ident">Direction</span>::<span class="ident">Forward</span>)
+        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">room_id</span>, <span class="ident">from</span>, <span class="ident">Direction::Forward</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="doccomment">/// Creates an empty `Response`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Default</span>::<span class="ident">default</span>()
+        <span class="ident">Default::default</span>()
     }
 }
 
@@ -329,7 +329,7 @@
     <span class="macro">uint!</span>(<span class="number">10</span>)
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">trivially_copy_pass_by_ref</span>)]</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::trivially_copy_pass_by_ref</span>)]</span>
 <span class="kw">fn</span> <span class="ident">is_default_limit</span>(<span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="ident">UInt</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw-2">*</span><span class="ident">val</span> <span class="op">=</span><span class="op">=</span> <span class="ident">default_limit</span>()
 }
@@ -348,34 +348,34 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">js_int</span>::<span class="ident">uint</span>;
-    <span class="kw">use</span> <span class="ident">ruma_api</span>::<span class="ident">OutgoingRequest</span>;
-    <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::<span class="ident">room_id</span>;
+    <span class="kw">use</span> <span class="ident">js_int::uint</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api::OutgoingRequest</span>;
+    <span class="kw">use</span> <span class="ident">ruma_identifiers::room_id</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Direction</span>, <span class="ident">Request</span>};
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">r0</span>::<span class="ident">filter</span>::{<span class="ident">LazyLoadOptions</span>, <span class="ident">RoomEventFilter</span>};
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::filter</span>::{<span class="ident">LazyLoadOptions</span>, <span class="ident">RoomEventFilter</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_some_room_event_filter</span>() {
         <span class="kw">let</span> <span class="ident">room_id</span> <span class="op">=</span> <span class="macro">room_id!</span>(<span class="string">&quot;!roomid:example.org&quot;</span>);
         <span class="kw">let</span> <span class="ident">rooms</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="ident">room_id</span>.<span class="ident">clone</span>()];
         <span class="kw">let</span> <span class="ident">filter</span> <span class="op">=</span> <span class="ident">RoomEventFilter</span> {
-            <span class="ident">lazy_load_options</span>: <span class="ident">LazyLoadOptions</span>::<span class="ident">Enabled</span> { <span class="ident">include_redundant_members</span>: <span class="bool-val">true</span> },
+            <span class="ident">lazy_load_options</span>: <span class="ident">LazyLoadOptions::Enabled</span> { <span class="ident">include_redundant_members</span>: <span class="bool-val">true</span> },
             <span class="ident">rooms</span>: <span class="prelude-val">Some</span>(<span class="ident">rooms</span>),
             <span class="ident">not_rooms</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;room&quot;</span>.<span class="ident">into</span>(), <span class="string">&quot;room2&quot;</span>.<span class="ident">into</span>(), <span class="string">&quot;room3&quot;</span>.<span class="ident">into</span>()],
             <span class="ident">not_types</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;type&quot;</span>.<span class="ident">into</span>()],
-            ..<span class="ident">Default</span>::<span class="ident">default</span>()
+            ..<span class="ident">Default::default</span>()
         };
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">Request</span> {
             <span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="ident">room_id</span>,
             <span class="ident">from</span>: <span class="string">&quot;token&quot;</span>,
             <span class="ident">to</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;token2&quot;</span>),
-            <span class="ident">dir</span>: <span class="ident">Direction</span>::<span class="ident">Backward</span>,
+            <span class="ident">dir</span>: <span class="ident">Direction::Backward</span>,
             <span class="ident">limit</span>: <span class="macro">uint!</span>(<span class="number">0</span>),
             <span class="ident">filter</span>: <span class="prelude-val">Some</span>(<span class="ident">filter</span>),
         };
 
-        <span class="kw">let</span> <span class="ident">request</span>: <span class="ident">http</span>::<span class="ident">Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+        <span class="kw">let</span> <span class="ident">request</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
             <span class="ident">req</span>.<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;auth_tok&quot;</span>)).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(
             <span class="string">&quot;from=token\
@@ -396,7 +396,7 @@
             <span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="ident">room_id</span>,
             <span class="ident">from</span>: <span class="string">&quot;token&quot;</span>,
             <span class="ident">to</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;token2&quot;</span>),
-            <span class="ident">dir</span>: <span class="ident">Direction</span>::<span class="ident">Backward</span>,
+            <span class="ident">dir</span>: <span class="ident">Direction::Backward</span>,
             <span class="ident">limit</span>: <span class="macro">uint!</span>(<span class="number">0</span>),
             <span class="ident">filter</span>: <span class="prelude-val">None</span>,
         };
@@ -413,12 +413,12 @@
             <span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="ident">room_id</span>,
             <span class="ident">from</span>: <span class="string">&quot;token&quot;</span>,
             <span class="ident">to</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;token2&quot;</span>),
-            <span class="ident">dir</span>: <span class="ident">Direction</span>::<span class="ident">Backward</span>,
+            <span class="ident">dir</span>: <span class="ident">Direction::Backward</span>,
             <span class="ident">limit</span>: <span class="macro">uint!</span>(<span class="number">0</span>),
-            <span class="ident">filter</span>: <span class="prelude-val">Some</span>(<span class="ident">RoomEventFilter</span>::<span class="ident">default</span>()),
+            <span class="ident">filter</span>: <span class="prelude-val">Some</span>(<span class="ident">RoomEventFilter::default</span>()),
         };
 
-        <span class="kw">let</span> <span class="ident">request</span>: <span class="ident">http</span>::<span class="ident">Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+        <span class="kw">let</span> <span class="ident">request</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
             <span class="ident">req</span>.<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;auth_tok&quot;</span>)).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(
             <span class="string">&quot;from=token&amp;to=token2&amp;dir=b&amp;limit=0&amp;filter=%7B%7D&quot;</span>,
