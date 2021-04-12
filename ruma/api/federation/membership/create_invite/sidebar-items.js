@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["v1","PUT /_matrix/federation/v1/invite/{roomId}/{eventId}"],["v2","PUT /_matrix/federation/v2/invite/{roomId}/{eventId}"]],"struct":[["InviteEvent","The invite event sent as a response."],["InviteEventInit","Initial set of fields for `Response`."],["StrippedState","A simplified event that helps the server identify a room."]]});
+initSidebarItems({"mod":[["v1","PUT /_matrix/federation/v1/invite/{roomId}/{eventId}"],["v2","PUT /_matrix/federation/v2/invite/{roomId}/{eventId}"]]});
