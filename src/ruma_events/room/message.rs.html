@@ -683,6 +683,13 @@
 <span id="682">682</span>
 <span id="683">683</span>
 <span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.message* event.</span>
 
@@ -736,6 +743,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This should only be set if `relates_to` is `Some(Relation::Replacement(_))`.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.new_content&quot;</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">new_content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">MessageEventContent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
@@ -806,6 +814,7 @@
 
     <span class="doccomment">/// A request to initiate a key verification.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="ident">VerificationRequest</span>(<span class="ident">KeyVerificationRequestEventContent</span>),
 
     <span class="doccomment">/// A custom message.</span>
@@ -900,14 +909,17 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Relation</span> {
     <span class="doccomment">/// A reference to another event.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="ident">Reference</span>(<span class="ident">Reference</span>),
 
     <span class="doccomment">/// An annotation to an event.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="ident">Annotation</span>(<span class="ident">Annotation</span>),
 
     <span class="doccomment">/// An event that replaces another event.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="ident">Replacement</span>(<span class="ident">Replacement</span>),
 
     <span class="doccomment">/// An `m.in_reply_to` relation indicating that the event is a reply to</span>
@@ -1329,6 +1341,7 @@
     <span class="doccomment">/// This uses the unstable prefix in</span>
     <span class="doccomment">/// [MSC2448](https://github.com/matrix-org/matrix-doc/pull/2448).</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;xyz.amorgan.blurhash&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">blurhash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
@@ -1337,6 +1350,7 @@
 <span class="doccomment">/// The payload for a key verification request message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.request&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyVerificationRequestEventContent</span> {
     <span class="doccomment">/// A fallback message to alert users that their client does not support the key verification</span>

@@ -161,6 +161,8 @@
 <span id="160">160</span>
 <span id="161">161</span>
 <span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for event relationships.</span>
 <span class="doccomment">//!</span>
@@ -224,6 +226,7 @@
 <span class="doccomment">/// A reference to another event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reference</span> {
     <span class="doccomment">/// The event we are referencing.</span>
     <span class="kw">pub</span> <span class="ident">event_id</span>: <span class="ident">EventId</span>,
@@ -242,6 +245,7 @@
 <span class="doccomment">/// An event replacing another event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Replacement</span> {
     <span class="doccomment">/// The event this event is replacing.</span>
     <span class="kw">pub</span> <span class="ident">event_id</span>: <span class="ident">EventId</span>,
