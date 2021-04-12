@@ -348,6 +348,7 @@
 <span id="347">347</span>
 <span id="348">348</span>
 <span id="349">349</span>
+<span id="350">350</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeSet</span>, <span class="ident">mem</span>};
 
@@ -378,14 +379,15 @@
     <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">metadata</span>: <span class="ident">Metadata</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="ident">attributes</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">req_attrs</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">request</span>, <span class="ident">attributes</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">peek</span>(<span class="ident">kw::request</span>) {
-            <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">parse_request</span>(<span class="ident">input</span>, <span class="ident">attributes</span>)<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">attributes</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">parse_request</span>(<span class="ident">input</span>, <span class="ident">req_attrs</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">after_req_attrs</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
 
-            (<span class="prelude-val">Some</span>(<span class="ident">request</span>), <span class="ident">attributes</span>)
+            (<span class="prelude-val">Some</span>(<span class="ident">request</span>), <span class="ident">after_req_attrs</span>)
         } <span class="kw">else</span> {
-            (<span class="prelude-val">None</span>, <span class="ident">attributes</span>)
+            <span class="comment">// There was no `request` field so the attributes are for `response`</span>
+            (<span class="prelude-val">None</span>, <span class="ident">req_attrs</span>)
         };
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">peek</span>(<span class="ident">kw::response</span>) {
