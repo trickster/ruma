@@ -82,7 +82,6 @@
 <span id="81">81</span>
 <span id="82">82</span>
 <span id="83">83</span>
-<span id="84">84</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/user/{userId}/rooms/{roomId}/tags](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-user-userid-rooms-roomid-tags)</span>
 
@@ -134,9 +133,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">server_tests</span> {
-    <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
-
     <span class="kw">use</span> <span class="ident">assign::assign</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api::OutgoingResponse</span>;
     <span class="kw">use</span> <span class="ident">ruma_events::tag</span>::{<span class="ident">TagInfo</span>, <span class="ident">Tags</span>};
     <span class="kw">use</span> <span class="ident">serde_json::json</span>;
 
@@ -149,7 +147,7 @@
         <span class="ident">tags</span>.<span class="ident">insert</span>(<span class="string">&quot;u.user_tag&quot;</span>.<span class="ident">into</span>(), <span class="macro">assign!</span>(<span class="ident">TagInfo::new</span>(), { <span class="ident">order</span>: <span class="prelude-val">Some</span>(<span class="number">0.11</span>) }));
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">Response</span> { <span class="ident">tags</span> };
 
-        <span class="kw">let</span> <span class="ident">http_response</span> <span class="op">=</span> <span class="ident">http::Response</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="ident">response</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">http_response</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">try_into_http_response</span>().<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">json_response</span>: <span class="ident">serde_json::Value</span> <span class="op">=</span>
             <span class="ident">serde_json::from_slice</span>(<span class="ident">http_response</span>.<span class="ident">body</span>()).<span class="ident">unwrap</span>();

@@ -373,10 +373,6 @@
 <span id="372">372</span>
 <span id="373">373</span>
 <span id="374">374</span>
-<span id="375">375</span>
-<span id="376">376</span>
-<span id="377">377</span>
-<span id="378">378</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -400,12 +396,10 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>)))]</span>
 <span class="macro">compile_error!</span>(<span class="string">&quot;ruma_api&#39;s Cargo features only exist as a workaround are not meant to be disabled&quot;</span>);
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>},
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>,
-};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryInto</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>};
 
-<span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">uri::PathAndQuery</span>, <span class="ident">Method</span>};
+<span class="kw">use</span> <span class="ident">bytes::Buf</span>;
+<span class="kw">use</span> <span class="ident">http::Method</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers::UserId</span>;
 
 <span class="doccomment">/// Generates a `ruma_api::Endpoint` from a concise definition.</span>
@@ -586,6 +580,7 @@
 <span class="doccomment">/// It is not considered part of ruma-api&#39;s public API.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exports</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bytes</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">http</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">percent_encoding</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde</span>;
@@ -601,8 +596,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will always return `Err` variant when no `error` field is defined in</span>
     <span class="doccomment">/// the `ruma_api` macro.</span>
-    <span class="kw">fn</span> <span class="ident">try_from_response</span>(
-        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">try_from_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">error::ResponseDeserializationError</span><span class="op">&gt;</span>;
 }
 
@@ -612,10 +607,7 @@
     <span class="kw">type</span> <span class="ident">EndpointError</span>: <span class="ident">EndpointError</span>;
 
     <span class="doccomment">/// Response type returned when the request is successful.</span>
-    <span class="kw">type</span> <span class="ident">IncomingResponse</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span>
-        <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">Error</span> <span class="op">=</span> <span class="ident">FromHttpResponseError</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::EndpointError</span><span class="op">&gt;</span>,
-    <span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">IncomingResponse</span>: <span class="ident">IncomingResponse</span><span class="op">&lt;</span><span class="ident">EndpointError</span> <span class="op">=</span> <span class="self">Self</span><span class="ident">::EndpointError</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Metadata about the endpoint.</span>
     <span class="kw">const</span> <span class="ident">METADATA</span>: <span class="ident">Metadata</span>;
@@ -633,6 +625,17 @@
         <span class="ident">base_url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">access_token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
+}
+
+<span class="doccomment">/// A response type for a Matrix API endpoint, used for receiving responses.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IncomingResponse</span>: <span class="ident">Sized</span> {
+    <span class="doccomment">/// A type capturing the expected error conditions the server can return.</span>
+    <span class="kw">type</span> <span class="ident">EndpointError</span>: <span class="ident">EndpointError</span>;
+
+    <span class="doccomment">/// Tries to convert the given `http::Response` into this response type.</span>
+    <span class="kw">fn</span> <span class="ident">try_from_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">FromHttpResponseError</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// An extension to `OutgoingRequest` which provides Appservice specific methods</span>
@@ -663,7 +666,7 @@
         };
 
         <span class="ident">parts</span>.<span class="ident">path_and_query</span> <span class="op">=</span>
-            <span class="prelude-val">Some</span>(<span class="ident">PathAndQuery::try_from</span>(<span class="ident">path_and_query_with_user_id</span>).<span class="ident">map_err</span>(<span class="ident">http::Error::from</span>)<span class="question-mark">?</span>);
+            <span class="prelude-val">Some</span>(<span class="ident">path_and_query_with_user_id</span>.<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="ident">http::Error::from</span>)<span class="question-mark">?</span>);
 
         <span class="kw-2">*</span><span class="ident">http_request</span>.<span class="ident">uri_mut</span>() <span class="op">=</span> <span class="ident">parts</span>.<span class="ident">try_into</span>().<span class="ident">map_err</span>(<span class="ident">http::Error::from</span>)<span class="question-mark">?</span>;
 
@@ -679,13 +682,22 @@
     <span class="kw">type</span> <span class="ident">EndpointError</span>: <span class="ident">EndpointError</span>;
 
     <span class="doccomment">/// Response type to return when the request is successful.</span>
-    <span class="kw">type</span> <span class="ident">OutgoingResponse</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">OutgoingResponse</span>: <span class="ident">OutgoingResponse</span>;
 
     <span class="doccomment">/// Metadata about the endpoint.</span>
     <span class="kw">const</span> <span class="ident">METADATA</span>: <span class="ident">Metadata</span>;
 
     <span class="doccomment">/// Tries to turn the given `http::Request` into this request type.</span>
-    <span class="kw">fn</span> <span class="ident">try_from_http_request</span>(<span class="ident">req</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">FromHttpRequestError</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">try_from_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(<span class="ident">req</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">FromHttpRequestError</span><span class="op">&gt;</span>;
+}
+
+<span class="doccomment">/// A request type for a Matrix API endpoint, used for sending responses.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OutgoingResponse</span> {
+    <span class="doccomment">/// Tries to convert this response into an `http::Response`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method should only fail when when invalid header values are specified. It may also</span>
+    <span class="doccomment">/// fail with a serialization error in case of bugs in Ruma though.</span>
+    <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Marker trait for requests that don&#39;t require authentication, for the client side.</span>
@@ -735,26 +747,6 @@
 
     <span class="doccomment">/// What authentication scheme the server uses for this endpoint.</span>
     <span class="kw">pub</span> <span class="ident">authentication</span>: <span class="ident">AuthScheme</span>,
-}
-
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">try_deserialize</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::try_deserialize!</span>(@<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span>)
-    };
-    (@<span class="ident">request</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::error::RequestDeserializationError::new</span>(<span class="ident">err</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>).<span class="ident">into</span>()),
-        }
-    };
-    (@<span class="ident">response</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">call</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">val</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::error::ResponseDeserializationError::new</span>(<span class="ident">err</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>).<span class="ident">into</span>()),
-        }
-    };
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_api" data-search-js="../../search-index.js"></div>

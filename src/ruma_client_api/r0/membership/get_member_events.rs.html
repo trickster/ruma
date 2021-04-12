@@ -224,7 +224,7 @@
             .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">IncomingRequest::try_from_http_request</span>(
-            <span class="ident">http::Request::builder</span>().<span class="ident">uri</span>(<span class="ident">uri</span>).<span class="ident">body</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="ident">::new</span>()).<span class="ident">unwrap</span>(),
+            <span class="ident">http::Request::builder</span>().<span class="ident">uri</span>(<span class="ident">uri</span>).<span class="ident">body</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]).<span class="ident">unwrap</span>(),
         );
 
         <span class="macro">assert_matches!</span>(

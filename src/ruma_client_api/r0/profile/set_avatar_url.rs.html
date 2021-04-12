@@ -86,6 +86,8 @@
 <span id="85">85</span>
 <span id="86">86</span>
 <span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [PUT /_matrix/client/r0/profile/{userId}/avatar_url](https://matrix.org/docs/spec/client_server/r0.6.0#put-matrix-client-r0-profile-userid-avatar-url)</span>
 
@@ -155,7 +157,7 @@
                 <span class="ident">http::Request::builder</span>()
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
-                    .<span class="ident">body</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="ident">::new</span>())<span class="question-mark">?</span>,
+                    .<span class="ident">body</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])<span class="question-mark">?</span>,
             )<span class="question-mark">?</span>,
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );
@@ -166,7 +168,9 @@
                 <span class="ident">http::Request::builder</span>()
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
-                    .<span class="ident">body</span>(<span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="macro">serde_json::json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> }))<span class="question-mark">?</span>)<span class="question-mark">?</span>,
+                    .<span class="ident">body</span>(<span class="ident">std::io::Cursor::new</span>(
+                        <span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="macro">serde_json::json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> }))<span class="question-mark">?</span>,
+                    ))<span class="question-mark">?</span>,
             )<span class="question-mark">?</span>,
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );

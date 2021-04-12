@@ -272,10 +272,11 @@
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">fmt</span>, <span class="ident">time::Duration</span>};
 
+<span class="kw">use</span> <span class="ident">bytes::Buf</span>;
 <span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">error::ResponseDeserializationError</span>, <span class="ident">EndpointError</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers::RoomVersionId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
-<span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_slice</span> <span class="kw">as</span> <span class="ident">from_json_slice</span>, <span class="ident">to_vec</span> <span class="kw">as</span> <span class="ident">to_json_vec</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>};
+<span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_reader</span> <span class="kw">as</span> <span class="ident">from_json_reader</span>, <span class="ident">to_vec</span> <span class="kw">as</span> <span class="ident">to_json_vec</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>};
 
 <span class="doccomment">/// Deserialize and Serialize implementations for ErrorKind.</span>
 <span class="doccomment">/// Separate module because it&#39;s a lot of code.</span>
@@ -472,13 +473,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EndpointError</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">try_from_response</span>(
-        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">try_from_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ResponseDeserializationError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">from_json_slice</span>::<span class="op">&lt;</span><span class="ident">ErrorBody</span><span class="op">&gt;</span>(<span class="ident">response</span>.<span class="ident">body</span>()) {
-            <span class="prelude-val">Ok</span>(<span class="ident">error_body</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">error_body</span>.<span class="ident">into_error</span>(<span class="ident">response</span>.<span class="ident">status</span>())),
-            <span class="prelude-val">Err</span>(<span class="ident">de_error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ResponseDeserializationError::new</span>(<span class="ident">de_error</span>, <span class="ident">response</span>)),
-        }
+        <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">status</span>();
+        <span class="kw">let</span> <span class="ident">error_body</span>: <span class="ident">ErrorBody</span> <span class="op">=</span> <span class="ident">from_json_reader</span>(<span class="ident">response</span>.<span class="ident">into_body</span>().<span class="ident">reader</span>())<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">error_body</span>.<span class="ident">into_error</span>(<span class="ident">status</span>))
     }
 }
 
