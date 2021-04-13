@@ -245,7 +245,7 @@
 
     <span class="kw">const</span> <span class="ident">METADATA</span>: <span class="ident">ruma_api::Metadata</span> <span class="op">=</span> <span class="ident">METADATA</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">bytes::Buf</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">try_from_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="ident">request</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ruma_api::error::FromHttpRequestError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
@@ -270,7 +270,7 @@
         <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span>
                 <span class="ident">percent_encoding::percent_decode</span>(<span class="ident">path_segments</span>[<span class="number">6</span>].<span class="ident">as_bytes</span>()).<span class="ident">decode_utf8</span>()<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">body</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">serde_json::from_reader</span>(<span class="ident">body</span>.<span class="ident">reader</span>())<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">body</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">serde_json::from_slice</span>(<span class="ident">body</span>.<span class="ident">as_ref</span>())<span class="question-mark">?</span>;
 
             <span class="ident">AnyMessageEventContent::from_parts</span>(<span class="kw-2">&amp;</span><span class="ident">event_type</span>, <span class="ident">body</span>)<span class="question-mark">?</span>
         };

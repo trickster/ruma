@@ -19,7 +19,6 @@
 <span id="18">18</span>
 <span id="19">19</span>
 <span id="20">20</span>
-<span id="21">21</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Ident</span>, <span class="ident">TokenStream</span>};
 <span class="kw">use</span> <span class="ident">quote::quote</span>;
@@ -36,8 +35,7 @@
             <span class="kw">where</span>
                 <span class="ident">S</span>: #<span class="ident">ruma_serde::exports::serde::ser::Serializer</span>,
             {
-                <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">::std::convert::AsRef</span><span class="op">&lt;</span><span class="ident">::std::primitive::str</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::as_ref</span>(<span class="self">self</span>)
-                    .<span class="ident">serialize</span>(<span class="ident">serializer</span>)
+                <span class="ident">::std::convert::AsRef</span>::<span class="op">&lt;</span><span class="ident">::std::primitive::str</span><span class="op">&gt;</span><span class="ident">::as_ref</span>(<span class="self">self</span>).<span class="ident">serialize</span>(<span class="ident">serializer</span>)
             }
         }
     })

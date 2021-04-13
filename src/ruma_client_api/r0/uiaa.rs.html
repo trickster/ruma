@@ -429,13 +429,11 @@
 <span id="428">428</span>
 <span id="429">429</span>
 <span id="430">430</span>
-<span id="431">431</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module for User-Interactive Authentication API types.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">fmt</span>};
 
-<span class="kw">use</span> <span class="ident">bytes::Buf</span>;
 <span class="kw">use</span> <span class="ident">ruma_api</span>::{
     <span class="ident">error</span>::{<span class="ident">IntoHttpError</span>, <span class="ident">ResponseDeserializationError</span>},
     <span class="ident">EndpointError</span>, <span class="ident">OutgoingResponse</span>,
@@ -443,7 +441,7 @@
 <span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json</span>::{
-    <span class="ident">from_reader</span> <span class="kw">as</span> <span class="ident">from_json_reader</span>, <span class="ident">to_vec</span> <span class="kw">as</span> <span class="ident">to_json_vec</span>, <span class="ident">value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>,
+    <span class="ident">from_slice</span> <span class="kw">as</span> <span class="ident">from_json_slice</span>, <span class="ident">to_vec</span> <span class="kw">as</span> <span class="ident">to_json_vec</span>, <span class="ident">value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>,
     <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>,
 };
 
@@ -570,11 +568,11 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EndpointError</span> <span class="kw">for</span> <span class="ident">UiaaResponse</span> {
-    <span class="kw">fn</span> <span class="ident">try_from_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">try_from_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ResponseDeserializationError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">response</span>.<span class="ident">status</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">http::StatusCode::UNAUTHORIZED</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">from_json_reader</span>(<span class="ident">response</span>.<span class="ident">into_body</span>().<span class="ident">reader</span>())<span class="question-mark">?</span>))
+            <span class="prelude-val">Ok</span>(<span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">from_json_slice</span>(<span class="ident">response</span>.<span class="ident">body</span>().<span class="ident">as_ref</span>())<span class="question-mark">?</span>))
         } <span class="kw">else</span> {
             <span class="ident">MatrixError::try_from_http_response</span>(<span class="ident">response</span>).<span class="ident">map</span>(<span class="ident">From::from</span>)
         }

@@ -253,7 +253,7 @@
 
     <span class="kw">const</span> <span class="ident">METADATA</span>: <span class="ident">ruma_api::Metadata</span> <span class="op">=</span> <span class="ident">METADATA</span>;
 
-    <span class="kw">fn</span> <span class="ident">try_from_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">bytes::Buf</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">try_from_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="ident">request</span>: <span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ruma_api::error::FromHttpRequestError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;

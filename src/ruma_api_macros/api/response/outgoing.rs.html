@@ -173,7 +173,7 @@
                 <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(
                     <span class="self">self</span>,
                 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::result::Result</span><span class="op">&lt;</span>
-                    #<span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">::std::vec::Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+                    #<span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">::std::vec::Vec</span><span class="op">&lt;</span><span class="ident">::std::primitive::u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
                     #<span class="ident">ruma_api::error::IntoHttpError</span>,
                 <span class="op">&gt;</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp_builder</span> <span class="op">=</span> #<span class="ident">http::Response::builder</span>()
@@ -186,7 +186,7 @@
 
                     <span class="comment">// This cannot fail because we parse each header value checking for errors as</span>
                     <span class="comment">// each value is inserted and we only allow keys from the `http::header` module.</span>
-                    <span class="prelude-val">Ok</span>(<span class="ident">resp_builder</span>.<span class="ident">body</span>(#<span class="ident">body</span>).<span class="ident">unwrap</span>())
+                    <span class="ident">::std::result::Result::Ok</span>(<span class="ident">resp_builder</span>.<span class="ident">body</span>(#<span class="ident">body</span>).<span class="ident">unwrap</span>())
                 }
             }
         }

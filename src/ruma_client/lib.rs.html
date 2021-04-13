@@ -380,6 +380,8 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -756,7 +758,9 @@
         <span class="kw">let</span> <span class="ident">hyper_response</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">hyper</span>.<span class="ident">request</span>(<span class="ident">http_request</span>.<span class="ident">map</span>(<span class="ident">hyper::Body::from</span>)).<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">head</span>, <span class="ident">body</span>) <span class="op">=</span> <span class="ident">hyper_response</span>.<span class="ident">into_parts</span>();
 
-        <span class="kw">let</span> <span class="ident">full_body</span> <span class="op">=</span> <span class="ident">hyper::body::aggregate</span>(<span class="ident">body</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="comment">// FIXME: Use aggregate instead of to_bytes once serde_json can parse from a reader at a</span>
+        <span class="comment">// comparable speed as reading from a slice: https://github.com/serde-rs/json/issues/160</span>
+        <span class="kw">let</span> <span class="ident">full_body</span> <span class="op">=</span> <span class="ident">hyper::body::to_bytes</span>(<span class="ident">body</span>).<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">full_response</span> <span class="op">=</span> <span class="ident">HttpResponse::from_parts</span>(<span class="ident">head</span>, <span class="ident">full_body</span>);
 
         <span class="prelude-val">Ok</span>(<span class="ident">ruma_api::IncomingResponse::try_from_http_response</span>(<span class="ident">full_response</span>)<span class="question-mark">?</span>)
