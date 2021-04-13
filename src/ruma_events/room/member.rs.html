@@ -818,7 +818,7 @@
 <span class="kw">impl</span> <span class="ident">MemberEvent</span> {
     <span class="doccomment">/// Helper function for membership change. Check [the specification][spec] for details.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/latest#m-room-member</span>
+    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MembershipChange</span> {
         <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>, <span class="self">self</span>.<span class="ident">prev_content</span>.<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state_key</span>)
     }
@@ -827,7 +827,7 @@
 <span class="kw">impl</span> <span class="ident">SyncStateEvent</span><span class="op">&lt;</span><span class="ident">MemberEventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Helper function for membership change. Check [the specification][spec] for details.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/latest#m-room-member</span>
+    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MembershipChange</span> {
         <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>, <span class="self">self</span>.<span class="ident">prev_content</span>.<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state_key</span>)
     }
@@ -836,7 +836,7 @@
 <span class="kw">impl</span> <span class="ident">StrippedStateEvent</span><span class="op">&lt;</span><span class="ident">MemberEventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Helper function for membership change. Check [the specification][spec] for details.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/latest#m-room-member</span>
+    <span class="doccomment">/// [spec]: https://matrix.org/docs/spec/client_server/r0.6.1#m-room-member</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MembershipChange</span> {
         <span class="ident">membership_change</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">content</span>, <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state_key</span>)
     }
