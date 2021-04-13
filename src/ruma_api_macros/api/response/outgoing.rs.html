@@ -168,7 +168,7 @@
         <span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>)]</span>
-            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unknown_clippy_lints</span>, <span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
             <span class="kw">impl</span> #<span class="ident">ruma_api::OutgoingResponse</span> <span class="kw">for</span> <span class="ident">Response</span> {
                 <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(
                     <span class="self">self</span>,

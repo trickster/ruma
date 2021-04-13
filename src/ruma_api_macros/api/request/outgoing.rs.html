@@ -454,7 +454,7 @@
         <span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client&quot;</span>)]</span>
-            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unknown_clippy_lints</span>, <span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
             <span class="kw">impl</span> #<span class="ident">lifetimes</span> #<span class="ident">ruma_api::OutgoingRequest</span> <span class="kw">for</span> <span class="ident">Request</span> #<span class="ident">lifetimes</span> {
                 <span class="kw">type</span> <span class="ident">EndpointError</span> <span class="op">=</span> #<span class="ident">error_ty</span>;
                 <span class="kw">type</span> <span class="ident">IncomingResponse</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Response</span> <span class="kw">as</span> #<span class="ident">ruma_serde::Outgoing</span><span class="op">&gt;</span><span class="ident">::Incoming</span>;
