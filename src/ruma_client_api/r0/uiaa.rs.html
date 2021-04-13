@@ -770,7 +770,7 @@
             <span class="ident">session</span>: <span class="prelude-val">None</span>,
             <span class="ident">auth_error</span>: <span class="prelude-val">None</span>,
         };
-        <span class="kw">let</span> <span class="ident">uiaa_response</span> <span class="op">=</span> <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">uiaa_info</span>).<span class="ident">try_into_http_response</span>();
+        <span class="kw">let</span> <span class="ident">uiaa_response</span> <span class="op">=</span> <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">uiaa_info</span>).<span class="ident">try_into_http_response</span>().<span class="ident">unwrap</span>();
 
         <span class="macro">assert_matches!</span>(
             <span class="ident">from_json_slice</span>::<span class="op">&lt;</span><span class="ident">UiaaInfo</span><span class="op">&gt;</span>(<span class="ident">uiaa_response</span>.<span class="ident">body</span>()).<span class="ident">unwrap</span>(),

@@ -151,14 +151,14 @@
     <span class="kw">use</span> <span class="kw">super</span><span class="ident">::IncomingRequest</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deserialize_unset_request</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">deserialize_unset_request</span>() {
         <span class="macro">assert_matches!</span>(
             <span class="ident">IncomingRequest::try_from_http_request</span>(
                 <span class="ident">http::Request::builder</span>()
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
-                    .<span class="ident">body</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>])<span class="question-mark">?</span>,
-            )<span class="question-mark">?</span>,
+                    .<span class="ident">body</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]).<span class="ident">unwrap</span>(),
+            ).<span class="ident">unwrap</span>(),
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );
 
@@ -169,9 +169,9 @@
                     .<span class="ident">method</span>(<span class="string">&quot;PUT&quot;</span>)
                     .<span class="ident">uri</span>(<span class="string">&quot;https://bar.org/_matrix/client/r0/profile/@foo:bar.org/avatar_url&quot;</span>)
                     .<span class="ident">body</span>(<span class="ident">std::io::Cursor::new</span>(
-                        <span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="macro">serde_json::json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> }))<span class="question-mark">?</span>,
-                    ))<span class="question-mark">?</span>,
-            )<span class="question-mark">?</span>,
+                        <span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="macro">serde_json::json!</span>({ <span class="string">&quot;avatar_url&quot;</span>: <span class="string">&quot;&quot;</span> })).<span class="ident">unwrap</span>(),
+                    )).<span class="ident">unwrap</span>(),
+            ).<span class="ident">unwrap</span>(),
             <span class="ident">IncomingRequest</span> { <span class="ident">user_id</span>, <span class="ident">avatar_url</span>: <span class="prelude-val">None</span> } <span class="kw">if</span> <span class="ident">user_id</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;@foo:bar.org&quot;</span>
         );
 
