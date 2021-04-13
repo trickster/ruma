@@ -427,13 +427,19 @@
 <span id="426">426</span>
 <span id="427">427</span>
 <span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module for User-Interactive Authentication API types.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">fmt</span>};
 
 <span class="kw">use</span> <span class="ident">bytes::Buf</span>;
-<span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">error::ResponseDeserializationError</span>, <span class="ident">EndpointError</span>};
+<span class="kw">use</span> <span class="ident">ruma_api</span>::{
+    <span class="ident">error</span>::{<span class="ident">IntoHttpError</span>, <span class="ident">ResponseDeserializationError</span>},
+    <span class="ident">EndpointError</span>, <span class="ident">OutgoingResponse</span>,
+};
 <span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json</span>::{
@@ -564,28 +570,28 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EndpointError</span> <span class="kw">for</span> <span class="ident">UiaaResponse</span> {
-    <span class="kw">fn</span> <span class="ident">try_from_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+    <span class="kw">fn</span> <span class="ident">try_from_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
         <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ResponseDeserializationError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">response</span>.<span class="ident">status</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">http::StatusCode::UNAUTHORIZED</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">from_json_reader</span>(<span class="ident">response</span>.<span class="ident">into_body</span>().<span class="ident">reader</span>())<span class="question-mark">?</span>))
         } <span class="kw">else</span> {
-            <span class="ident">MatrixError::try_from_response</span>(<span class="ident">response</span>).<span class="ident">map</span>(<span class="ident">From::from</span>)
+            <span class="ident">MatrixError::try_from_http_response</span>(<span class="ident">response</span>).<span class="ident">map</span>(<span class="ident">From::from</span>)
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">UiaaResponse</span> {}
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UiaaResponse</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">uiaa_response</span>: <span class="ident">UiaaResponse</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">uiaa_response</span> {
+<span class="kw">impl</span> <span class="ident">OutgoingResponse</span> <span class="kw">for</span> <span class="ident">UiaaResponse</span> {
+    <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">authentication_info</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">http::Response::builder</span>()
                 .<span class="ident">header</span>(<span class="ident">http::header::CONTENT_TYPE</span>, <span class="string">&quot;application/json&quot;</span>)
                 .<span class="ident">status</span>(<span class="kw-2">&amp;</span><span class="ident">http::StatusCode::UNAUTHORIZED</span>)
-                .<span class="ident">body</span>(<span class="ident">to_json_vec</span>(<span class="kw-2">&amp;</span><span class="ident">authentication_info</span>).<span class="ident">unwrap</span>())
-                .<span class="ident">unwrap</span>(),
-            <span class="ident">UiaaResponse::MatrixError</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">http::Response::from</span>(<span class="ident">error</span>),
+                .<span class="ident">body</span>(<span class="ident">to_json_vec</span>(<span class="kw-2">&amp;</span><span class="ident">authentication_info</span>)<span class="question-mark">?</span>)
+                .<span class="ident">map_err</span>(<span class="ident">Into::into</span>),
+            <span class="ident">UiaaResponse::MatrixError</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">error</span>.<span class="ident">try_into_http_response</span>(),
         }
     }
 }
@@ -594,7 +600,7 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="ident">maplit::btreemap</span>;
     <span class="kw">use</span> <span class="ident">matches::assert_matches</span>;
-    <span class="kw">use</span> <span class="ident">ruma_api::EndpointError</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">EndpointError</span>, <span class="ident">OutgoingResponse</span>};
     <span class="kw">use</span> <span class="ident">serde_json</span>::{
         <span class="ident">from_slice</span> <span class="kw">as</span> <span class="ident">from_json_slice</span>, <span class="ident">from_str</span> <span class="kw">as</span> <span class="ident">from_json_str</span>, <span class="ident">from_value</span> <span class="kw">as</span> <span class="ident">from_json_value</span>,
         <span class="ident">json</span>, <span class="ident">to_value</span> <span class="kw">as</span> <span class="ident">to_json_value</span>, <span class="ident">value::to_raw_value</span> <span class="kw">as</span> <span class="ident">to_raw_json_value</span>,
@@ -764,7 +770,7 @@
             <span class="ident">session</span>: <span class="prelude-val">None</span>,
             <span class="ident">auth_error</span>: <span class="prelude-val">None</span>,
         };
-        <span class="kw">let</span> <span class="ident">uiaa_response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">uiaa_info</span>).<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">uiaa_response</span> <span class="op">=</span> <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">uiaa_info</span>).<span class="ident">try_into_http_response</span>();
 
         <span class="macro">assert_matches!</span>(
             <span class="ident">from_json_slice</span>::<span class="op">&lt;</span><span class="ident">UiaaInfo</span><span class="op">&gt;</span>(<span class="ident">uiaa_response</span>.<span class="ident">body</span>()).<span class="ident">unwrap</span>(),
@@ -815,7 +821,7 @@
             .<span class="ident">body</span>(<span class="ident">json</span>.<span class="ident">as_bytes</span>())
             .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">parsed_uiaa_info</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">UiaaResponse::try_from_response</span>(<span class="ident">http_response</span>).<span class="ident">unwrap</span>() {
+        <span class="kw">let</span> <span class="ident">parsed_uiaa_info</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">UiaaResponse::try_from_http_response</span>(<span class="ident">http_response</span>).<span class="ident">unwrap</span>() {
             <span class="ident">UiaaResponse::AuthResponse</span>(<span class="ident">uiaa_info</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">uiaa_info</span>,
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;Expected UiaaResponse::AuthResponse&quot;</span>),
         };

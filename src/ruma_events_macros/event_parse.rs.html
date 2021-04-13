@@ -279,11 +279,11 @@
 }
 
 <span class="kw">impl</span> <span class="ident">EventKindVariation</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_redacted</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_redacted</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span><span class="ident">::Redacted</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::RedactedSync</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::RedactedStripped</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_full_variation</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_full_variation</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">EventKindVariation::Redacted</span>
             <span class="op">|</span> <span class="ident">EventKindVariation::RedactedSync</span>

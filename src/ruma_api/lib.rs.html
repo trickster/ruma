@@ -590,17 +590,6 @@
 
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">FromHttpRequestError</span>, <span class="ident">FromHttpResponseError</span>, <span class="ident">IntoHttpError</span>};
 
-<span class="doccomment">/// Gives users the ability to define their own serializable / deserializable errors.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EndpointError</span>: <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-    <span class="doccomment">/// Tries to construct `Self` from an `http::Response`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This will always return `Err` variant when no `error` field is defined in</span>
-    <span class="doccomment">/// the `ruma_api` macro.</span>
-    <span class="kw">fn</span> <span class="ident">try_from_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
-        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">error::ResponseDeserializationError</span><span class="op">&gt;</span>;
-}
-
 <span class="doccomment">/// A request type for a Matrix API endpoint, used for sending requests.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OutgoingRequest</span>: <span class="ident">Sized</span> {
     <span class="doccomment">/// A type capturing the expected error conditions the server can return.</span>
@@ -698,6 +687,17 @@
     <span class="doccomment">/// This method should only fail when when invalid header values are specified. It may also</span>
     <span class="doccomment">/// fail with a serialization error in case of bugs in Ruma though.</span>
     <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
+}
+
+<span class="doccomment">/// Gives users the ability to define their own serializable / deserializable errors.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EndpointError</span>: <span class="ident">OutgoingResponse</span> <span class="op">+</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="doccomment">/// Tries to construct `Self` from an `http::Response`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This will always return `Err` variant when no `error` field is defined in</span>
+    <span class="doccomment">/// the `ruma_api` macro.</span>
+    <span class="kw">fn</span> <span class="ident">try_from_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(
+        <span class="ident">response</span>: <span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">error::ResponseDeserializationError</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Marker trait for requests that don&#39;t require authentication, for the client side.</span>
