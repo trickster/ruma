@@ -267,6 +267,7 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
+<span id="269">269</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Matrix user identifiers.</span>
 
@@ -509,6 +510,7 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>))]</span>
     <span class="kw">fn</span> <span class="ident">invalid_characters_in_user_id_localpart</span>() {
         <span class="macro">assert_eq!</span>(<span class="ident">UserId::try_from</span>(<span class="string">&quot;@te\nst:example.com&quot;</span>).<span class="ident">unwrap_err</span>(), <span class="ident">Error::InvalidCharacters</span>);
     }
