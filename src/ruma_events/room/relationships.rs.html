@@ -162,12 +162,11 @@
 <span id="161">161</span>
 <span id="162">162</span>
 <span id="163">163</span>
-<span id="164">164</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for event relationships.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Events in Matrix can relate to one another in a couple of ways, this module</span>
-<span class="doccomment">//! adds types to parse the relationship of an event if any exists.</span>
+<span class="doccomment">//! Events in Matrix can relate to one another in a couple of ways, this module adds types to parse</span>
+<span class="doccomment">//! the relationship of an event if any exists.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! MSC for all the relates_to types except replies:</span>
 <span class="doccomment">//! &lt;https://github.com/matrix-org/matrix-doc/pull/2674&gt;</span>
@@ -176,18 +175,17 @@
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
 
-<span class="doccomment">/// Enum modeling the different ways relationships can be expressed in a</span>
-<span class="doccomment">/// `m.relates_to` field of an event.</span>
+<span class="doccomment">/// Enum modeling the different ways relationships can be expressed in a `m.relates_to` field of an</span>
+<span class="doccomment">/// event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">untagged</span>)]</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum</span> <span class="ident">RelatesToJsonRepr</span> {
-    <span class="doccomment">/// A relation which contains subtypes indicating the type of the</span>
-    <span class="doccomment">/// relationship with the `rel_type` field.</span>
+    <span class="doccomment">/// A relation which contains subtypes indicating the type of the relationship with the</span>
+    <span class="doccomment">/// `rel_type` field.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
     <span class="ident">Relation</span>(<span class="ident">RelationJsonRepr</span>),
 
-    <span class="doccomment">/// An `m.in_reply_to` relationship indicating that the event is a reply to</span>
-    <span class="doccomment">/// another event.</span>
+    <span class="doccomment">/// An `m.in_reply_to` relationship indicating that the event is a reply to another event.</span>
     <span class="ident">Reply</span> {
         <span class="doccomment">/// Information about another message being replied to.</span>
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.in_reply_to&quot;</span>)]</span>
