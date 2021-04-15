@@ -165,6 +165,28 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Code to convert the Rust-styled field/variant (e.g. `my_field`, `MyType`) to the</span>
 <span class="doccomment">//! case of the source (e.g. `my-field`, `MY_FIELD`).</span>
@@ -201,6 +223,9 @@
     <span class="ident">KebabCase</span>,
     <span class="doccomment">/// Rename direct children to &quot;SCREAMING-KEBAB-CASE&quot; style.</span>
     <span class="ident">ScreamingKebabCase</span>,
+    <span class="doccomment">/// Rename direct children to &quot;M_MATRIX_ERROR_CASE&quot; style, as used for responses with error in</span>
+    <span class="doccomment">/// Matrix spec.</span>
+    <span class="ident">MatrixErrorCase</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">RenameRule</span> {
@@ -224,6 +249,7 @@
             <span class="ident">ScreamingSnakeCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SnakeCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">variant</span>).<span class="ident">to_ascii_uppercase</span>(),
             <span class="ident">KebabCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SnakeCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">variant</span>).<span class="ident">replace</span>(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;-&quot;</span>),
             <span class="ident">ScreamingKebabCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">variant</span>).<span class="ident">replace</span>(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;-&quot;</span>),
+            <span class="ident">MatrixErrorCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">String::from</span>(<span class="string">&quot;M_&quot;</span>) <span class="op">+</span> <span class="kw-2">&amp;</span><span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">variant</span>),
         }
     }
 
@@ -255,6 +281,7 @@
             <span class="ident">ScreamingSnakeCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">field</span>.<span class="ident">to_ascii_uppercase</span>(),
             <span class="ident">KebabCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">field</span>.<span class="ident">replace</span>(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;-&quot;</span>),
             <span class="ident">ScreamingKebabCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">field</span>).<span class="ident">replace</span>(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;-&quot;</span>),
+            <span class="ident">MatrixErrorCase</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">String::from</span>(<span class="string">&quot;M_&quot;</span>) <span class="op">+</span> <span class="kw-2">&amp;</span><span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">field</span>),
         }
     }
 }
@@ -272,6 +299,7 @@
             <span class="string">&quot;SCREAMING_SNAKE_CASE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ScreamingSnakeCase</span>),
             <span class="string">&quot;kebab-case&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">KebabCase</span>),
             <span class="string">&quot;SCREAMING-KEBAB-CASE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ScreamingKebabCase</span>),
+            <span class="string">&quot;M_MATRIX_ERROR_CASE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">MatrixErrorCase</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(()),
         }
     }
@@ -279,21 +307,34 @@
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">rename_variants</span>() {
-    <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">original</span>, <span class="ident">lower</span>, <span class="ident">upper</span>, <span class="ident">camel</span>, <span class="ident">snake</span>, <span class="ident">screaming</span>, <span class="ident">kebab</span>, <span class="ident">screaming_kebab</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span>[
-        (<span class="string">&quot;Outcome&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>),
-        (
-            <span class="string">&quot;VeryTasty&quot;</span>,
-            <span class="string">&quot;verytasty&quot;</span>,
-            <span class="string">&quot;VERYTASTY&quot;</span>,
-            <span class="string">&quot;veryTasty&quot;</span>,
-            <span class="string">&quot;very_tasty&quot;</span>,
-            <span class="string">&quot;VERY_TASTY&quot;</span>,
-            <span class="string">&quot;very-tasty&quot;</span>,
-            <span class="string">&quot;VERY-TASTY&quot;</span>,
-        ),
-        (<span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>),
-        (<span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>),
-    ] {
+    <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">original</span>, <span class="ident">lower</span>, <span class="ident">upper</span>, <span class="ident">camel</span>, <span class="ident">snake</span>, <span class="ident">screaming</span>, <span class="ident">kebab</span>, <span class="ident">screaming_kebab</span>, <span class="ident">matrix_error</span>) <span class="kw">in</span>
+        <span class="kw-2">&amp;</span>[
+            (
+                <span class="string">&quot;Outcome&quot;</span>,
+                <span class="string">&quot;outcome&quot;</span>,
+                <span class="string">&quot;OUTCOME&quot;</span>,
+                <span class="string">&quot;outcome&quot;</span>,
+                <span class="string">&quot;outcome&quot;</span>,
+                <span class="string">&quot;OUTCOME&quot;</span>,
+                <span class="string">&quot;outcome&quot;</span>,
+                <span class="string">&quot;OUTCOME&quot;</span>,
+                <span class="string">&quot;M_OUTCOME&quot;</span>,
+            ),
+            (
+                <span class="string">&quot;VeryTasty&quot;</span>,
+                <span class="string">&quot;verytasty&quot;</span>,
+                <span class="string">&quot;VERYTASTY&quot;</span>,
+                <span class="string">&quot;veryTasty&quot;</span>,
+                <span class="string">&quot;very_tasty&quot;</span>,
+                <span class="string">&quot;VERY_TASTY&quot;</span>,
+                <span class="string">&quot;very-tasty&quot;</span>,
+                <span class="string">&quot;VERY-TASTY&quot;</span>,
+                <span class="string">&quot;M_VERY_TASTY&quot;</span>,
+            ),
+            (<span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;M_A&quot;</span>),
+            (<span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;M_Z42&quot;</span>),
+        ]
+    {
         <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">original</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">LowerCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">lower</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">Uppercase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">upper</span>);
@@ -303,13 +344,14 @@
         <span class="macro">assert_eq!</span>(<span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">screaming</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">KebabCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">kebab</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">ScreamingKebabCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">screaming_kebab</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">MatrixErrorCase</span>.<span class="ident">apply_to_variant</span>(<span class="ident">original</span>), <span class="ident">matrix_error</span>);
     }
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">rename_fields</span>() {
-    <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">original</span>, <span class="ident">upper</span>, <span class="ident">pascal</span>, <span class="ident">camel</span>, <span class="ident">screaming</span>, <span class="ident">kebab</span>, <span class="ident">screaming_kebab</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span>[
-        (<span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;Outcome&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>),
+    <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">original</span>, <span class="ident">upper</span>, <span class="ident">pascal</span>, <span class="ident">camel</span>, <span class="ident">screaming</span>, <span class="ident">kebab</span>, <span class="ident">screaming_kebab</span>, <span class="ident">matrix_error</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span>[
+        (<span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;Outcome&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;outcome&quot;</span>, <span class="string">&quot;OUTCOME&quot;</span>, <span class="string">&quot;M_OUTCOME&quot;</span>),
         (
             <span class="string">&quot;very_tasty&quot;</span>,
             <span class="string">&quot;VERY_TASTY&quot;</span>,
@@ -318,9 +360,10 @@
             <span class="string">&quot;VERY_TASTY&quot;</span>,
             <span class="string">&quot;very-tasty&quot;</span>,
             <span class="string">&quot;VERY-TASTY&quot;</span>,
+            <span class="string">&quot;M_VERY_TASTY&quot;</span>,
         ),
-        (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>),
-        (<span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>),
+        (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;A&quot;</span>, <span class="string">&quot;M_A&quot;</span>),
+        (<span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;z42&quot;</span>, <span class="string">&quot;Z42&quot;</span>, <span class="string">&quot;M_Z42&quot;</span>),
     ] {
         <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">original</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">Uppercase</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">upper</span>);
@@ -330,6 +373,7 @@
         <span class="macro">assert_eq!</span>(<span class="ident">ScreamingSnakeCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">screaming</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">KebabCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">kebab</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">ScreamingKebabCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">screaming_kebab</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">MatrixErrorCase</span>.<span class="ident">apply_to_field</span>(<span class="ident">original</span>), <span class="ident">matrix_error</span>);
     }
 }
 </pre></div>

@@ -328,38 +328,6 @@
 <span id="327">327</span>
 <span id="328">328</span>
 <span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
-<span id="357">357</span>
-<span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">borrow::Cow</span>,
@@ -571,72 +539,40 @@
     }
 }
 
-<span class="comment">// FIXME: Add `M_FOO_BAR` as a naming scheme in StringEnum and remove rename attributes.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">FromString</span>, <span class="ident">DeserializeFromCowStr</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;M_MATRIX_ERROR_CASE&quot;</span>)]</span>
 <span class="kw">enum</span> <span class="ident">ErrCode</span> {
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_FORBIDDEN&quot;</span>)]</span>
     <span class="ident">Forbidden</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_UNKNOWN_TOKEN&quot;</span>)]</span>
     <span class="ident">UnknownToken</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_MISSING_TOKEN&quot;</span>)]</span>
     <span class="ident">MissingToken</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_BAD_JSON&quot;</span>)]</span>
     <span class="ident">BadJson</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_NOT_JSON&quot;</span>)]</span>
     <span class="ident">NotJson</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_NOT_FOUND&quot;</span>)]</span>
     <span class="ident">NotFound</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_LIMIT_EXCEEDED&quot;</span>)]</span>
     <span class="ident">LimitExceeded</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_UNKNOWN&quot;</span>)]</span>
     <span class="ident">Unknown</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_UNRECOGNIZED&quot;</span>)]</span>
     <span class="ident">Unrecognized</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_UNAUTHORIZED&quot;</span>)]</span>
     <span class="ident">Unauthorized</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_USER_DEACTIVATED&quot;</span>)]</span>
     <span class="ident">UserDeactivated</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_USER_IN_USE&quot;</span>)]</span>
     <span class="ident">UserInUse</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_INVALID_USERNAME&quot;</span>)]</span>
     <span class="ident">InvalidUsername</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_ROOM_IN_USE&quot;</span>)]</span>
     <span class="ident">RoomInUse</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_INVALID_ROOM_STATE&quot;</span>)]</span>
     <span class="ident">InvalidRoomState</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_THREEPID_IN_USE&quot;</span>)]</span>
     <span class="ident">ThreepidInUse</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_THREEPID_NOT_FOUND&quot;</span>)]</span>
     <span class="ident">ThreepidNotFound</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_THREEPID_AUTH_FAILED&quot;</span>)]</span>
     <span class="ident">ThreepidAuthFailed</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_THREEPID_DENIED&quot;</span>)]</span>
     <span class="ident">ThreepidDenied</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_SERVER_NOT_TRUSTED&quot;</span>)]</span>
     <span class="ident">ServerNotTrusted</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_UNSUPPORTED_ROOM_VERSION&quot;</span>)]</span>
     <span class="ident">UnsupportedRoomVersion</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_INCOMPATIBLE_ROOM_VERSION&quot;</span>)]</span>
     <span class="ident">IncompatibleRoomVersion</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_BAD_STATE&quot;</span>)]</span>
     <span class="ident">BadState</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_GUEST_ACCESS_FORBIDDEN&quot;</span>)]</span>
     <span class="ident">GuestAccessForbidden</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_CAPTCHA_NEEDED&quot;</span>)]</span>
     <span class="ident">CaptchaNeeded</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_CAPTCHA_INVALID&quot;</span>)]</span>
     <span class="ident">CaptchaInvalid</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_MISSING_PARAM&quot;</span>)]</span>
     <span class="ident">MissingParam</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_INVALID_PARAM&quot;</span>)]</span>
     <span class="ident">InvalidParam</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_TOO_LARGE&quot;</span>)]</span>
     <span class="ident">TooLarge</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_EXCLUSIVE&quot;</span>)]</span>
     <span class="ident">Exclusive</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_RESOURCE_LIMIT_EXCEEDED&quot;</span>)]</span>
     <span class="ident">ResourceLimitExceeded</span>,
-    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;M_CANNOT_LEAVE_SERVER_NOTICE_ROOM&quot;</span>)]</span>
     <span class="ident">CannotLeaveServerNoticeRoom</span>,
     <span class="ident">_Custom</span>(<span class="ident">String</span>),
 }
