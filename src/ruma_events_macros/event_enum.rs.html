@@ -1038,7 +1038,7 @@
 <span class="kw">const</span> <span class="ident">EVENT_FIELDS</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">EventKindFn</span>)] <span class="op">=</span> <span class="kw-2">&amp;</span>[
     (<span class="string">&quot;origin_server_ts&quot;</span>, <span class="ident">is_non_stripped_room_event</span>),
     (<span class="string">&quot;room_id&quot;</span>, <span class="op">|</span><span class="ident">kind</span>, <span class="ident">var</span><span class="op">|</span> {
-        <span class="macro">matches!</span>(<span class="ident">kind</span>, <span class="ident">EventKind::Message</span> <span class="op">|</span> <span class="ident">EventKind::State</span>)
+        <span class="macro">matches!</span>(<span class="ident">kind</span>, <span class="ident">EventKind::Message</span> <span class="op">|</span> <span class="ident">EventKind::State</span> <span class="op">|</span> <span class="ident">EventKind::Ephemeral</span>)
             <span class="op">&amp;&amp;</span> <span class="macro">matches!</span>(<span class="ident">var</span>, <span class="ident">EventKindVariation::Full</span> <span class="op">|</span> <span class="ident">EventKindVariation::Redacted</span>)
     }),
     (<span class="string">&quot;event_id&quot;</span>, <span class="ident">is_non_stripped_room_event</span>),
