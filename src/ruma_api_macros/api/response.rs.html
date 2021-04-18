@@ -172,6 +172,18 @@
 <span id="171">171</span>
 <span id="172">172</span>
 <span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Details of the `response` section of the procedural macro.</span>
 
@@ -254,13 +266,25 @@
             <span class="kw">struct</span> <span class="ident">ResponseBody</span> #<span class="ident">def</span>
         };
 
+        <span class="kw">let</span> <span class="ident">has_test_exhaustive_field</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">fields</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">field</span>().<span class="ident">ident</span>.<span class="ident">as_ref</span>())
+            .<span class="ident">any</span>(<span class="op">|</span><span class="ident">ident</span><span class="op">|</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;__test_exhaustive&quot;</span>);
+
+        <span class="kw">let</span> <span class="ident">non_exhaustive_attr</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_test_exhaustive_field</span> {
+            <span class="macro">quote!</span> {}
+        } <span class="kw">else</span> {
+            <span class="macro">quote!</span> { <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span> }
+        };
+
         <span class="kw">let</span> <span class="ident">outgoing_response_impl</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">expand_outgoing</span>(<span class="ident">ruma_api</span>);
         <span class="kw">let</span> <span class="ident">incoming_response_impl</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">expand_incoming</span>(<span class="ident">error_ty</span>, <span class="ident">ruma_api</span>);
 
         <span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> #<span class="ident">docs</span>]</span>
             <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, #<span class="ident">ruma_serde::Outgoing</span>, #<span class="ident">ruma_serde::_FakeDeriveSerde</span>)]</span>
-            <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
+            #<span class="ident">non_exhaustive_attr</span>
             <span class="attribute">#[<span class="ident">incoming_derive</span>(<span class="op">!</span><span class="ident">Deserialize</span>)]</span>
             #( #<span class="ident">struct_attributes</span> )<span class="op">*</span>
             <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Response</span> #<span class="ident">response_def</span>
