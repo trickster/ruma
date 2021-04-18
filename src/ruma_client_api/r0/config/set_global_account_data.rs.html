@@ -72,11 +72,11 @@
     }
 
     <span class="ident">request</span>: {
-        <span class="doccomment">/// Arbitrary JSON to store as config data.</span>
+        <span class="doccomment">/// The ID of the user to set account_data for.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// To create a `Box&lt;RawJsonValue&gt;`, use `serde_json::value::to_raw_value`.</span>
-        <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">body</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// The access token must be authorized to make requests for this user ID.</span>
+        <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">path</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">user_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">UserId</span>,
 
         <span class="doccomment">/// The event type of the account_data to set.</span>
         <span class="doccomment">///</span>
@@ -84,11 +84,11 @@
         <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">path</span>)]</span>
         <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
 
-        <span class="doccomment">/// The ID of the user to set account_data for.</span>
+        <span class="doccomment">/// Arbitrary JSON to store as config data.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// The access token must be authorized to make requests for this user ID.</span>
-        <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">path</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">user_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">UserId</span>,
+        <span class="doccomment">/// To create a `RawJsonValue`, use `serde_json::value::to_raw_value`.</span>
+        <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">body</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawJsonValue</span>,
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
@@ -99,7 +99,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new `Request` with the given data, event type and user ID.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">user_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawJsonValue</span>, <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">user_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">data</span>, <span class="ident">event_type</span>, <span class="ident">user_id</span> }
     }
 }

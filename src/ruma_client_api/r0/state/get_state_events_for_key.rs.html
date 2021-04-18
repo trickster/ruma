@@ -142,14 +142,15 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/rooms/{roomId}/state/{eventType}/{stateKey}](https://matrix.org/docs/spec/client_server/r0.6.1#get-matrix-client-r0-rooms-roomid-state-eventtype-statekey)</span>
 
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_events::EventType</span>;
+<span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">AnyStateEventContent</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers::RoomId</span>;
-<span class="kw">use</span> <span class="ident">ruma_serde::Outgoing</span>;
-<span class="kw">use</span> <span class="ident">serde_json::value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
+<span class="kw">use</span> <span class="ident">ruma_serde</span>::{<span class="ident">Outgoing</span>, <span class="ident">Raw</span>};
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {
@@ -163,8 +164,11 @@
 
     <span class="ident">response</span>: {
         <span class="doccomment">/// The content of the state event.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Since the inner type of the `Raw` does not implement `Deserialize`, you need to use</span>
+        <span class="doccomment">/// `ruma_events::RawExt` to deserialize it.</span>
         <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">body</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>,
+        <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyStateEventContent</span><span class="op">&gt;</span>,
     }
 
     <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
@@ -196,7 +200,7 @@
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="doccomment">/// Creates a new `Response` with the given content.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">content</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">content</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyStateEventContent</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">content</span> }
     }
 }
@@ -221,8 +225,8 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">url</span> <span class="op">=</span> <span class="macro">format!</span>(
             <span class="string">&quot;{}/_matrix/client/r0/rooms/{}/state/{}&quot;</span>,
             <span class="ident">base_url</span>.<span class="ident">strip_suffix</span>(<span class="string">&#39;/&#39;</span>).<span class="ident">unwrap_or</span>(<span class="ident">base_url</span>),
-            <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">room_id</span>.<span class="ident">to_string</span>(), <span class="ident">NON_ALPHANUMERIC</span>,),
-            <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">event_type</span>.<span class="ident">to_string</span>(), <span class="ident">NON_ALPHANUMERIC</span>,)
+            <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">room_id</span>.<span class="ident">to_string</span>(), <span class="ident">NON_ALPHANUMERIC</span>),
+            <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">event_type</span>.<span class="ident">to_string</span>(), <span class="ident">NON_ALPHANUMERIC</span>)
         );
 
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">state_key</span>.<span class="ident">is_empty</span>() {
