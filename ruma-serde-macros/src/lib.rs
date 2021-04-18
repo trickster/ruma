@@ -1,6 +1,7 @@
 #![doc(html_favicon_url = "https://www.ruma.io/favicon.ico")]
 #![doc(html_logo_url = "https://www.ruma.io/images/logo.png")]
 
+use non_exhaustive::expand_non_exhaustive_with_opt_out;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput, ItemEnum};
@@ -18,6 +19,7 @@ mod deserialize_from_cow_str;
 mod display_as_ref_str;
 mod enum_as_ref_str;
 mod enum_from_string;
+mod non_exhaustive;
 mod outgoing;
 mod serialize_as_ref_str;
 mod util;
@@ -68,6 +70,21 @@ struct IncomingMyType {
 pub fn derive_outgoing(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     expand_derive_outgoing(input).unwrap_or_else(syn::Error::into_compile_error).into()
+}
+
+/// Adds a hidden field or variant to the given struct or enum unless the
+/// `unstable-exhaustive-types` crate feature (of the crate that uses this macro) is enabled.
+///
+/// For structs, the field will always be named `_test_exhaustive`.\
+/// For enums, the variant will always be named `_TestExhaustive`.
+#[proc_macro_attribute]
+pub fn non_exhaustive_with_opt_out(attr: TokenStream, item: TokenStream) -> TokenStream {
+    if !attr.is_empty() {
+        panic!("This attribute is not supposed to be used with arguments.");
+    }
+
+    let input = parse_macro_input!(item as DeriveInput);
+    expand_non_exhaustive_with_opt_out(input).unwrap_or_else(syn::Error::into_compile_error).into()
 }
 
 #[proc_macro_derive(AsRefStr, attributes(ruma_enum))]
