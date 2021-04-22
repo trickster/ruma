@@ -2116,7 +2116,7 @@
         );
         <span class="macro">assert_matches!</span>(
             <span class="ident">set</span>.<span class="ident">get_actions</span>(<span class="kw-2">&amp;</span><span class="ident">message</span>, <span class="ident">context_public_room</span>),
-            [<span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>))]
+            [<span class="ident">Action::Notify</span>, <span class="ident">Action::SetTweak</span>(<span class="ident">Tweak::Highlight</span>(<span class="bool-val">false</span>))]
         );
 
         <span class="kw">let</span> <span class="ident">user_name</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(
