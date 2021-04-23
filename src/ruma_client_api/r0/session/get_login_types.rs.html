@@ -657,19 +657,19 @@
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">LoginType</span>, <span class="ident">PasswordLoginType</span>};
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
-    <span class="kw">struct</span> <span class="ident">Foo</span> {
+    <span class="kw">struct</span> <span class="ident">Wrapper</span> {
         <span class="kw">pub</span> <span class="ident">flows</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">LoginType</span><span class="op">&gt;</span>,
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_password_login_type</span>() {
         <span class="macro">assert_matches!</span>(
-            <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Foo</span><span class="op">&gt;</span>(<span class="macro">json!</span>({
+            <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Wrapper</span><span class="op">&gt;</span>(<span class="macro">json!</span>({
                 <span class="string">&quot;flows&quot;</span>: [
                     { <span class="string">&quot;type&quot;</span>: <span class="string">&quot;m.login.password&quot;</span> }
                 ],
             })),
-            <span class="prelude-val">Ok</span>(<span class="ident">Foo</span> { <span class="ident">flows</span> })
+            <span class="prelude-val">Ok</span>(<span class="ident">Wrapper</span> { <span class="ident">flows</span> })
             <span class="kw">if</span> <span class="ident">flows</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span>
                 <span class="op">&amp;&amp;</span> <span class="macro">matches!</span>(<span class="ident">flows</span>[<span class="number">0</span>], <span class="ident">LoginType::Password</span>(<span class="ident">PasswordLoginType</span> {}))
         );
@@ -678,7 +678,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">deserialize_sso_login_type</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Foo</span><span class="op">&gt;</span>(<span class="macro">json!</span>({
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wrapper</span> <span class="op">=</span> <span class="ident">from_json_value</span>::<span class="op">&lt;</span><span class="ident">Wrapper</span><span class="op">&gt;</span>(<span class="macro">json!</span>({
             <span class="string">&quot;flows&quot;</span>: [
                 {
                     <span class="string">&quot;type&quot;</span>: <span class="string">&quot;m.login.sso&quot;</span>,
@@ -699,8 +699,8 @@
         }))
         .<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span> <span class="ident">foo</span>.<span class="ident">flows</span>.<span class="ident">pop</span>();
-        <span class="macro">assert_matches!</span>(<span class="ident">foo</span>.<span class="ident">flows</span>.<span class="ident">as_slice</span>(), []);
+        <span class="kw">let</span> <span class="ident">flow</span> <span class="op">=</span> <span class="ident">wrapper</span>.<span class="ident">flows</span>.<span class="ident">pop</span>();
+        <span class="macro">assert_matches!</span>(<span class="ident">wrapper</span>.<span class="ident">flows</span>.<span class="ident">as_slice</span>(), []);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">identity_providers</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">flow</span> {
             <span class="prelude-val">Some</span>(<span class="ident">LoginType::Sso</span>(<span class="ident">SsoLoginType</span> { <span class="ident">identity_providers</span> })) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">identity_providers</span>,
@@ -736,7 +736,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">serialize_sso_login_type</span>() {
-        <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">to_json_value</span>(<span class="ident">Foo</span> {
+        <span class="kw">let</span> <span class="ident">wrapper</span> <span class="op">=</span> <span class="ident">to_json_value</span>(<span class="ident">Wrapper</span> {
             <span class="ident">flows</span>: <span class="macro">vec!</span>[
                 <span class="ident">LoginType::Token</span>(<span class="ident">TokenLoginType</span> {}),
                 <span class="ident">LoginType::Sso</span>(<span class="ident">SsoLoginType</span> {
@@ -752,7 +752,7 @@
         .<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">foo</span>,
+            <span class="ident">wrapper</span>,
             <span class="macro">json!</span>({
                 <span class="string">&quot;flows&quot;</span>: [
                     {
