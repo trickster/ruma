@@ -223,7 +223,7 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">ruma_api::error::IntoHttpError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 
-        <span class="kw">use</span> <span class="ident">http::header</span>::{<span class="self">self</span>, <span class="ident">HeaderValue</span>};
+        <span class="kw">use</span> <span class="ident">http::header</span>;
         <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">NON_ALPHANUMERIC</span>};
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">url</span> <span class="op">=</span> <span class="macro">format!</span>(
@@ -244,12 +244,12 @@
             .<span class="ident">header</span>(<span class="ident">header::CONTENT_TYPE</span>, <span class="string">&quot;application/json&quot;</span>)
             .<span class="ident">header</span>(
                 <span class="ident">header::AUTHORIZATION</span>,
-                <span class="ident">HeaderValue::from_str</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+                <span class="macro">format!</span>(
                     <span class="string">&quot;Bearer {}&quot;</span>,
                     <span class="ident">access_token</span>
                         .<span class="ident">get_required</span>()
                         .<span class="ident">ok_or</span>(<span class="ident">ruma_api::error::IntoHttpError::NeedsAuthentication</span>)<span class="question-mark">?</span>,
-                ))<span class="question-mark">?</span>,
+                ),
             )
             .<span class="ident">body</span>(<span class="ident">T::default</span>())
             .<span class="ident">map_err</span>(<span class="ident">Into::into</span>)
