@@ -412,14 +412,14 @@
                         <span class="ident">::std::convert::TryFrom</span>::<span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="ident">::try_from</span>(<span class="macro">::std::format!</span>(
                             <span class="string">&quot;Bearer {}&quot;</span>,
                             <span class="ident">access_token</span>
-                                .<span class="ident">get_required</span>()
+                                .<span class="ident">get_required_for_endpoint</span>()
                                 .<span class="ident">ok_or</span>(#<span class="ident">ruma_api::error::IntoHttpError::NeedsAuthentication</span>)<span class="question-mark">?</span>,
                         ))<span class="question-mark">?</span>,
                     );
                 }
             } <span class="kw">else</span> {
                 <span class="macro">quote!</span> {
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">access_token</span>) <span class="op">=</span> <span class="ident">access_token</span>.<span class="ident">get_optional</span>() {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">access_token</span>) <span class="op">=</span> <span class="ident">access_token</span>.<span class="ident">get_not_required_for_endpoint</span>() {
                         #( #<span class="ident">attrs</span> )<span class="op">*</span>
                         <span class="ident">req_headers</span>.<span class="ident">insert</span>(
                             #<span class="ident">http::header::AUTHORIZATION</span>,
