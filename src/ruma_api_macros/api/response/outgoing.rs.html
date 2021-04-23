@@ -93,8 +93,6 @@
 <span id="92">92</span>
 <span id="93">93</span>
 <span id="94">94</span>
-<span id="95">95</span>
-<span id="96">96</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">quote::quote</span>;
@@ -103,8 +101,9 @@
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_outgoing</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ruma_api</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::exports::bytes</span> };
         <span class="kw">let</span> <span class="ident">http</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::exports::http</span> };
-        <span class="kw">let</span> <span class="ident">serde_json</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::exports::serde_json</span> };
+        <span class="kw">let</span> <span class="ident">ruma_serde</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_api::exports::ruma_serde</span> };
 
         <span class="kw">let</span> <span class="ident">serialize_response_headers</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">response_field</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ResponseField::Header</span>(<span class="ident">field</span>, <span class="ident">header_name</span>) <span class="op">=</span> <span class="ident">response_field</span> {
@@ -138,11 +137,11 @@
 
         <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">field</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">newtype_raw_body_field</span>() {
             <span class="kw">let</span> <span class="ident">field_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">ident</span>.<span class="ident">as_ref</span>().<span class="ident">expect</span>(<span class="string">&quot;expected field to have an identifier&quot;</span>);
-            <span class="macro">quote!</span> { <span class="self">self</span>.#<span class="ident">field_name</span> }
+            <span class="macro">quote!</span> { #<span class="ident">ruma_serde::slice_to_buf</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.#<span class="ident">field_name</span>) }
         } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">field</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">newtype_body_field</span>() {
             <span class="kw">let</span> <span class="ident">field_name</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">ident</span>.<span class="ident">as_ref</span>().<span class="ident">expect</span>(<span class="string">&quot;expected field to have an identifier&quot;</span>);
             <span class="macro">quote!</span> {
-                #<span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.#<span class="ident">field_name</span>)<span class="question-mark">?</span>
+                #<span class="ident">ruma_serde::json_to_buf</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.#<span class="ident">field_name</span>)<span class="question-mark">?</span>
             }
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">response_field</span><span class="op">|</span> {
@@ -161,7 +160,7 @@
             });
 
             <span class="macro">quote!</span> {
-                #<span class="ident">serde_json::to_vec</span>(<span class="kw-2">&amp;</span><span class="ident">ResponseBody</span> { #(#<span class="ident">fields</span>)<span class="op">*</span> })<span class="question-mark">?</span>
+                #<span class="ident">ruma_serde::json_to_buf</span>(<span class="kw-2">&amp;</span><span class="ident">ResponseBody</span> { #(#<span class="ident">fields</span>)<span class="op">*</span> })<span class="question-mark">?</span>
             }
         };
 
@@ -170,12 +169,9 @@
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>)]</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unknown_clippy_lints</span>, <span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
             <span class="kw">impl</span> #<span class="ident">ruma_api::OutgoingResponse</span> <span class="kw">for</span> <span class="ident">Response</span> {
-                <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(
+                <span class="kw">fn</span> <span class="ident">try_into_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">::std::default::Default</span> <span class="op">+</span> #<span class="ident">bytes::BufMut</span><span class="op">&gt;</span>(
                     <span class="self">self</span>,
-                ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::result::Result</span><span class="op">&lt;</span>
-                    #<span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">::std::vec::Vec</span><span class="op">&lt;</span><span class="ident">::std::primitive::u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-                    #<span class="ident">ruma_api::error::IntoHttpError</span>,
-                <span class="op">&gt;</span> {
+                ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::std::result::Result</span><span class="op">&lt;</span>#<span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, #<span class="ident">ruma_api::error::IntoHttpError</span><span class="op">&gt;</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp_builder</span> <span class="op">=</span> #<span class="ident">http::Response::builder</span>()
                         .<span class="ident">header</span>(#<span class="ident">http::header::CONTENT_TYPE</span>, <span class="string">&quot;application/json&quot;</span>);
 

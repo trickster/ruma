@@ -133,7 +133,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_sso_login_with_provider_request_uri</span>() {
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">Request</span> { <span class="ident">idp_id</span>: <span class="string">&quot;provider&quot;</span>, <span class="ident">redirect_url</span>: <span class="string">&quot;https://example.com/sso&quot;</span> }
-            .<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="ident">SendAccessToken::None</span>)
+            .<span class="ident">try_into_http_request</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="ident">SendAccessToken::None</span>)
             .<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq!</span>(

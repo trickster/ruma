@@ -418,7 +418,7 @@
         };
 
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">req</span>
-            .<span class="ident">try_into_http_request</span>(
+            .<span class="ident">try_into_http_request</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>(
                 <span class="string">&quot;https://homeserver.tld&quot;</span>,
                 <span class="ident">SendAccessToken::IfRequired</span>(<span class="string">&quot;auth_tok&quot;</span>),
             )

@@ -409,6 +409,10 @@
 <span id="408">408</span>
 <span id="409">409</span>
 <span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -434,6 +438,7 @@
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryInto</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>};
 
+<span class="kw">use</span> <span class="ident">bytes::BufMut</span>;
 <span class="kw">use</span> <span class="ident">http::Method</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers::UserId</span>;
 
@@ -615,6 +620,7 @@
 <span class="doccomment">/// It is not considered part of ruma-api&#39;s public API.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exports</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bytes</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">http</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">percent_encoding</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde</span>;
@@ -679,11 +685,11 @@
     <span class="doccomment">/// The endpoints path will be appended to the given `base_url`, for example</span>
     <span class="doccomment">/// `https://matrix.org`. Since all paths begin with a slash, it is not necessary for the</span>
     <span class="doccomment">/// `base_url` to have a trailing slash. If it has one however, it will be ignored.</span>
-    <span class="kw">fn</span> <span class="ident">try_into_http_request</span>(
+    <span class="kw">fn</span> <span class="ident">try_into_http_request</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">BufMut</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">base_url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">access_token</span>: <span class="ident">SendAccessToken</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// A response type for a Matrix API endpoint, used for receiving responses.</span>
@@ -703,12 +709,12 @@
     <span class="doccomment">/// [assert Appservice identity][id_assert].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [id_assert]: https://matrix.org/docs/spec/application_service/r0.1.2#identity-assertion</span>
-    <span class="kw">fn</span> <span class="ident">try_into_http_request_with_user_id</span>(
+    <span class="kw">fn</span> <span class="ident">try_into_http_request_with_user_id</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">BufMut</span><span class="op">&gt;</span>(
         <span class="self">self</span>,
         <span class="ident">base_url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">access_token</span>: <span class="ident">SendAccessToken</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
         <span class="ident">user_id</span>: <span class="ident">UserId</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">http_request</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">try_into_http_request</span>(<span class="ident">base_url</span>, <span class="ident">access_token</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">user_id_query</span> <span class="op">=</span>
             <span class="ident">ruma_serde::urlencoded::to_string</span>(<span class="kw-2">&amp;</span>[(<span class="string">&quot;user_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">user_id</span>.<span class="ident">into_string</span>())])<span class="question-mark">?</span>;
@@ -758,7 +764,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method should only fail when when invalid header values are specified. It may also</span>
     <span class="doccomment">/// fail with a serialization error in case of bugs in Ruma though.</span>
-    <span class="kw">fn</span> <span class="ident">try_into_http_response</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">try_into_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Default</span> <span class="op">+</span> <span class="ident">BufMut</span><span class="op">&gt;</span>(
+        <span class="self">self</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">http::Response</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">IntoHttpError</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Gives users the ability to define their own serializable / deserializable errors.</span>

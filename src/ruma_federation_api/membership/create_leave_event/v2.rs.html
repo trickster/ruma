@@ -123,7 +123,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">response_body</span>() {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::new</span>().<span class="ident">try_into_http_response</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::new</span>().<span class="ident">try_into_http_response</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">body</span>(), <span class="string">b&quot;{}&quot;</span>);
     }
