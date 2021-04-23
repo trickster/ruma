@@ -1670,7 +1670,7 @@
 <span class="kw">mod</span> <span class="ident">client_tests</span> {
     <span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
-    <span class="kw">use</span> <span class="ident">ruma_api::OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
+    <span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">SendAccessToken</span>};
 
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Filter</span>, <span class="ident">PresenceState</span>, <span class="ident">Request</span>};
 
@@ -1683,7 +1683,7 @@
             <span class="ident">set_presence</span>: <span class="kw-2">&amp;</span><span class="ident">PresenceState::Offline</span>,
             <span class="ident">timeout</span>: <span class="prelude-val">Some</span>(<span class="ident">Duration::from_millis</span>(<span class="number">30000</span>)),
         }
-        .<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;auth_tok&quot;</span>))
+        .<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="ident">SendAccessToken::IfRequired</span>(<span class="string">&quot;auth_tok&quot;</span>))
         .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">uri</span>();

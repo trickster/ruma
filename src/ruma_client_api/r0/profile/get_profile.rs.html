@@ -54,9 +54,6 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [GET /_matrix/client/r0/profile/{userId}](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-profile-userid)</span>
 
@@ -70,10 +67,7 @@
         <span class="ident">name</span>: <span class="string">&quot;get_profile&quot;</span>,
         <span class="ident">path</span>: <span class="string">&quot;/_matrix/client/r0/profile/:user_id&quot;</span>,
         <span class="ident">rate_limited</span>: <span class="bool-val">false</span>,
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-synapse-quirks&quot;</span>))]</span>
         <span class="ident">authentication</span>: <span class="prelude-val">None</span>,
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-synapse-quirks&quot;</span>)]</span>
-        <span class="ident">authentication</span>: <span class="ident">AccessToken</span>,
     }
 
     <span class="ident">request</span>: {

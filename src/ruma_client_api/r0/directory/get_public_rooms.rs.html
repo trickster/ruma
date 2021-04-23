@@ -196,7 +196,7 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">construct_request_from_refs</span>() {
-        <span class="kw">use</span> <span class="ident">ruma_api::OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>;
+        <span class="kw">use</span> <span class="ident">ruma_api</span>::{<span class="ident">OutgoingRequest</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">SendAccessToken</span>};
         <span class="kw">use</span> <span class="ident">ruma_identifiers::server_name</span>;
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::Request</span> {
@@ -204,7 +204,7 @@
             <span class="ident">since</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;hello&quot;</span>),
             <span class="ident">server</span>: <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="macro">server_name!</span>(<span class="string">&quot;test.tld&quot;</span>)),
         }
-        .<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;auth_tok&quot;</span>))
+        .<span class="ident">try_into_http_request</span>(<span class="string">&quot;https://homeserver.tld&quot;</span>, <span class="ident">SendAccessToken::IfRequired</span>(<span class="string">&quot;auth_tok&quot;</span>))
         .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">uri</span>();
