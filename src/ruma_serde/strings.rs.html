@@ -176,13 +176,33 @@
 <span id="175">175</span>
 <span id="176">176</span>
 <span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">convert::TryInto</span>, <span class="ident">fmt</span>, <span class="ident">marker::PhantomData</span>};
 
 <span class="kw">use</span> <span class="ident">js_int::Int</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">Deserializer</span>, <span class="ident">IntoDeserializer</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">MapAccess</span>, <span class="ident">Visitor</span>},
-    <span class="ident">Deserialize</span>,
+    <span class="ident">ser::Serializer</span>,
+    <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>,
 };
 
 <span class="doccomment">/// Serde deserialization decorator to map empty Strings to None,</span>
@@ -206,6 +226,24 @@
         <span class="comment">// If T = String, like in m.room.name, the second deserialize is actually superfluous.</span>
         <span class="comment">// TODO: optimize that somehow?</span>
         <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">T::deserialize</span>(<span class="ident">s</span>.<span class="ident">into_deserializer</span>()).<span class="ident">map</span>(<span class="prelude-val">Some</span>),
+    }
+}
+
+<span class="doccomment">/// Serde serializiation decorator to map None to an empty String,</span>
+<span class="doccomment">/// and forward Somes to the Serialize implemention for T.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To be used like this:</span>
+<span class="doccomment">/// `#[serde(serialize_with = &quot;empty_string_as_none&quot;)]`</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">none_as_empty_string</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Serialize</span>, <span class="ident">S</span><span class="op">&gt;</span>(
+    <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">serializer</span>: <span class="ident">S</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">S</span>: <span class="ident">Serializer</span>,
+{
+    <span class="kw">match</span> <span class="ident">value</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>),
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="string">&quot;&quot;</span>),
     }
 }
 
