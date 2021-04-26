@@ -70,11 +70,25 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Cow</span>, <span class="ident">str</span>};
 
 <span class="kw">use</span> <span class="ident">serde::de</span>::{<span class="self">self</span>, <span class="ident">Deserializer</span>, <span class="ident">Unexpected</span>, <span class="ident">Visitor</span>};
 
+<span class="doccomment">/// Deserialize a `Cow&lt;&#39;de, str&gt;`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Different from serde&#39;s implementation of `Deserialize` for `Cow` since it borrows from the</span>
+<span class="doccomment">/// input when possible.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This will become unnecessary if Rust gains lifetime specialization at some point; see</span>
+<span class="doccomment">/// &lt;https://github.com/serde-rs/serde/issues/1497#issuecomment-716246686&gt;.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">deserialize_cow_str</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span>, <span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">D::Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,

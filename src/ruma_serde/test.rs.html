@@ -12,6 +12,7 @@
 <span id="11">11</span>
 <span id="12">12</span>
 <span id="13">13</span>
+<span id="14">14</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Helpers for tests</span>
 
@@ -19,6 +20,7 @@
 
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de::DeserializeOwned</span>, <span class="ident">Serialize</span>};
 
+<span class="doccomment">/// Assert that serialization of `de` results in `se` and deserialization of `se` results in `de`.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">serde_json_eq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">de</span>: <span class="ident">T</span>, <span class="ident">se</span>: <span class="ident">serde_json::Value</span>)
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Serialize</span> <span class="op">+</span> <span class="ident">DeserializeOwned</span>,

@@ -488,6 +488,8 @@
 <span id="487">487</span>
 <span id="488">488</span>
 <span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Serialization support for the `application/x-www-form-urlencoded` format.</span>
 
@@ -544,8 +546,10 @@
 <span class="doccomment">/// Errors returned during serializing to `application/x-www-form-urlencoded`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Error</span> {
-    <span class="ident">Custom</span>(<span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span>),
+    <span class="doccomment">/// UTF-8 validation failed.</span>
     <span class="ident">Utf8</span>(<span class="ident">str::Utf8Error</span>),
+    <span class="doccomment">/// Something else.</span>
+    <span class="ident">Custom</span>(<span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span>),
 }
 
 <span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
