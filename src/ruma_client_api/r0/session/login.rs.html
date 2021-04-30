@@ -255,6 +255,7 @@
 <span id="254">254</span>
 <span id="255">255</span>
 <span id="256">256</span>
+<span id="257">257</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [POST /_matrix/client/r0/login](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-login)</span>
 
@@ -312,6 +313,7 @@
         <span class="doccomment">/// Client configuration provided by the server.</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// If present, clients SHOULD use the provided object to reconfigure themselves.</span>
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">well_known</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DiscoveryInfo</span><span class="op">&gt;</span>,
     }
 
