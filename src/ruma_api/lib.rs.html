@@ -770,7 +770,7 @@
 }
 
 <span class="doccomment">/// Gives users the ability to define their own serializable / deserializable errors.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EndpointError</span>: <span class="ident">OutgoingResponse</span> <span class="op">+</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EndpointError</span>: <span class="ident">OutgoingResponse</span> <span class="op">+</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
     <span class="doccomment">/// Tries to construct `Self` from an `http::Response`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This will always return `Err` variant when no `error` field is defined in</span>
