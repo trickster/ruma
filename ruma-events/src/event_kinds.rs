@@ -2,6 +2,7 @@ use std::time::SystemTime;
 
 use ruma_events_macros::Event;
 use ruma_identifiers::{EventId, RoomId, UserId};
+use serde::{Deserialize, Serialize};
 
 use crate::{
     BasicEventContent, EphemeralRoomEventContent, EventContent, MessageEventContent,
@@ -318,4 +319,28 @@ pub struct ToDeviceEvent<C: EventContent> {
 
     /// The fully-qualified ID of the user who sent this event.
     pub sender: UserId,
+}
+
+#[derive(Clone, Debug, Event)]
+pub struct DecryptedOlmV1Event<C: MessageEventContent> {
+    /// Data specific to the event type.
+    pub content: C,
+
+    /// The fully-qualified ID of the user who sent this event.
+    pub sender: UserId,
+
+    /// The fully-qualified ID of the intended recipient this event.
+    pub recipient: UserId,
+
+    /// The recipient's ed25519 key.
+    pub recipient_keys: OlmV1Keys,
+
+    /// The sender's ed25519 key.
+    pub keys: OlmV1Keys,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct OlmV1Keys {
+    /// An ed25519 key.
+    ed25519: String,
 }
