@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TagEventContent","The payload for `TagEvent`."],["TagInfo","Information about a tag."]],"type":[["TagEvent","Informs the client of tags on a room."],["Tags","Map of tag names to tag info."]]});
+initSidebarItems({"enum":[["TagName","The name of a tag."]],"struct":[["TagEventContent","The payload for `TagEvent`."],["TagInfo","Information about a tag."]],"type":[["TagEvent","Informs the client of tags on a room."],["Tags","Map of tag names to tag info."]]});
