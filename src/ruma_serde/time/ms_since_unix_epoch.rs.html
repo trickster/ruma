@@ -156,12 +156,12 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">issue_446</span>() {
-        <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;timestamp&quot;</span>: <span class="number">15159743990000u64</span> });
+        <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="macro">json!</span>({ <span class="string">&quot;timestamp&quot;</span>: <span class="number">15_159_743_990_000_u64</span> });
 
         <span class="macro">assert_matches!</span>(
             <span class="ident">serde_json::from_value</span>::<span class="op">&lt;</span><span class="ident">SystemTimeTest</span><span class="op">&gt;</span>(<span class="ident">json</span>),
             <span class="prelude-val">Ok</span>(<span class="ident">SystemTimeTest</span> { <span class="ident">timestamp</span> })
-            <span class="kw">if</span> <span class="ident">timestamp</span> <span class="op">=</span><span class="op">=</span> <span class="ident">UNIX_EPOCH</span> <span class="op">+</span> <span class="ident">Duration::from_millis</span>(<span class="number">15159743990000</span>)
+            <span class="kw">if</span> <span class="ident">timestamp</span> <span class="op">=</span><span class="op">=</span> <span class="ident">UNIX_EPOCH</span> <span class="op">+</span> <span class="ident">Duration::from_millis</span>(<span class="number">15_159_743_990_000</span>)
         );
     }
 
