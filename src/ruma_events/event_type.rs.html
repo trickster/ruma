@@ -267,7 +267,6 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
-<span id="269">269</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 
@@ -486,7 +485,6 @@
 
     <span class="kw">use</span> <span class="kw">super</span><span class="ident">::EventType</span>;
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::cognitive_complexity</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">serialize_and_deserialize_from_display_form</span>() {
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::CallAnswer</span>, <span class="macro">json!</span>(<span class="string">&quot;m.call.answer&quot;</span>));

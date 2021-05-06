@@ -92,7 +92,6 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
-<span id="94">94</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">quote::quote</span>;
@@ -167,7 +166,6 @@
         <span class="macro">quote!</span> {
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server&quot;</span>)]</span>
-            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unknown_clippy_lints</span>, <span class="ident">clippy::inconsistent_struct_constructor</span>)]</span>
             <span class="kw">impl</span> #<span class="ident">ruma_api::OutgoingResponse</span> <span class="kw">for</span> <span class="ident">Response</span> {
                 <span class="kw">fn</span> <span class="ident">try_into_http_response</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">::std::default::Default</span> <span class="op">+</span> #<span class="ident">bytes::BufMut</span><span class="op">&gt;</span>(
                     <span class="self">self</span>,
