@@ -209,7 +209,7 @@
     <span class="ident">str::FromStr</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">crypto_algorithms::SigningKeyAlgorithm</span>, <span class="ident">DeviceId</span>, <span class="ident">Error</span>, <span class="ident">KeyName</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">crypto_algorithms::SigningKeyAlgorithm</span>, <span class="ident">DeviceId</span>, <span class="ident">KeyName</span>};
 
 <span class="doccomment">/// A key algorithm and key name delimited by a colon</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyId</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">K</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> {
@@ -258,7 +258,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">try_from</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">A</span>, <span class="ident">K</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">key_identifier</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyId</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">try_from</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">A</span>, <span class="ident">K</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">key_identifier</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyId</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>, <span class="kw">crate</span><span class="ident">::Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {

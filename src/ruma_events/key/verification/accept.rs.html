@@ -635,7 +635,7 @@
             <span class="ident">transaction_id</span>: <span class="string">&quot;456&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">method</span>: <span class="ident">AcceptMethod::Custom</span>(<span class="ident">CustomContent</span> {
                 <span class="ident">method</span>: <span class="string">&quot;m.sas.custom&quot;</span>.<span class="ident">to_owned</span>(),
-                <span class="ident">data</span>: <span class="macro">vec!</span>[(<span class="string">&quot;test&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">JsonValue::from</span>(<span class="string">&quot;field&quot;</span>))]
+                <span class="ident">data</span>: <span class="macro">vec!</span>[(<span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">JsonValue::from</span>(<span class="string">&quot;field&quot;</span>))]
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">JsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(),
             }),

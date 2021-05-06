@@ -135,7 +135,7 @@
             .<span class="ident">deserialize</span>()
             .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq!</span>(<span class="ident">server_acl_event</span>.<span class="ident">content</span>.<span class="ident">allow_ip_literals</span>, <span class="bool-val">true</span>);
+        <span class="macro">assert!</span>(<span class="ident">server_acl_event</span>.<span class="ident">content</span>.<span class="ident">allow_ip_literals</span>);
         <span class="macro">assert!</span>(<span class="ident">server_acl_event</span>.<span class="ident">content</span>.<span class="ident">allow</span>.<span class="ident">is_empty</span>());
         <span class="macro">assert!</span>(<span class="ident">server_acl_event</span>.<span class="ident">content</span>.<span class="ident">deny</span>.<span class="ident">is_empty</span>());
     }

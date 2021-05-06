@@ -254,7 +254,7 @@
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">key::KeySink</span>, <span class="ident">part::PartSerializer</span>, <span class="ident">value::ValueSink</span>, <span class="ident">Error</span>};
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PairSerializer</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span>, <span class="lifetime">&#39;target</span>, <span class="ident">Target</span>: <span class="lifetime">&#39;target</span> <span class="op">+</span> <span class="ident">UrlEncodedTarget</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PairSerializer</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span>, <span class="lifetime">&#39;target</span>, <span class="ident">Target</span>: <span class="ident">UrlEncodedTarget</span><span class="op">&gt;</span> {
     <span class="ident">urlencoder</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;target</span> <span class="kw-2">mut</span> <span class="ident">UrlEncodedSerializer</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span>, <span class="ident">Target</span><span class="op">&gt;</span>,
     <span class="ident">state</span>: <span class="ident">PairState</span>,
 }

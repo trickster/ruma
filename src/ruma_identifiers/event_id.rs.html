@@ -287,7 +287,7 @@
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryFrom</span>, <span class="ident">fmt</span>, <span class="ident">num::NonZeroU8</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Error</span>, <span class="ident">ServerName</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::ServerName</span>;
 
 <span class="doccomment">/// A Matrix event ID.</span>
 <span class="doccomment">///</span>
@@ -378,7 +378,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// If using the original event format as used by Matrix room versions 1 and 2, the string must</span>
 <span class="doccomment">/// include the leading $ sigil, the localpart, a literal colon, and a valid homeserver hostname.</span>
-<span class="kw">fn</span> <span class="ident">try_from</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">event_id</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EventId</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">try_from</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">event_id</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">EventId</span>, <span class="kw">crate</span><span class="ident">::Error</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {

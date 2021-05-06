@@ -336,7 +336,7 @@
 
 <span class="doccomment">/// Identification information for the user.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Outgoing</span>, <span class="ident">Serialize</span>)]</span>
-<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">from</span> <span class="op">=</span> <span class="string">&quot;user_serde::IncomingUserIdentifier&quot;</span>, <span class="ident">into</span> <span class="op">=</span> <span class="string">&quot;user_serde::UserIdentifier&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">from</span> <span class="op">=</span> <span class="string">&quot;user_serde::IncomingUserIdentifier&quot;</span>, <span class="ident">into</span> <span class="op">=</span> <span class="string">&quot;user_serde::UserIdentifier&lt;&#39;_&gt;&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UserIdentifier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Either a fully qualified Matrix user ID, or just the localpart (as part of the &#39;identifier&#39;</span>
     <span class="doccomment">/// field).</span>
