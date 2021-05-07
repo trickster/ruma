@@ -257,6 +257,12 @@
 <span id="256">256</span>
 <span id="257">257</span>
 <span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.encrypted* event.</span>
 
@@ -305,6 +311,12 @@
     <span class="doccomment">/// Creates a new `EncryptedEventContent` with the given scheme and relation.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">scheme</span>: <span class="ident">EncryptedEventScheme</span>, <span class="ident">relates_to</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Relation</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">scheme</span>, <span class="ident">relates_to</span> }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">EncryptedEventScheme</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EncryptedEventContent</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">scheme</span>: <span class="ident">EncryptedEventScheme</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">scheme</span>, <span class="ident">relates_to</span>: <span class="prelude-val">None</span> }
     }
 }
 
