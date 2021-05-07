@@ -687,7 +687,6 @@
 };
 
 <span class="kw">use</span> <span class="ident">maplit::btreeset</span>;
-<span class="kw">use</span> <span class="ident">room_version::RoomVersion</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{
     <span class="ident">room</span>::{
         <span class="ident">member</span>::{<span class="ident">MemberEventContent</span>, <span class="ident">MembershipState</span>},
@@ -705,6 +704,7 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">event_auth</span>::{<span class="ident">auth_check</span>, <span class="ident">auth_types_for_event</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">room_version::RoomVersion</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">state_event::Event</span>;
 
 <span class="doccomment">/// A mapping of event type and state_key to some value `T`, usually an `EventId`.</span>
