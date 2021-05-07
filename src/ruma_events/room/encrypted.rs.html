@@ -250,6 +250,13 @@
 <span id="249">249</span>
 <span id="250">250</span>
 <span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Types for the *m.room.encrypted* event.</span>
 
@@ -292,6 +299,13 @@
     <span class="doccomment">/// [rich replies](https://matrix.org/docs/spec/client_server/r0.6.1#rich-replies).</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.relates_to&quot;</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">relates_to</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Relation</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">EncryptedEventContent</span> {
+    <span class="doccomment">/// Creates a new `EncryptedEventContent` with the given scheme and relation.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">scheme</span>: <span class="ident">EncryptedEventScheme</span>, <span class="ident">relates_to</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Relation</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">scheme</span>, <span class="ident">relates_to</span> }
+    }
 }
 
 <span class="doccomment">/// The to-device version of the payload for the `EncryptedEvent`.</span>
