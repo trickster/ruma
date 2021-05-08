@@ -265,8 +265,6 @@
 <span id="264">264</span>
 <span id="265">265</span>
 <span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Ident</span>, <span class="ident">Span</span>, <span class="ident">TokenStream</span>};
 <span class="kw">use</span> <span class="ident">quote::quote</span>;
@@ -496,11 +494,9 @@
                             <span class="string">&quot;application/json&quot;</span>,
                         );
 
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req_headers</span> <span class="op">=</span> <span class="ident">req_builder</span>
-                        .<span class="ident">headers_mut</span>()
-                        .<span class="ident">expect</span>(<span class="string">&quot;`http::RequestBuilder` is in unusable state&quot;</span>);
-
-                    #<span class="ident">header_kvs</span>
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">req_headers</span>) <span class="op">=</span> <span class="ident">req_builder</span>.<span class="ident">headers_mut</span>() {
+                        #<span class="ident">header_kvs</span>
+                    }
 
                     <span class="kw">let</span> <span class="ident">http_request</span> <span class="op">=</span> <span class="ident">req_builder</span>.<span class="ident">body</span>(#<span class="ident">request_body</span>)<span class="question-mark">?</span>;
 
