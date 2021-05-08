@@ -327,6 +327,12 @@
 <span id="326">326</span>
 <span id="327">327</span>
 <span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections::BTreeMap</span>,
@@ -574,8 +580,14 @@
     }
 }
 
-<span class="macro">macro_rules!</span> <span class="ident">impl_partial_eq</span> {
+<span class="macro">macro_rules!</span> <span class="ident">variant_impls</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ty</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">val</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="ident">val</span>)
+            }
+        }
+
         <span class="kw">impl</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
             <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
                 <span class="kw">match</span> <span class="self">self</span> {
@@ -596,11 +608,11 @@
     };
 }
 
-<span class="macro">impl_partial_eq!</span>(<span class="ident">Bool</span>(<span class="ident">bool</span>));
-<span class="macro">impl_partial_eq!</span>(<span class="ident">Integer</span>(<span class="ident">Int</span>));
-<span class="macro">impl_partial_eq!</span>(<span class="ident">String</span>(<span class="ident">String</span>));
-<span class="macro">impl_partial_eq!</span>(<span class="ident">Array</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">CanonicalJsonValue</span><span class="op">&gt;</span>));
-<span class="macro">impl_partial_eq!</span>(<span class="ident">Object</span>(<span class="ident">Object</span>));
+<span class="macro">variant_impls!</span>(<span class="ident">Bool</span>(<span class="ident">bool</span>));
+<span class="macro">variant_impls!</span>(<span class="ident">Integer</span>(<span class="ident">Int</span>));
+<span class="macro">variant_impls!</span>(<span class="ident">String</span>(<span class="ident">String</span>));
+<span class="macro">variant_impls!</span>(<span class="ident">Array</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">CanonicalJsonValue</span><span class="op">&gt;</span>));
+<span class="macro">variant_impls!</span>(<span class="ident">Object</span>(<span class="ident">Object</span>));
 
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">CanonicalJsonValue</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
