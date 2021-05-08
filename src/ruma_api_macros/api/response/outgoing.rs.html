@@ -89,9 +89,6 @@
 <span id="88">88</span>
 <span id="89">89</span>
 <span id="90">90</span>
-<span id="91">91</span>
-<span id="92">92</span>
-<span id="93">93</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
 <span class="kw">use</span> <span class="ident">quote::quote</span>;
@@ -173,14 +170,11 @@
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp_builder</span> <span class="op">=</span> #<span class="ident">http::Response::builder</span>()
                         .<span class="ident">header</span>(#<span class="ident">http::header::CONTENT_TYPE</span>, <span class="string">&quot;application/json&quot;</span>);
 
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">resp_builder</span>
-                        .<span class="ident">headers_mut</span>()
-                        .<span class="ident">expect</span>(<span class="string">&quot;`http::ResponseBuilder` is in unusable state&quot;</span>);
-                    #(#<span class="ident">serialize_response_headers</span>)<span class="op">*</span>
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">headers</span>) <span class="op">=</span> <span class="ident">resp_builder</span>.<span class="ident">headers_mut</span>() {
+                        #(#<span class="ident">serialize_response_headers</span>)<span class="op">*</span>
+                    }
 
-                    <span class="comment">// This cannot fail because we parse each header value checking for errors as</span>
-                    <span class="comment">// each value is inserted and we only allow keys from the `http::header` module.</span>
-                    <span class="ident">::std::result::Result::Ok</span>(<span class="ident">resp_builder</span>.<span class="ident">body</span>(#<span class="ident">body</span>).<span class="ident">unwrap</span>())
+                    <span class="ident">::std::result::Result::Ok</span>(<span class="ident">resp_builder</span>.<span class="ident">body</span>(#<span class="ident">body</span>)<span class="question-mark">?</span>)
                 }
             }
         }
