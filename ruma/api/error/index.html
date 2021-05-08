@@ -3,7 +3,8 @@
 converting between http requests / responses and ruma’s representation of
 matrix API requests / responses.</p>
 </div><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
-<table><tr class="module-item"><td><a class="struct" href="struct.RequestDeserializationError.html" title="ruma::api::error::RequestDeserializationError struct">RequestDeserializationError</a></td><td class="docblock-short"><p>An error that occurred when trying to deserialize a request.</p>
+<table><tr class="module-item"><td><a class="struct" href="struct.MatrixError.html" title="ruma::api::error::MatrixError struct">MatrixError</a></td><td class="docblock-short"><p>A general-purpose Matrix error type consisting of an HTTP status code and a JSON body.</p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.RequestDeserializationError.html" title="ruma::api::error::RequestDeserializationError struct">RequestDeserializationError</a></td><td class="docblock-short"><p>An error that occurred when trying to deserialize a request.</p>
 </td></tr><tr class="module-item"><td><a class="struct" href="struct.ResponseDeserializationError.html" title="ruma::api::error::ResponseDeserializationError struct">ResponseDeserializationError</a></td><td class="docblock-short"><p>An error that occurred when trying to deserialize a response.</p>
 </td></tr></table><h2 id="enums" class="section-header"><a href="#enums">Enums</a></h2>
 <table><tr class="module-item"><td><a class="enum" href="enum.DeserializationError.html" title="ruma::api::error::DeserializationError enum">DeserializationError</a></td><td class="docblock-short"><p>An error when converting a http request / response to one of ruma’s endpoint-specific request /
@@ -14,6 +15,5 @@ response types.</p>
 </td></tr><tr class="module-item"><td><a class="enum" href="enum.IntoHttpError.html" title="ruma::api::error::IntoHttpError enum">IntoHttpError</a></td><td class="docblock-short"><p>An error when converting one of ruma’s endpoint-specific request or response
 types to the corresponding http type.</p>
 </td></tr><tr class="module-item"><td><a class="enum" href="enum.ServerError.html" title="ruma::api::error::ServerError enum">ServerError</a></td><td class="docblock-short"><p>An error was reported by the server (HTTP status code 4xx or 5xx)</p>
-</td></tr><tr class="module-item"><td><a class="enum" href="enum.Void.html" title="ruma::api::error::Void enum">Void</a></td><td class="docblock-short"><p>Default <code>EndpointError</code> for <code>ruma_api!</code> macro</p>
 </td></tr></table></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="ruma" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
     <script src="../../../main.js"></script></body></html>
