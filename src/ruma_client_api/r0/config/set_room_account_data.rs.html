@@ -85,7 +85,7 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// To create a `RawJsonValue`, use `serde_json::value::to_raw_value`.</span>
         <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">body</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>,
+        <span class="kw">pub</span> <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawJsonValue</span>,
 
         <span class="doccomment">/// The event type of the account_data to set.</span>
         <span class="doccomment">///</span>
@@ -113,7 +113,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Creates a new `Request` with the given data, event type, room ID and user ID.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">data</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span>,
+        <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RawJsonValue</span>,
         <span class="ident">event_type</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="ident">room_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RoomId</span>,
         <span class="ident">user_id</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">UserId</span>,
