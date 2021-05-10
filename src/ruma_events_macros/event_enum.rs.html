@@ -1458,7 +1458,7 @@
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Full</span> <span class="op">|</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">|</span> <span class="ident">EventKindVariation::Stripped</span> <span class="op">=</span> <span class="ident">var</span>
     {
-        <span class="kw">let</span> (<span class="ident">param</span>, <span class="ident">redaction_type</span>, <span class="ident">redaction_enum</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">var</span> {
+        <span class="kw">let</span> (<span class="ident">redaction_type</span>, <span class="ident">redacted_type</span>, <span class="ident">redacted_enum</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">var</span> {
             <span class="ident">EventKindVariation::Full</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">struct_id</span> <span class="op">=</span> <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span>)<span class="question-mark">?</span>;
                 (
@@ -1487,7 +1487,7 @@
         };
 
         <span class="kw">let</span> <span class="ident">self_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">match_arm</span>(<span class="macro">quote!</span>(<span class="self">Self</span>)));
-        <span class="kw">let</span> <span class="ident">redaction_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">ctor</span>(<span class="kw-2">&amp;</span><span class="ident">redaction_enum</span>));
+        <span class="kw">let</span> <span class="ident">redaction_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">ctor</span>(<span class="kw-2">&amp;</span><span class="ident">redacted_enum</span>));
 
         <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">EVENT_FIELDS</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="ident">has_field</span>)<span class="op">|</span> {
             <span class="ident">generate_redacted_fields</span>(<span class="ident">name</span>, <span class="ident">kind</span>, <span class="ident">var</span>, <span class="kw-2">*</span><span class="ident">has_field</span>, <span class="ident">ruma_events</span>)
@@ -1501,14 +1501,14 @@
                 <span class="doccomment">/// Redacts `Self` given a valid `Redaction[Sync]Event`.</span>
                 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">redact</span>(
                     <span class="self">self</span>,
-                    <span class="ident">redaction</span>: #<span class="ident">param</span>,
-                    <span class="ident">version</span>: #<span class="ident">ruma_identifiers::RoomVersionId</span>,
-                ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">redaction_enum</span> {
+                    <span class="ident">redaction</span>: #<span class="ident">redaction_type</span>,
+                    <span class="ident">version</span>: <span class="kw-2">&amp;</span>#<span class="ident">ruma_identifiers::RoomVersionId</span>,
+                ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">redacted_enum</span> {
                     <span class="kw">match</span> <span class="self">self</span> {
                         #(
                             #<span class="ident">self_variants</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
                                 <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">event</span>.<span class="ident">content</span>.<span class="ident">redact</span>(<span class="ident">version</span>);
-                                #<span class="ident">redaction_variants</span>(#<span class="ident">redaction_type</span> {
+                                #<span class="ident">redaction_variants</span>(#<span class="ident">redacted_type</span> {
                                     <span class="ident">content</span>,
                                     #<span class="ident">fields</span>
                                 })
@@ -1516,7 +1516,7 @@
                         )<span class="op">*</span>
                         <span class="self">Self</span><span class="ident">::Custom</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">event</span>.<span class="ident">content</span>.<span class="ident">redact</span>(<span class="ident">version</span>);
-                            #<span class="ident">redaction_enum::Custom</span>(#<span class="ident">redaction_type</span> {
+                            #<span class="ident">redacted_enum::Custom</span>(#<span class="ident">redacted_type</span> {
                                 <span class="ident">content</span>,
                                 #<span class="ident">fields</span>
                             })
@@ -1599,14 +1599,14 @@
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">name</span>, <span class="ident">Span::call_site</span>());
 
         <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;unsigned&quot;</span> {
-            <span class="kw">let</span> <span class="ident">redaction_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">=</span> <span class="ident">var</span> {
+            <span class="kw">let</span> <span class="ident">redacted_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">=</span> <span class="ident">var</span> {
                 <span class="macro">quote!</span> { <span class="ident">RedactedSyncUnsigned</span> }
             } <span class="kw">else</span> {
                 <span class="macro">quote!</span> { <span class="ident">RedactedUnsigned</span> }
             };
 
             <span class="macro">quote!</span> {
-                <span class="ident">unsigned</span>: #<span class="ident">ruma_events</span>::#<span class="ident">redaction_type</span> {
+                <span class="ident">unsigned</span>: #<span class="ident">ruma_events</span>::#<span class="ident">redacted_type</span> {
                     <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">::std::boxed::Box::new</span>(<span class="ident">redaction</span>)),
                 },
             }
