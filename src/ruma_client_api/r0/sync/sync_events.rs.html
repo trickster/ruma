@@ -890,6 +890,42 @@
 <span id="889">889</span>
 <span id="890">890</span>
 <span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
 </pre><pre class="rust">
 <span class="doccomment">//! [GET /_matrix/client/r0/sync](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-sync)</span>
 
@@ -899,8 +935,9 @@
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
 <span class="kw">use</span> <span class="ident">ruma_common::presence::PresenceState</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{
-    <span class="ident">presence::PresenceEvent</span>, <span class="ident">AnyBasicEvent</span>, <span class="ident">AnyStrippedStateEvent</span>, <span class="ident">AnySyncEphemeralRoomEvent</span>,
-    <span class="ident">AnySyncRoomEvent</span>, <span class="ident">AnySyncStateEvent</span>, <span class="ident">AnyToDeviceEvent</span>,
+    <span class="ident">presence::PresenceEvent</span>, <span class="ident">AnyGlobalAccountDataEvent</span>, <span class="ident">AnyRoomAccountDataEvent</span>,
+    <span class="ident">AnyStrippedStateEvent</span>, <span class="ident">AnySyncEphemeralRoomEvent</span>, <span class="ident">AnySyncRoomEvent</span>, <span class="ident">AnySyncStateEvent</span>,
+    <span class="ident">AnyToDeviceEvent</span>,
 };
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceKeyAlgorithm</span>, <span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">ruma_serde</span>::{<span class="ident">Outgoing</span>, <span class="ident">Raw</span>};
@@ -968,8 +1005,8 @@
         <span class="kw">pub</span> <span class="ident">presence</span>: <span class="ident">Presence</span>,
 
         <span class="doccomment">/// The global private data created by this user.</span>
-        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;AccountData::is_empty&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">AccountData</span>,
+        <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;GlobalAccountData::is_empty&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">GlobalAccountData</span>,
 
         <span class="doccomment">/// Messages sent dirrectly between devices.</span>
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;ToDevice::is_empty&quot;</span>)]</span>
@@ -1112,8 +1149,8 @@
     <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">State</span>,
 
     <span class="doccomment">/// The private data that this user has attached to this room.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;AccountData::is_empty&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">AccountData</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;RoomAccountData::is_empty&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">RoomAccountData</span>,
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>))]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -1168,8 +1205,8 @@
     <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">State</span>,
 
     <span class="doccomment">/// The private data that this user has attached to this room.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;AccountData::is_empty&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">AccountData</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;RoomAccountData::is_empty&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">RoomAccountData</span>,
 
     <span class="doccomment">/// The ephemeral events in the room that aren&#39;t recorded in the timeline or state of the</span>
     <span class="doccomment">/// room. e.g. typing.</span>
@@ -1337,12 +1374,12 @@
     }
 }
 
-<span class="doccomment">/// The private data that this user has attached to this room.</span>
+<span class="doccomment">/// The global private data created by this user.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AccountData</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalAccountData</span> {
     <span class="doccomment">/// A list of events.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Vec::is_empty&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyBasicEvent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyGlobalAccountDataEvent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>))]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -1350,19 +1387,54 @@
     <span class="kw">pub</span> <span class="ident">__test_exhaustive</span>: <span class="kw">crate</span><span class="ident">::Private</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">AccountData</span> {
-    <span class="doccomment">/// Creates an empty `AccountData`.</span>
+<span class="kw">impl</span> <span class="ident">GlobalAccountData</span> {
+    <span class="doccomment">/// Creates an empty `GlobalAccountData`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">Default::default</span>()
     }
 
-    <span class="doccomment">/// Returns true if there are no account data updates.</span>
+    <span class="doccomment">/// Returns true if there are no global account data updates.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">is_empty</span>()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">AccountData</span> {
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">GlobalAccountData</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">events</span>: <span class="macro">vec!</span>[],
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>))]</span>
+            <span class="ident">__test_exhaustive</span>: <span class="kw">crate</span><span class="ident">::private</span>(),
+        }
+    }
+}
+
+<span class="doccomment">/// The private data that this user has attached to this room.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RoomAccountData</span> {
+    <span class="doccomment">/// A list of events.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Vec::is_empty&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyRoomAccountDataEvent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip</span>, <span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;crate::private&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">__test_exhaustive</span>: <span class="kw">crate</span><span class="ident">::Private</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">RoomAccountData</span> {
+    <span class="doccomment">/// Creates an empty `RoomAccountData`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Default::default</span>()
+    }
+
+    <span class="doccomment">/// Returns true if there are no room account data updates.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">is_empty</span>()
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">RoomAccountData</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">events</span>: <span class="macro">vec!</span>[],

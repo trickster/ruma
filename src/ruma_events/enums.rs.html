@@ -200,6 +200,10 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_events_macros::event_enum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Serialize</span>};
@@ -208,16 +212,20 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">from_raw_json_value</span>, <span class="ident">EventDeHelper</span>};
 
 <span class="macro">event_enum!</span> {
-    <span class="doccomment">/// Any basic event.</span>
-    <span class="ident">kind</span>: <span class="ident">Basic</span>,
+    <span class="doccomment">/// Any global account data event.</span>
+    <span class="ident">kind</span>: <span class="ident">GlobalAccountData</span>,
     <span class="ident">events</span>: [
         <span class="string">&quot;m.direct&quot;</span>,
-        <span class="string">&quot;m.dummy&quot;</span>,
-        <span class="string">&quot;m.fully_read&quot;</span>,
         <span class="string">&quot;m.ignored_user_list&quot;</span>,
-        <span class="string">&quot;m.presence&quot;</span>,
         <span class="string">&quot;m.push_rules&quot;</span>,
-        <span class="string">&quot;m.room_key&quot;</span>,
+    ]
+}
+
+<span class="macro">event_enum!</span> {
+    <span class="doccomment">/// Any room account data event.</span>
+    <span class="ident">kind</span>: <span class="ident">RoomAccountData</span>,
+    <span class="ident">events</span>: [
+        <span class="string">&quot;m.fully_read&quot;</span>,
         <span class="string">&quot;m.tag&quot;</span>,
     ]
 }

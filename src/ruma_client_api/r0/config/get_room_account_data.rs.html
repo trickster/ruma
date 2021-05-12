@@ -58,7 +58,7 @@
 <span class="doccomment">//! [GET /_matrix/client/r0/user/{userId}/rooms/{roomId}/account_data/{type}](https://matrix.org/docs/spec/client_server/r0.6.0#get-matrix-client-r0-user-userid-rooms-roomid-account-data-type)</span>
 
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
-<span class="kw">use</span> <span class="ident">ruma_events::AnyBasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events::AnyRoomAccountDataEventContent</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">ruma_serde::Raw</span>;
 
@@ -91,7 +91,7 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// Use `ruma_events::RawExt` for deserialization.</span>
         <span class="attribute">#[<span class="ident">ruma_api</span>(<span class="ident">body</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyBasicEventContent</span><span class="op">&gt;</span>,
+        <span class="kw">pub</span> <span class="ident">account_data</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyRoomAccountDataEventContent</span><span class="op">&gt;</span>,
     }
 
     <span class="ident">error</span>: <span class="kw">crate</span><span class="ident">::Error</span>
@@ -106,7 +106,7 @@
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
     <span class="doccomment">/// Creates a new `Response` with the given account data.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">account_data</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyBasicEventContent</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">account_data</span>: <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">AnyRoomAccountDataEventContent</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">account_data</span> }
     }
 }

@@ -468,6 +468,8 @@
 <span id="467">467</span>
 <span id="468">468</span>
 <span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -623,7 +625,7 @@
 <span class="doccomment">/// Re-export of all the derives needed to create your own event types.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">macros</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_events_macros</span>::{
-        <span class="ident">BasicEventContent</span>, <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">Event</span>, <span class="ident">MessageEventContent</span>, <span class="ident">StateEventContent</span>,
+        <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">Event</span>, <span class="ident">MessageEventContent</span>, <span class="ident">StateEventContent</span>,
     };
 }
 
@@ -658,22 +660,24 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::relation::Relations</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">enums</span>::{
-        <span class="ident">AnyBasicEvent</span>, <span class="ident">AnyBasicEventContent</span>, <span class="ident">AnyEphemeralRoomEvent</span>, <span class="ident">AnyEphemeralRoomEventContent</span>,
-        <span class="ident">AnyInitialStateEvent</span>, <span class="ident">AnyMessageEvent</span>, <span class="ident">AnyMessageEventContent</span>,
-        <span class="ident">AnyPossiblyRedactedMessageEvent</span>, <span class="ident">AnyPossiblyRedactedStateEvent</span>,
+        <span class="ident">AnyEphemeralRoomEvent</span>, <span class="ident">AnyEphemeralRoomEventContent</span>, <span class="ident">AnyGlobalAccountDataEvent</span>,
+        <span class="ident">AnyGlobalAccountDataEventContent</span>, <span class="ident">AnyInitialStateEvent</span>, <span class="ident">AnyMessageEvent</span>,
+        <span class="ident">AnyMessageEventContent</span>, <span class="ident">AnyPossiblyRedactedMessageEvent</span>, <span class="ident">AnyPossiblyRedactedStateEvent</span>,
         <span class="ident">AnyPossiblyRedactedStrippedStateEvent</span>, <span class="ident">AnyPossiblyRedactedSyncMessageEvent</span>,
         <span class="ident">AnyPossiblyRedactedSyncStateEvent</span>, <span class="ident">AnyRedactedMessageEvent</span>, <span class="ident">AnyRedactedStateEvent</span>,
         <span class="ident">AnyRedactedStrippedStateEvent</span>, <span class="ident">AnyRedactedSyncMessageEvent</span>, <span class="ident">AnyRedactedSyncStateEvent</span>,
-        <span class="ident">AnyRoomEvent</span>, <span class="ident">AnyStateEvent</span>, <span class="ident">AnyStateEventContent</span>, <span class="ident">AnyStrippedStateEvent</span>,
-        <span class="ident">AnySyncEphemeralRoomEvent</span>, <span class="ident">AnySyncMessageEvent</span>, <span class="ident">AnySyncRoomEvent</span>, <span class="ident">AnySyncStateEvent</span>,
-        <span class="ident">AnyToDeviceEvent</span>, <span class="ident">AnyToDeviceEventContent</span>,
+        <span class="ident">AnyRoomAccountDataEvent</span>, <span class="ident">AnyRoomAccountDataEventContent</span>, <span class="ident">AnyRoomEvent</span>, <span class="ident">AnyStateEvent</span>,
+        <span class="ident">AnyStateEventContent</span>, <span class="ident">AnyStrippedStateEvent</span>, <span class="ident">AnySyncEphemeralRoomEvent</span>,
+        <span class="ident">AnySyncMessageEvent</span>, <span class="ident">AnySyncRoomEvent</span>, <span class="ident">AnySyncStateEvent</span>, <span class="ident">AnyToDeviceEvent</span>,
+        <span class="ident">AnyToDeviceEventContent</span>,
     },
     <span class="ident">error</span>::{<span class="ident">FromStrError</span>, <span class="ident">InvalidInput</span>},
     <span class="ident">event_kinds</span>::{
-        <span class="ident">BasicEvent</span>, <span class="ident">EphemeralRoomEvent</span>, <span class="ident">InitialStateEvent</span>, <span class="ident">MessageEvent</span>, <span class="ident">RedactedMessageEvent</span>,
-        <span class="ident">RedactedStateEvent</span>, <span class="ident">RedactedStrippedStateEvent</span>, <span class="ident">RedactedSyncMessageEvent</span>,
-        <span class="ident">RedactedSyncStateEvent</span>, <span class="ident">StateEvent</span>, <span class="ident">StrippedStateEvent</span>, <span class="ident">SyncEphemeralRoomEvent</span>,
-        <span class="ident">SyncMessageEvent</span>, <span class="ident">SyncStateEvent</span>, <span class="ident">ToDeviceEvent</span>,
+        <span class="ident">EphemeralRoomEvent</span>, <span class="ident">GlobalAccountDataEvent</span>, <span class="ident">InitialStateEvent</span>, <span class="ident">MessageEvent</span>,
+        <span class="ident">RedactedMessageEvent</span>, <span class="ident">RedactedStateEvent</span>, <span class="ident">RedactedStrippedStateEvent</span>,
+        <span class="ident">RedactedSyncMessageEvent</span>, <span class="ident">RedactedSyncStateEvent</span>, <span class="ident">RoomAccountDataEvent</span>, <span class="ident">StateEvent</span>,
+        <span class="ident">StrippedStateEvent</span>, <span class="ident">SyncEphemeralRoomEvent</span>, <span class="ident">SyncMessageEvent</span>, <span class="ident">SyncStateEvent</span>,
+        <span class="ident">ToDeviceEvent</span>,
     },
     <span class="ident">event_type::EventType</span>,
 };

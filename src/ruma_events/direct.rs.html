@@ -94,18 +94,18 @@
     <span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>},
 };
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros::BasicEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EventContent</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="doccomment">/// Informs the client about the rooms that are considered direct by a user.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DirectEvent</span> <span class="op">=</span> <span class="kw">crate</span><span class="ident">::BasicEvent</span><span class="op">&lt;</span><span class="ident">DirectEventContent</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DirectEvent</span> <span class="op">=</span> <span class="kw">crate</span><span class="ident">::GlobalAccountDataEvent</span><span class="op">&lt;</span><span class="ident">DirectEventContent</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// The payload for `DirectEvent`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A mapping of `UserId`s to a list of `RoomId`s which are considered *direct* for that</span>
 <span class="doccomment">/// particular user.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">BasicEventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.direct&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DirectEventContent</span>(<span class="kw">pub</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">UserId</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RoomId</span><span class="op">&gt;</span><span class="op">&gt;</span>);
 
