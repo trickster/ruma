@@ -267,6 +267,16 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 
@@ -318,6 +328,10 @@
     <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.cancel&quot;</span>)]</span>
     <span class="ident">KeyVerificationCancel</span>,
 
+    <span class="doccomment">/// m.key.verification.done</span>
+    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.done&quot;</span>)]</span>
+    <span class="ident">KeyVerificationDone</span>,
+
     <span class="doccomment">/// m.key.verification.key</span>
     <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.key&quot;</span>)]</span>
     <span class="ident">KeyVerificationKey</span>,
@@ -325,6 +339,10 @@
     <span class="doccomment">/// m.key.verification.mac</span>
     <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.mac&quot;</span>)]</span>
     <span class="ident">KeyVerificationMac</span>,
+
+    <span class="doccomment">/// m.key.verification.ready</span>
+    <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.ready&quot;</span>)]</span>
+    <span class="ident">KeyVerificationReady</span>,
 
     <span class="doccomment">/// m.key.verification.request</span>
     <span class="attribute">#[<span class="ident">ruma_enum</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.request&quot;</span>)]</span>
@@ -497,8 +515,10 @@
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::FullyRead</span>, <span class="macro">json!</span>(<span class="string">&quot;m.fully_read&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationAccept</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.accept&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationCancel</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.cancel&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationDone</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.done&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationKey</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.key&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationMac</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.mac&quot;</span>));
+        <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationReady</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.ready&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationRequest</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.request&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::KeyVerificationStart</span>, <span class="macro">json!</span>(<span class="string">&quot;m.key.verification.start&quot;</span>));
         <span class="ident">serde_json_eq</span>(<span class="ident">EventType::IgnoredUserList</span>, <span class="macro">json!</span>(<span class="string">&quot;m.ignored_user_list&quot;</span>));

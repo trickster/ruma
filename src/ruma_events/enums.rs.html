@@ -204,6 +204,12 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_events_macros::event_enum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Serialize</span>};
@@ -314,11 +320,17 @@
         <span class="string">&quot;m.room_key_request&quot;</span>,
         <span class="string">&quot;m.forwarded_room_key&quot;</span>,
         <span class="string">&quot;m.key.verification.request&quot;</span>,
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
+        <span class="string">&quot;m.key.verification.ready&quot;</span>,
         <span class="string">&quot;m.key.verification.start&quot;</span>,
         <span class="string">&quot;m.key.verification.cancel&quot;</span>,
         <span class="string">&quot;m.key.verification.accept&quot;</span>,
         <span class="string">&quot;m.key.verification.key&quot;</span>,
         <span class="string">&quot;m.key.verification.mac&quot;</span>,
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
+        <span class="string">&quot;m.key.verification.done&quot;</span>,
         <span class="string">&quot;m.room.encrypted&quot;</span>,
     ]
 }
