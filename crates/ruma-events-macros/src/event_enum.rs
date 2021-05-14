@@ -397,6 +397,17 @@ fn expand_content_enum(
     let variant_arms = variants.iter().map(|v| v.match_arm(quote!(Self)));
     let variant_ctors = variants.iter().map(|v| v.ctor(quote!(Self)));
 
+    let redact_method = quote! {
+        impl #ident {
+            pub fn redact(
+                self,
+                version: &#ruma_identifiers::RoomVersionId,
+            ) -> () {
+                todo!()
+            }
+        }
+    };
+
     let event_content_impl = quote! {
         #[automatically_derived]
         impl #ruma_events::EventContent for #ident {
