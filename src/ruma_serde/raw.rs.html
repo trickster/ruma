@@ -178,6 +178,11 @@
 <span id="177">177</span>
 <span id="178">178</span>
 <span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">clone::Clone</span>,
@@ -203,7 +208,12 @@
 <span class="doccomment">/// All event structs and enums implement `Serialize` / `Deserialize`, `Raw` should be used</span>
 <span class="doccomment">/// to pass around events in a lossless way.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ```ignore</span>
+<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// # use serde::Deserialize;</span>
+<span class="doccomment">/// # use ruma_serde::Raw;</span>
+<span class="doccomment">/// # #[derive(Deserialize)]</span>
+<span class="doccomment">/// # struct AnyRoomEvent;</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// let json = r#&quot;{ &quot;type&quot;: &quot;imagine a full event&quot;, &quot;content&quot;: {...} }&quot;#;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// let deser = serde_json::from_str::&lt;Raw&lt;AnyRoomEvent&gt;&gt;(json)</span>

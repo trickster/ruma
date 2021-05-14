@@ -75,6 +75,10 @@
 <span id="74">74</span>
 <span id="75">75</span>
 <span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -109,16 +113,20 @@
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```ignore</span>
+<span class="doccomment">/// # // HACK: This is &quot;ignore&quot; because of cyclical dependency drama.</span>
 <span class="doccomment">/// use ruma_events_macros::event_enum;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// event_enum! {</span>
-<span class="doccomment">///     name: AnyBarEvent, // `BarEvent` has to be a valid type at `::ruma_events::BarEvent`</span>
+<span class="doccomment">///     kind: ToDevice,</span>
 <span class="doccomment">///     events: [</span>
 <span class="doccomment">///         &quot;m.any.event&quot;,</span>
 <span class="doccomment">///         &quot;m.other.event&quot;,</span>
 <span class="doccomment">///     ]</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
+<span class="doccomment">/// (The argument to `kind` has to be a valid identifier for `&lt;EventKind as Parse&gt;::parse`)</span>
+<span class="comment">//// TODO: Change above (`&lt;EventKind as Parse&gt;::parse`) to [] after fully qualified syntax is</span>
+<span class="comment">//// supported:  https://github.com/rust-lang/rust/issues/74563</span>
 <span class="attribute">#[<span class="ident">proc_macro</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">event_enum</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">event_enum_input</span> <span class="op">=</span> <span class="macro">syn::parse_macro_input!</span>(<span class="ident">input</span> <span class="kw">as</span> <span class="ident">EventEnumInput</span>);
