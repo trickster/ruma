@@ -423,7 +423,7 @@
             <span class="kw">let</span> <span class="ident">body_lifetimes</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">has_body_lifetimes</span>() {
                 <span class="comment">// duplicate the anonymous lifetime as many times as needed</span>
                 <span class="kw">let</span> <span class="ident">lifetimes</span> <span class="op">=</span> <span class="ident">std::iter::repeat</span>(<span class="macro">quote!</span> { <span class="lifetime">&#39;_</span> }).<span class="ident">take</span>(<span class="self">self</span>.<span class="ident">lifetimes</span>.<span class="ident">body</span>.<span class="ident">len</span>());
-                <span class="macro">quote!</span> { <span class="op">&lt;</span> #( #<span class="ident">lifetimes</span>, )<span class="op">*</span> <span class="op">&gt;</span>}
+                <span class="macro">quote!</span> { <span class="op">&lt;</span> #( #<span class="ident">lifetimes</span>, )<span class="op">*</span> <span class="op">&gt;</span> }
             } <span class="kw">else</span> {
                 <span class="ident">TokenStream::new</span>()
             };
