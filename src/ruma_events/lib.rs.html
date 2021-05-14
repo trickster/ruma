@@ -470,6 +470,10 @@
 <span id="469">469</span>
 <span id="470">470</span>
 <span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -509,7 +513,7 @@
 <span class="doccomment">//! would work.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use ruma_events::{macros::MessageEventContent, SyncMessageEvent};</span>
+<span class="doccomment">//! use ruma_events::{macros::EventContent, SyncMessageEvent};</span>
 <span class="doccomment">//! use ruma_identifiers::EventId;</span>
 <span class="doccomment">//! use serde::{Deserialize, Serialize};</span>
 <span class="doccomment">//!</span>
@@ -531,8 +535,8 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! /// The payload for our reaction event.</span>
-<span class="doccomment">//! #[derive(Clone, Debug, Deserialize, Serialize, MessageEventContent)]</span>
-<span class="doccomment">//! #[ruma_event(type = &quot;m.reaction&quot;)]</span>
+<span class="doccomment">//! #[derive(Clone, Debug, Deserialize, Serialize, EventContent)]</span>
+<span class="doccomment">//! #[ruma_event(type = &quot;m.reaction&quot;, kind = Message)]</span>
 <span class="doccomment">//! pub struct ReactionEventContent {</span>
 <span class="doccomment">//!     #[serde(rename = &quot;m.relates_to&quot;)]</span>
 <span class="doccomment">//!     pub relates_to: RelatesTo,</span>
@@ -624,9 +628,7 @@
 
 <span class="doccomment">/// Re-export of all the derives needed to create your own event types.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">macros</span> {
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_events_macros</span>::{
-        <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">Event</span>, <span class="ident">MessageEventContent</span>, <span class="ident">StateEventContent</span>,
-    };
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_events_macros</span>::{<span class="ident">Event</span>, <span class="ident">EventContent</span>};
 }
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">call</span>;
@@ -841,8 +843,14 @@
 <span class="doccomment">/// Marker trait for the content of an ephemeral room event.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EphemeralRoomEventContent</span>: <span class="ident">EventContent</span> {}
 
-<span class="doccomment">/// Marker trait for the content of a basic event.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">BasicEventContent</span>: <span class="ident">EventContent</span> {}
+<span class="doccomment">/// Marker trait for the content of a global account data event.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">GlobalAccountDataEventContent</span>: <span class="ident">EventContent</span> {}
+
+<span class="doccomment">/// Marker trait for the content of a room account data event.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RoomAccountDataEventContent</span>: <span class="ident">EventContent</span> {}
+
+<span class="doccomment">/// Marker trait for the content of a to device event.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ToDeviceEventContent</span>: <span class="ident">EventContent</span> {}
 
 <span class="doccomment">/// Marker trait for the content of a room event.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RoomEventContent</span>: <span class="ident">EventContent</span> {}

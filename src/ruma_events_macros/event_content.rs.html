@@ -374,11 +374,15 @@
     <span class="ident">DeriveInput</span>, <span class="ident">Ident</span>, <span class="ident">LitStr</span>, <span class="ident">Token</span>,
 };
 
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::event_parse::EventKind</span>;
+
 <span class="kw">mod</span> <span class="ident">kw</span> {
     <span class="comment">// This `content` field is kept when the event is redacted.</span>
     <span class="macro">syn::custom_keyword!</span>(<span class="ident">skip_redaction</span>);
     <span class="comment">// Do not emit any redacted event code.</span>
     <span class="macro">syn::custom_keyword!</span>(<span class="ident">custom_redacted</span>);
+    <span class="comment">// The kind of event content this is.</span>
+    <span class="macro">syn::custom_keyword!</span>(<span class="ident">kind</span>);
 }
 
 <span class="doccomment">/// Parses attributes for `*EventContent` derives.</span>
@@ -387,6 +391,8 @@
 <span class="kw">enum</span> <span class="ident">EventMeta</span> {
     <span class="doccomment">/// Variant holds the &quot;m.whatever&quot; event type.</span>
     <span class="ident">Type</span>(<span class="ident">LitStr</span>),
+
+    <span class="ident">Kind</span>(<span class="ident">EventKind</span>),
 
     <span class="doccomment">/// Fields marked with `#[ruma_event(skip_redaction)]` are kept when the event is</span>
     <span class="doccomment">/// redacted.</span>
@@ -405,6 +411,14 @@
             <span class="prelude-val">None</span>
         }
     }
+
+    <span class="kw">fn</span> <span class="ident">get_event_kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">EventKind</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="self">Self</span><span class="ident">::Kind</span>(<span class="ident">lit</span>) <span class="op">=</span> <span class="self">self</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">lit</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
+        }
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">EventMeta</span> {
@@ -414,6 +428,10 @@
             <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[<span class="kw">type</span>] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[<span class="op">=</span>] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
             <span class="ident">input</span>.<span class="ident">parse</span>().<span class="ident">map</span>(<span class="ident">EventMeta::Type</span>)
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">lookahead</span>.<span class="ident">peek</span>(<span class="ident">kw::kind</span>) {
+            <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">kw::kind</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[<span class="op">=</span>] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
+            <span class="ident">EventKind::parse</span>(<span class="ident">input</span>).<span class="ident">map</span>(<span class="ident">EventMeta::Kind</span>)
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">lookahead</span>.<span class="ident">peek</span>(<span class="ident">kw::skip_redaction</span>) {
             <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">kw::skip_redaction</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">EventMeta::SkipRedacted</span>)
@@ -436,6 +454,10 @@
     <span class="kw">fn</span> <span class="ident">get_event_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">LitStr</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">iter</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">get_event_type</span>())
     }
+
+    <span class="kw">fn</span> <span class="ident">get_event_kinds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">EventKind</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">get_event_kind</span>()).<span class="ident">collect</span>()
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">MetaAttrs</span> {
@@ -448,7 +470,6 @@
 <span class="doccomment">/// Create an `EventContent` implementation for a struct.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_event_content</span>(
     <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>,
-    <span class="ident">emit_redacted</span>: <span class="ident">bool</span>,
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">ruma_identifiers</span> <span class="op">=</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::exports::ruma_identifiers</span> };
@@ -466,13 +487,16 @@
 
     <span class="kw">let</span> <span class="ident">event_type</span> <span class="op">=</span> <span class="ident">content_attr</span>.<span class="ident">iter</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">get_event_type</span>()).<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;no event type attribute found, \
-            add `#[ruma_event(type = \&quot;any.room.event\&quot;)]` \
+            add `#[ruma_event(type = \&quot;any.room.event\&quot;, kind = Kind)]` \
             below the event content derive&quot;</span>;
 
         <span class="ident">syn::Error::new</span>(<span class="ident">Span::call_site</span>(), <span class="ident">msg</span>)
     })<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">redacted</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">emit_redacted</span> <span class="op">&amp;&amp;</span> <span class="ident">needs_redacted</span>(<span class="kw-2">&amp;</span><span class="ident">content_attr</span>) {
+    <span class="kw">let</span> <span class="ident">content_derives</span> <span class="op">=</span>
+        <span class="ident">content_attr</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">args</span>.<span class="ident">get_event_kinds</span>()).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+
+    <span class="kw">let</span> <span class="ident">redacted</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">needs_redacted</span>(<span class="kw-2">&amp;</span><span class="ident">content_attr</span>) {
         <span class="kw">let</span> <span class="ident">doc</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;The payload for a redacted `{}`&quot;</span>, <span class="ident">ident</span>);
         <span class="kw">let</span> <span class="ident">redacted_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;Redacted{}&quot;</span>, <span class="ident">ident</span>);
         <span class="kw">let</span> <span class="ident">kept_redacted_fields</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">syn::Data::Struct</span>(<span class="ident">syn::DataStruct</span> {
@@ -549,6 +573,21 @@
         <span class="kw">let</span> <span class="ident">redacted_event_content</span> <span class="op">=</span>
             <span class="ident">generate_event_content_impl</span>(<span class="kw-2">&amp;</span><span class="ident">redacted_ident</span>, <span class="ident">event_type</span>, <span class="ident">ruma_events</span>);
 
+        <span class="kw">let</span> <span class="ident">redacted_event_content_derive</span> <span class="op">=</span> <span class="ident">content_derives</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">kind</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">kind</span> {
+                <span class="ident">EventKind::Message</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::RedactedMessageEventContent</span> <span class="kw">for</span> #<span class="ident">redacted_ident</span> {}
+                },
+                <span class="ident">EventKind::State</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::RedactedStateEventContent</span> <span class="kw">for</span> #<span class="ident">redacted_ident</span> {}
+                },
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TokenStream::new</span>(),
+            })
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span>();
+
         <span class="macro">quote!</span> {
             <span class="comment">// this is the non redacted event content&#39;s impl</span>
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
@@ -587,106 +626,71 @@
                     #<span class="ident">has_deserialize_fields</span>
                 }
             }
+
+            #<span class="ident">redacted_event_content_derive</span>
         }
     } <span class="kw">else</span> {
         <span class="ident">TokenStream::new</span>()
     };
+
+    <span class="kw">let</span> <span class="ident">event_content_derive</span> <span class="op">=</span>
+        <span class="ident">generate_event_content_derives</span>(<span class="kw-2">&amp;</span><span class="ident">content_derives</span>, <span class="ident">ident</span>, <span class="ident">ruma_events</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">event_content</span> <span class="op">=</span> <span class="ident">generate_event_content_impl</span>(<span class="ident">ident</span>, <span class="ident">event_type</span>, <span class="ident">ruma_events</span>);
 
     <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
         #<span class="ident">event_content</span>
 
+        #<span class="ident">event_content_derive</span>
+
         #<span class="ident">redacted</span>
     })
 }
 
-<span class="doccomment">/// Create a `EphemeralRoomEventContent` implementation for a struct</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_ephemeral_room_event_content</span>(
-    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>,
+<span class="kw">fn</span> <span class="ident">generate_event_content_derives</span>(
+    <span class="ident">content_attr</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">EventKind</span>],
+    <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>,
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">ident</span>.<span class="ident">clone</span>();
-    <span class="kw">let</span> <span class="ident">event_content_impl</span> <span class="op">=</span> <span class="ident">expand_event_content</span>(<span class="ident">input</span>, <span class="bool-val">false</span>, <span class="ident">ruma_events</span>)<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
-        #<span class="ident">event_content_impl</span>
-
-        <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">ruma_events::EphemeralRoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-    })
-}
-
-<span class="doccomment">/// Create a `RoomEventContent` implementation for a struct.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_room_event_content</span>(
-    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>,
-    <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">ident</span>.<span class="ident">clone</span>();
-    <span class="kw">let</span> <span class="ident">event_content_impl</span> <span class="op">=</span> <span class="ident">expand_event_content</span>(<span class="ident">input</span>, <span class="bool-val">true</span>, <span class="ident">ruma_events</span>)<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
-        #<span class="ident">event_content_impl</span>
-
-        <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">ruma_events::RoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-    })
-}
-
-<span class="doccomment">/// Create a `MessageEventContent` implementation for a struct</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_message_event_content</span>(
-    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>,
-    <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">ident</span>.<span class="ident">clone</span>();
-    <span class="kw">let</span> <span class="ident">room_ev_content</span> <span class="op">=</span> <span class="ident">expand_room_event_content</span>(<span class="ident">input</span>, <span class="ident">ruma_events</span>)<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">redacted_marker_trait</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">needs_redacted_from_input</span>(<span class="ident">input</span>) {
-        <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;Redacted{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">ident</span>);
-        <span class="macro">quote!</span> {
-            <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">ruma_events::RedactedMessageEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-        }
-    } <span class="kw">else</span> {
-        <span class="ident">TokenStream::new</span>()
-    };
-
-    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
-        #<span class="ident">room_ev_content</span>
-
-        <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">ruma_events::MessageEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-
-        #<span class="ident">redacted_marker_trait</span>
-    })
-}
-
-<span class="doccomment">/// Create a `StateEventContent` implementation for a struct</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expand_state_event_content</span>(
-    <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>,
-    <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">ident</span>.<span class="ident">clone</span>();
-    <span class="kw">let</span> <span class="ident">room_ev_content</span> <span class="op">=</span> <span class="ident">expand_room_event_content</span>(<span class="ident">input</span>, <span class="ident">ruma_events</span>)<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">redacted_marker_trait</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">needs_redacted_from_input</span>(<span class="ident">input</span>) {
-        <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;Redacted{}&quot;</span>, <span class="ident">input</span>.<span class="ident">ident</span>);
-        <span class="macro">quote!</span> {
-            <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-            <span class="kw">impl</span> #<span class="ident">ruma_events::RedactedStateEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-        }
-    } <span class="kw">else</span> {
-        <span class="ident">TokenStream::new</span>()
-    };
-
-    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
-        #<span class="ident">room_ev_content</span>
-
-        <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-        <span class="kw">impl</span> #<span class="ident">ruma_events::StateEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-
-        #<span class="ident">redacted_marker_trait</span>
-    })
+    <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;valid event kinds are GlobalAccountData, RoomAccountData, \
+        EphemeralRoom, Message, State, ToDevice&quot;</span>;
+    <span class="ident">content_attr</span>
+        .<span class="ident">iter</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">kind</span><span class="op">|</span> {
+            <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">kind</span> {
+                <span class="ident">EventKind::GlobalAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::GlobalAccountDataEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::RoomAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomAccountDataEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::Ephemeral</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::EphemeralRoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::Message</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::MessageEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::State</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::StateEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::ToDevice</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
+                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+                    <span class="kw">impl</span> #<span class="ident">ruma_events::ToDeviceEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+                },
+                <span class="ident">EventKind::Redaction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
+                <span class="ident">EventKind::Presence</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
+            })
+        })
+        .<span class="ident">collect</span>()
 }
 
 <span class="kw">fn</span> <span class="ident">generate_event_content_impl</span>(
@@ -725,10 +729,6 @@
     <span class="comment">// redacted struct also. If no `custom_redacted` attrs are found the content</span>
     <span class="comment">// needs a redacted struct generated.</span>
     <span class="op">!</span><span class="ident">input</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">is_custom</span>())
-}
-
-<span class="kw">fn</span> <span class="ident">needs_redacted_from_input</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    <span class="op">!</span><span class="ident">input</span>.<span class="ident">attrs</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">parse_args</span>::<span class="op">&lt;</span><span class="ident">MetaAttrs</span><span class="op">&gt;</span>().<span class="ident">ok</span>()).<span class="ident">any</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">is_custom</span>())
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_events_macros" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>

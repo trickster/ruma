@@ -50,7 +50,7 @@
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.join_rules* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros::StateEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EventContent</span>;
 <span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
@@ -60,9 +60,9 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">JoinRulesEvent</span> <span class="op">=</span> <span class="ident">StateEvent</span><span class="op">&lt;</span><span class="ident">JoinRulesEventContent</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// The payload for `JoinRulesEvent`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">StateEventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
-<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.join_rules&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.join_rules&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">State</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">JoinRulesEventContent</span> {
     <span class="doccomment">/// The type of rules used for users wishing to join this room.</span>
     <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="ident">skip_redaction</span>)]</span>

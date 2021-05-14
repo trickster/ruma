@@ -106,7 +106,7 @@
 <span class="doccomment">/// A mapping of `UserId`s to a list of `RoomId`s which are considered *direct* for that</span>
 <span class="doccomment">/// particular user.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
-<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.direct&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.direct&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">GlobalAccountData</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DirectEventContent</span>(<span class="kw">pub</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">UserId</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RoomId</span><span class="op">&gt;</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">DirectEventContent</span> {

@@ -325,26 +325,28 @@
 <span id="324">324</span>
 <span id="325">325</span>
 <span id="326">326</span>
+<span id="327">327</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_common::MilliSecondsSinceUnixEpoch</span>;
 <span class="kw">use</span> <span class="ident">ruma_events_macros::Event</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">EventContent</span>, <span class="ident">MessageEventContent</span>, <span class="ident">RedactedMessageEventContent</span>,
-    <span class="ident">RedactedStateEventContent</span>, <span class="ident">RedactedSyncUnsigned</span>, <span class="ident">RedactedUnsigned</span>, <span class="ident">StateEventContent</span>, <span class="ident">Unsigned</span>,
+    <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">GlobalAccountDataEventContent</span>, <span class="ident">MessageEventContent</span>,
+    <span class="ident">RedactedMessageEventContent</span>, <span class="ident">RedactedStateEventContent</span>, <span class="ident">RedactedSyncUnsigned</span>, <span class="ident">RedactedUnsigned</span>,
+    <span class="ident">RoomAccountDataEventContent</span>, <span class="ident">StateEventContent</span>, <span class="ident">ToDeviceEventContent</span>, <span class="ident">Unsigned</span>,
 };
 
 <span class="doccomment">/// A global account data event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Event</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalAccountDataEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">EventContent</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalAccountDataEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">GlobalAccountDataEventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Data specific to the event type.</span>
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">C</span>,
 }
 
 <span class="doccomment">/// A room account data event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Event</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RoomAccountDataEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">EventContent</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RoomAccountDataEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">RoomAccountDataEventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Data specific to the event type.</span>
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">C</span>,
 }
@@ -645,7 +647,7 @@
 
 <span class="doccomment">/// An event sent using send-to-device messaging.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Event</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ToDeviceEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">EventContent</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ToDeviceEvent</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">ToDeviceEventContent</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Data specific to the event type.</span>
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">C</span>,
 

@@ -256,7 +256,7 @@
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.name* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros::StateEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">InvalidInput</span>, <span class="ident">StateEvent</span>};
@@ -265,8 +265,8 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NameEvent</span> <span class="op">=</span> <span class="ident">StateEvent</span><span class="op">&lt;</span><span class="ident">NameEventContent</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// The payload for `NameEvent`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">StateEventContent</span>)]</span>
-<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.name&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.name&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">State</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NameEventContent</span> {
     <span class="doccomment">/// The name of the room. This MUST NOT exceed 255 bytes.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;room_name&quot;</span>)]</span>

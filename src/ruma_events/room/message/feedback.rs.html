@@ -50,7 +50,7 @@
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.message.feedback* event.</span>
 
-<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EventContent</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers::EventId</span>;
 <span class="kw">use</span> <span class="ident">ruma_serde::StringEnum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -64,9 +64,9 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FeedbackEvent</span> <span class="op">=</span> <span class="ident">MessageEvent</span><span class="op">&lt;</span><span class="ident">FeedbackEventContent</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// The payload for `FeedbackEvent`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">MessageEventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
-<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.message.feedback&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.message.feedback&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FeedbackEventContent</span> {
     <span class="doccomment">/// The event that this feedback is related to.</span>
     <span class="kw">pub</span> <span class="ident">target_event_id</span>: <span class="ident">EventId</span>,

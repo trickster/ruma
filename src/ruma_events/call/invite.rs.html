@@ -33,7 +33,7 @@
 <span class="doccomment">//! Types for the *m.call.invite* event.</span>
 
 <span class="kw">use</span> <span class="ident">js_int::UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_events_macros::MessageEventContent</span>;
+<span class="kw">use</span> <span class="ident">ruma_events_macros::EventContent</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::SessionDescription</span>;
@@ -43,8 +43,8 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">InviteEvent</span> <span class="op">=</span> <span class="ident">MessageEvent</span><span class="op">&lt;</span><span class="ident">InviteEventContent</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// The payload for `InviteEvent`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">MessageEventContent</span>)]</span>
-<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.call.invite&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.call.invite&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InviteEventContent</span> {
     <span class="doccomment">/// A unique identifier for the call.</span>
     <span class="kw">pub</span> <span class="ident">call_id</span>: <span class="ident">String</span>,
