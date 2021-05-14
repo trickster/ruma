@@ -236,7 +236,6 @@
 <span id="235">235</span>
 <span id="236">236</span>
 <span id="237">237</span>
-<span id="238">238</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementation of event enum and event content enum macros.</span>
 
@@ -245,7 +244,7 @@
 <span class="kw">use</span> <span class="ident">proc_macro2::Span</span>;
 <span class="kw">use</span> <span class="ident">quote::format_ident</span>;
 <span class="kw">use</span> <span class="ident">syn</span>::{
-    <span class="ident">bracketed</span>,
+    <span class="ident">braced</span>,
     <span class="ident">parse</span>::{<span class="self">self</span>, <span class="ident">Parse</span>, <span class="ident">ParseStream</span>},
     <span class="ident">Attribute</span>, <span class="ident">Ident</span>, <span class="ident">LitStr</span>, <span class="ident">Token</span>,
 };
@@ -380,8 +379,8 @@
             <span class="string">&quot;State&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventKind::State</span>,
             <span class="string">&quot;ToDevice&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventKind::ToDevice</span>,
             <span class="ident">id</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new</span>(
-                    <span class="ident">input</span>.<span class="ident">span</span>(),
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(
+                    <span class="ident">ident</span>,
                     <span class="macro">format!</span>(
                         <span class="string">&quot;valid event kinds are GlobalAccountData, RoomAccountData, EphemeralRoom, \
                         Message, State, ToDevice found `{}`&quot;</span>,
@@ -424,48 +423,6 @@
     }
 }
 
-<span class="doccomment">/// The entire `event_enum!` macro structure directly as it appears in the source code.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventEnumInput</span> {
-    <span class="doccomment">/// Outer attributes on the field, such as a docstring.</span>
-    <span class="kw">pub</span> <span class="ident">attrs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The name of the event.</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">EventKind</span>,
-
-    <span class="doccomment">/// An array of valid matrix event types.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This will generate the variants of the event type &quot;name&quot;. There needs to be a corresponding</span>
-    <span class="doccomment">/// variant in `ruma_events::EventType` for this event (converted to a valid Rust-style type</span>
-    <span class="doccomment">/// name by stripping `m.`, replacing the remaining dots by underscores and then converting</span>
-    <span class="doccomment">/// from snake_case to CamelCase).</span>
-    <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EventEnumEntry</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">EventEnumInput</span> {
-    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">parse::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
-        <span class="comment">// &quot;name&quot; field</span>
-        <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">kw::kind</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[:] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-
-        <span class="comment">// the name of our event enum</span>
-        <span class="kw">let</span> <span class="ident">name</span>: <span class="ident">EventKind</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[,] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-
-        <span class="comment">// &quot;events&quot; field</span>
-        <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">kw::events</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[:] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
-
-        <span class="comment">// an array of event names `[&quot;m.room.whatever&quot;, ...]`</span>
-        <span class="kw">let</span> <span class="ident">content</span>;
-        <span class="macro">bracketed!</span>(<span class="ident">content</span> <span class="kw">in</span> <span class="ident">input</span>);
-        <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">parse_terminated</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="macro">Token!</span>[,]<span class="op">&gt;</span>(<span class="ident">EventEnumEntry::parse</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">events</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>();
-
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">attrs</span>, <span class="ident">name</span>, <span class="ident">events</span> })
-    }
-}
-
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventEnumEntry</span> {
     <span class="kw">pub</span> <span class="ident">attrs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">ev_type</span>: <span class="ident">LitStr</span>,
@@ -474,6 +431,47 @@
 <span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">EventEnumEntry</span> {
     <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">attrs</span>: <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>, <span class="ident">ev_type</span>: <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span> })
+    }
+}
+
+<span class="doccomment">/// The entire `event_enum!` macro structure directly as it appears in the source code.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventEnumDecl</span> {
+    <span class="doccomment">/// Outer attributes on the field, such as a docstring.</span>
+    <span class="kw">pub</span> <span class="ident">attrs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// The name of the event.</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">EventKind</span>,
+
+    <span class="doccomment">/// An array of valid matrix event types.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This will generate the variants of the event type &quot;kind&quot;. There needs to be a corresponding</span>
+    <span class="doccomment">/// variant in `ruma_events::EventType` for this event (converted to a valid Rust-style type</span>
+    <span class="doccomment">/// name by stripping `m.`, replacing the remaining dots by underscores and then converting</span>
+    <span class="doccomment">/// from snake_case to CamelCase).</span>
+    <span class="kw">pub</span> <span class="ident">events</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EventEnumEntry</span><span class="op">&gt;</span>,
+}
+
+<span class="doccomment">/// The entire `event_enum!` macro structure directly as it appears in the source code.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventEnumInput</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">enums</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EventEnumDecl</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">EventEnumInput</span> {
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">parse::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">enums</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+        <span class="kw">while</span> <span class="op">!</span><span class="ident">input</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Attribute::parse_outer</span>)<span class="question-mark">?</span>;
+
+            <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token!</span>[<span class="kw">enum</span>] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">name</span>: <span class="ident">EventKind</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
+
+            <span class="kw">let</span> <span class="ident">content</span>;
+            <span class="macro">braced!</span>(<span class="ident">content</span> <span class="kw">in</span> <span class="ident">input</span>);
+            <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">parse_terminated</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="macro">Token!</span>[,]<span class="op">&gt;</span>(<span class="ident">EventEnumEntry::parse</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">events</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>();
+            <span class="ident">enums</span>.<span class="ident">push</span>(<span class="ident">EventEnumDecl</span> { <span class="ident">attrs</span>, <span class="ident">name</span>, <span class="ident">events</span> });
+        }
+        <span class="prelude-val">Ok</span>(<span class="ident">EventEnumInput</span> { <span class="ident">enums</span> })
     }
 }
 </pre></div>

@@ -195,21 +195,6 @@
 <span id="194">194</span>
 <span id="195">195</span>
 <span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_events_macros::event_enum</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Serialize</span>};
@@ -219,36 +204,26 @@
 
 <span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any global account data event.</span>
-    <span class="ident">kind</span>: <span class="ident">GlobalAccountData</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">GlobalAccountData</span> {
         <span class="string">&quot;m.direct&quot;</span>,
         <span class="string">&quot;m.ignored_user_list&quot;</span>,
         <span class="string">&quot;m.push_rules&quot;</span>,
-    ]
-}
+    }
 
-<span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any room account data event.</span>
-    <span class="ident">kind</span>: <span class="ident">RoomAccountData</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">RoomAccountData</span> {
         <span class="string">&quot;m.fully_read&quot;</span>,
         <span class="string">&quot;m.tag&quot;</span>,
-    ]
-}
+    }
 
-<span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any ephemeral room event.</span>
-    <span class="ident">kind</span>: <span class="ident">EphemeralRoom</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">EphemeralRoom</span> {
         <span class="string">&quot;m.receipt&quot;</span>,
         <span class="string">&quot;m.typing&quot;</span>,
-    ]
-}
+    }
 
-<span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any message event.</span>
-    <span class="ident">kind</span>: <span class="ident">Message</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">Message</span> {
         <span class="string">&quot;m.call.answer&quot;</span>,
         <span class="string">&quot;m.call.invite&quot;</span>,
         <span class="string">&quot;m.call.hangup&quot;</span>,
@@ -282,13 +257,11 @@
         <span class="string">&quot;m.room.message.feedback&quot;</span>,
         <span class="string">&quot;m.room.redaction&quot;</span>,
         <span class="string">&quot;m.sticker&quot;</span>,
-    ]
-}
+    }
 
-<span class="macro">event_enum!</span> {
+
     <span class="doccomment">/// Any state event.</span>
-    <span class="ident">kind</span>: <span class="ident">State</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">State</span> {
         <span class="string">&quot;m.policy.rule.room&quot;</span>,
         <span class="string">&quot;m.policy.rule.server&quot;</span>,
         <span class="string">&quot;m.policy.rule.user&quot;</span>,
@@ -308,13 +281,10 @@
         <span class="string">&quot;m.room.third_party_invite&quot;</span>,
         <span class="string">&quot;m.room.tombstone&quot;</span>,
         <span class="string">&quot;m.room.topic&quot;</span>,
-    ]
-}
+    }
 
-<span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any to-device event.</span>
-    <span class="ident">kind</span>: <span class="ident">ToDevice</span>,
-    <span class="ident">events</span>: [
+    <span class="kw">enum</span> <span class="ident">ToDevice</span> {
         <span class="string">&quot;m.dummy&quot;</span>,
         <span class="string">&quot;m.room_key&quot;</span>,
         <span class="string">&quot;m.room_key_request&quot;</span>,
@@ -332,7 +302,7 @@
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
         <span class="string">&quot;m.key.verification.done&quot;</span>,
         <span class="string">&quot;m.room.encrypted&quot;</span>,
-    ]
+    }
 }
 
 <span class="doccomment">/// Any room event.</span>

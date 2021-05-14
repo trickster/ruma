@@ -474,6 +474,7 @@
 <span id="473">473</span>
 <span id="474">474</span>
 <span id="475">475</span>
+<span id="476">476</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -608,7 +609,6 @@
 <span class="kw">mod</span> <span class="ident">enums</span>;
 <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">mod</span> <span class="ident">event_kinds</span>;
-<span class="kw">mod</span> <span class="ident">event_type</span>;
 
 <span class="comment">// Hack to allow both ruma-events itself and external crates (or tests) to use procedural macros</span>
 <span class="comment">// that expect `ruma_events` to exist in the prelude.</span>
@@ -622,6 +622,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exports</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_common</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_identifiers</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ruma_serde</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serde</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serde_json</span>;
 }
@@ -671,7 +672,9 @@
         <span class="ident">AnyRoomAccountDataEvent</span>, <span class="ident">AnyRoomAccountDataEventContent</span>, <span class="ident">AnyRoomEvent</span>, <span class="ident">AnyStateEvent</span>,
         <span class="ident">AnyStateEventContent</span>, <span class="ident">AnyStrippedStateEvent</span>, <span class="ident">AnySyncEphemeralRoomEvent</span>,
         <span class="ident">AnySyncMessageEvent</span>, <span class="ident">AnySyncRoomEvent</span>, <span class="ident">AnySyncStateEvent</span>, <span class="ident">AnyToDeviceEvent</span>,
-        <span class="ident">AnyToDeviceEventContent</span>,
+        <span class="ident">AnyToDeviceEventContent</span>, <span class="ident">EphemeralRoomEventType</span>, <span class="ident">EventType</span>, <span class="ident">GlobalAccountDataEventType</span>,
+        <span class="ident">MessageEventType</span>, <span class="ident">RoomAccountDataEventType</span>, <span class="ident">RoomEventType</span>, <span class="ident">StateEventType</span>,
+        <span class="ident">ToDeviceEventType</span>,
     },
     <span class="ident">error</span>::{<span class="ident">FromStrError</span>, <span class="ident">InvalidInput</span>},
     <span class="ident">event_kinds</span>::{
@@ -681,7 +684,6 @@
         <span class="ident">StrippedStateEvent</span>, <span class="ident">SyncEphemeralRoomEvent</span>, <span class="ident">SyncMessageEvent</span>, <span class="ident">SyncStateEvent</span>,
         <span class="ident">ToDeviceEvent</span>,
     },
-    <span class="ident">event_type::EventType</span>,
 };
 
 <span class="doccomment">/// Extra information about an event that is not incorporated into the event&#39;s</span>
