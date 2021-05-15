@@ -365,6 +365,8 @@
 <span id="364">364</span>
 <span id="365">365</span>
 <span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementations of the MessageEventContent and StateEventContent derive macro.</span>
 
@@ -497,7 +499,8 @@
     <span class="kw">let</span> <span class="ident">content_derives</span> <span class="op">=</span>
         <span class="ident">content_attr</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">args</span>.<span class="ident">get_event_kinds</span>()).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
 
-    <span class="kw">let</span> <span class="ident">redacted</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">needs_redacted</span>(<span class="kw-2">&amp;</span><span class="ident">content_attr</span>) {
+    <span class="comment">// We only generate redacted content structs for state and message events</span>
+    <span class="kw">let</span> <span class="ident">redacted</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">needs_redacted</span>(<span class="kw-2">&amp;</span><span class="ident">content_attr</span>, <span class="kw-2">&amp;</span><span class="ident">content_derives</span>) {
         <span class="kw">let</span> <span class="ident">doc</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;The payload for a redacted `{}`&quot;</span>, <span class="ident">ident</span>);
         <span class="kw">let</span> <span class="ident">redacted_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;Redacted{}&quot;</span>, <span class="ident">ident</span>);
         <span class="kw">let</span> <span class="ident">kept_redacted_fields</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">syn::Data::Struct</span>(<span class="ident">syn::DataStruct</span> {
@@ -726,11 +729,12 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">needs_redacted</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">MetaAttrs</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+<span class="kw">fn</span> <span class="ident">needs_redacted</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">MetaAttrs</span>], <span class="ident">content_derives</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">EventKind</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="comment">// `is_custom` means that the content struct does not need a generated</span>
     <span class="comment">// redacted struct also. If no `custom_redacted` attrs are found the content</span>
     <span class="comment">// needs a redacted struct generated.</span>
     <span class="op">!</span><span class="ident">input</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">is_custom</span>())
+        <span class="op">&amp;&amp;</span> <span class="ident">content_derives</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">is_message</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">is_state</span>())
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_events_macros" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>

@@ -236,13 +236,36 @@
 <span id="235">235</span>
 <span id="236">236</span>
 <span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementation of event enum and event content enum macros.</span>
 
 <span class="kw">use</span> <span class="ident">std::fmt</span>;
 
 <span class="kw">use</span> <span class="ident">proc_macro2::Span</span>;
-<span class="kw">use</span> <span class="ident">quote::format_ident</span>;
+<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">IdentFragment</span>};
 <span class="kw">use</span> <span class="ident">syn</span>::{
     <span class="ident">braced</span>,
     <span class="ident">parse</span>::{<span class="self">self</span>, <span class="ident">Parse</span>, <span class="ident">ParseStream</span>},
@@ -327,6 +350,26 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">IdentFragment</span> <span class="kw">for</span> <span class="ident">EventKind</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
+        <span class="ident">fmt::Display::fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">Span::call_site</span>())
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">IdentFragment</span> <span class="kw">for</span> <span class="ident">EventKindVariation</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
+        <span class="ident">fmt::Display::fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">Span::call_site</span>())
+    }
+}
+
 <span class="kw">impl</span> <span class="ident">EventKind</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span><span class="ident">::State</span>)
@@ -351,9 +394,7 @@
             <span class="op">|</span> (<span class="self">Self</span><span class="ident">::State</span>, <span class="ident">V::Redacted</span>)
             <span class="op">|</span> (<span class="self">Self</span><span class="ident">::Message</span>, <span class="ident">V::RedactedSync</span>)
             <span class="op">|</span> (<span class="self">Self</span><span class="ident">::State</span>, <span class="ident">V::RedactedSync</span>)
-            <span class="op">|</span> (<span class="self">Self</span><span class="ident">::State</span>, <span class="ident">V::RedactedStripped</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">var</span>, <span class="self">self</span>), <span class="ident">Span::call_site</span>()))
-            }
+            <span class="op">|</span> (<span class="self">Self</span><span class="ident">::State</span>, <span class="ident">V::RedactedStripped</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="macro">format_ident!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="ident">var</span>, <span class="self">self</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -364,7 +405,12 @@
 
     <span class="doccomment">/// `Any[kind]EventContent`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_content_enum</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
-        <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;Any{}Content&quot;</span>, <span class="self">self</span>), <span class="ident">Span::call_site</span>())
+        <span class="macro">format_ident!</span>(<span class="string">&quot;Any{}Content&quot;</span>, <span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// `AnyRedacted[kind]EventContent`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_redacted_content_enum</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+        <span class="macro">format_ident!</span>(<span class="string">&quot;AnyRedacted{}Content&quot;</span>, <span class="self">self</span>)
     }
 }
 
