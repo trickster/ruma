@@ -613,7 +613,7 @@
 
             <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
             <span class="kw">impl</span> #<span class="ident">ruma_events::RedactedEventContent</span> <span class="kw">for</span> #<span class="ident">redacted_ident</span> {
-                <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">ev_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, #<span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">ev_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
                     <span class="kw">if</span> <span class="ident">ev_type</span> <span class="op">!</span><span class="op">=</span> #<span class="ident">event_type</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde::de::Error::custom</span>(
                             <span class="macro">format!</span>(<span class="string">&quot;expected event type `{}`, found `{}`&quot;</span>, #<span class="ident">event_type</span>, <span class="ident">ev_type</span>)
@@ -715,8 +715,8 @@
 
             <span class="kw">fn</span> <span class="ident">from_parts</span>(
                 <span class="ident">ev_type</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-                <span class="ident">content</span>: <span class="ident">Box</span><span class="op">&lt;</span>#<span class="ident">serde_json::value::RawValue</span><span class="op">&gt;</span>
-            ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, #<span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+                <span class="ident">content</span>: <span class="kw-2">&amp;</span>#<span class="ident">serde_json::value::RawValue</span>,
+            ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="ident">ev_type</span> <span class="op">!</span><span class="op">=</span> #<span class="ident">event_type</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(#<span class="ident">serde::de::Error::custom</span>(
                         <span class="macro">format!</span>(<span class="string">&quot;expected event type `{}`, found `{}`&quot;</span>, #<span class="ident">event_type</span>, <span class="ident">ev_type</span>)

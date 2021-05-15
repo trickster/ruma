@@ -249,7 +249,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_into_sync_response</span>(
         <span class="self">self</span>,
         <span class="ident">next_batch</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ruma_client_api::r0::sync::sync_events::Response</span>, <span class="ident">serde_json::Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="ident">ruma_client_api::r0::sync::sync_events::Response</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">ruma_client_api::r0::sync::sync_events</span>;
         <span class="kw">use</span> <span class="ident">ruma_identifiers::RoomId</span>;
         <span class="kw">use</span> <span class="ident">serde::Deserialize</span>;
@@ -263,7 +263,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">sync_events::Response::new</span>(<span class="ident">next_batch</span>.<span class="ident">into</span>());
 
         <span class="kw">for</span> <span class="ident">raw_event</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">events</span> {
-            <span class="kw">let</span> <span class="ident">helper</span>: <span class="ident">EventDeHelper</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>(<span class="ident">raw_event</span>.<span class="ident">json</span>().<span class="ident">get</span>())<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">helper</span> <span class="op">=</span> <span class="ident">raw_event</span>.<span class="ident">deserialize_as</span>::<span class="op">&lt;</span><span class="ident">EventDeHelper</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">event_json</span> <span class="op">=</span> <span class="ident">Raw::into_json</span>(<span class="ident">raw_event</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">room_id</span>) <span class="op">=</span> <span class="ident">helper</span>.<span class="ident">room_id</span> {
