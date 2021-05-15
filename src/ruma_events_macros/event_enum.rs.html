@@ -1504,7 +1504,7 @@
                     <span class="kw">match</span> <span class="self">self</span> {
                         #(
                             #<span class="ident">self_variants</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">event</span>.<span class="ident">content</span>.<span class="ident">redact</span>(<span class="ident">version</span>);
+                                <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> #<span class="ident">ruma_events::RedactContent::redact</span>(<span class="ident">event</span>.<span class="ident">content</span>, <span class="ident">version</span>);
                                 #<span class="ident">redaction_variants</span>(#<span class="ident">redacted_type</span> {
                                     <span class="ident">content</span>,
                                     #<span class="ident">fields</span>
@@ -1512,7 +1512,7 @@
                             }
                         )<span class="op">*</span>
                         <span class="self">Self</span><span class="ident">::Custom</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">event</span>.<span class="ident">content</span>.<span class="ident">redact</span>(<span class="ident">version</span>);
+                            <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> #<span class="ident">ruma_events::RedactContent::redact</span>(<span class="ident">event</span>.<span class="ident">content</span>, <span class="ident">version</span>);
                             #<span class="ident">redacted_enum::Custom</span>(#<span class="ident">redacted_type</span> {
                                 <span class="ident">content</span>,
                                 #<span class="ident">fields</span>
