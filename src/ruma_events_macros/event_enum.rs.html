@@ -1005,15 +1005,6 @@
 <span id="1004">1004</span>
 <span id="1005">1005</span>
 <span id="1006">1006</span>
-<span id="1007">1007</span>
-<span id="1008">1008</span>
-<span id="1009">1009</span>
-<span id="1010">1010</span>
-<span id="1011">1011</span>
-<span id="1012">1012</span>
-<span id="1013">1013</span>
-<span id="1014">1014</span>
-<span id="1015">1015</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementation of event enum and event content enum macros.</span>
 
@@ -1467,11 +1458,10 @@
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Full</span> <span class="op">|</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">|</span> <span class="ident">EventKindVariation::Stripped</span> <span class="op">=</span> <span class="ident">var</span>
     {
-        <span class="kw">let</span> (<span class="ident">redaction_type</span>, <span class="ident">redacted_type</span>, <span class="ident">redacted_enum</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">var</span> {
+        <span class="kw">let</span> (<span class="ident">redacted_type</span>, <span class="ident">redacted_enum</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">var</span> {
             <span class="ident">EventKindVariation::Full</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">struct_id</span> <span class="op">=</span> <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span>)<span class="question-mark">?</span>;
                 (
-                    <span class="macro">quote!</span> { #<span class="ident">ruma_events::room::redaction::RedactionEvent</span> },
                     <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::#<span class="ident">struct_id</span> },
                     <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span>)<span class="question-mark">?</span>,
                 )
@@ -1479,7 +1469,6 @@
             <span class="ident">EventKindVariation::Sync</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">struct_id</span> <span class="op">=</span> <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedSync</span>)<span class="question-mark">?</span>;
                 (
-                    <span class="macro">quote!</span> { #<span class="ident">ruma_events::room::redaction::SyncRedactionEvent</span> },
                     <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::#<span class="ident">struct_id</span> },
                     <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedSync</span>)<span class="question-mark">?</span>,
                 )
@@ -1487,7 +1476,6 @@
             <span class="ident">EventKindVariation::Stripped</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">struct_id</span> <span class="op">=</span> <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedStripped</span>)<span class="question-mark">?</span>;
                 (
-                    <span class="macro">quote!</span> { #<span class="ident">ruma_events::room::redaction::SyncRedactionEvent</span> },
                     <span class="macro">quote!</span> { #<span class="ident">ruma_events</span>::#<span class="ident">struct_id</span> },
                     <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedStripped</span>)<span class="question-mark">?</span>,
                 )
@@ -1510,7 +1498,7 @@
                 <span class="doccomment">/// Redacts `Self` given a valid `Redaction[Sync]Event`.</span>
                 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">redact</span>(
                     <span class="self">self</span>,
-                    <span class="ident">redaction</span>: #<span class="ident">redaction_type</span>,
+                    <span class="ident">redaction</span>: #<span class="ident">ruma_events::room::redaction::SyncRedactionEvent</span>,
                     <span class="ident">version</span>: <span class="kw-2">&amp;</span>#<span class="ident">ruma_identifiers::RoomVersionId</span>,
                 ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">redacted_enum</span> {
                     <span class="kw">match</span> <span class="self">self</span> {
@@ -1608,14 +1596,8 @@
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">name</span>, <span class="ident">Span::call_site</span>());
 
         <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;unsigned&quot;</span> {
-            <span class="kw">let</span> <span class="ident">redacted_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKindVariation::Sync</span> <span class="op">=</span> <span class="ident">var</span> {
-                <span class="macro">quote!</span> { <span class="ident">RedactedSyncUnsigned</span> }
-            } <span class="kw">else</span> {
-                <span class="macro">quote!</span> { <span class="ident">RedactedUnsigned</span> }
-            };
-
             <span class="macro">quote!</span> {
-                <span class="ident">unsigned</span>: #<span class="ident">ruma_events</span>::#<span class="ident">redacted_type</span> {
+                <span class="ident">unsigned</span>: #<span class="ident">ruma_events::RedactedUnsigned</span> {
                     <span class="ident">redacted_because</span>: <span class="prelude-val">Some</span>(<span class="ident">::std::boxed::Box::new</span>(<span class="ident">redaction</span>)),
                 },
             }
@@ -1974,14 +1956,14 @@
         <span class="string">&quot;room_id&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { #<span class="ident">ruma_identifiers::RoomId</span> },
         <span class="string">&quot;event_id&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { #<span class="ident">ruma_identifiers::EventId</span> },
         <span class="string">&quot;sender&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { #<span class="ident">ruma_identifiers::UserId</span> },
-        <span class="string">&quot;state_key&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { <span class="ident">str</span> },
-        <span class="string">&quot;unsigned&quot;</span> <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedSync</span> <span class="op">=</span><span class="op">=</span> <span class="ident">var</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="macro">quote!</span> { #<span class="ident">ruma_events::RedactedSyncUnsigned</span> }
+        <span class="string">&quot;state_key&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { <span class="ident">::std::primitive::str</span> },
+        <span class="string">&quot;unsigned&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">if</span> <span class="ident">var</span>.<span class="ident">is_redacted</span>() {
+                <span class="macro">quote!</span> { #<span class="ident">ruma_events::RedactedUnsigned</span> }
+            } <span class="kw">else</span> {
+                <span class="macro">quote!</span> { #<span class="ident">ruma_events::Unsigned</span> }
+            }
         }
-        <span class="string">&quot;unsigned&quot;</span> <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span> <span class="op">=</span><span class="op">=</span> <span class="ident">var</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="macro">quote!</span> { #<span class="ident">ruma_events::RedactedUnsigned</span> }
-        }
-        <span class="string">&quot;unsigned&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> { #<span class="ident">ruma_events::Unsigned</span> },
         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;the `ruma_events_macros::event_enum::EVENT_FIELD` const was changed&quot;</span>),
     }
 }
