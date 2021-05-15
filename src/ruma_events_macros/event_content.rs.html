@@ -350,23 +350,6 @@
 <span id="349">349</span>
 <span id="350">350</span>
 <span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
-<span id="357">357</span>
-<span id="358">358</span>
-<span id="359">359</span>
-<span id="360">360</span>
-<span id="361">361</span>
-<span id="362">362</span>
-<span id="363">363</span>
-<span id="364">364</span>
-<span id="365">365</span>
-<span id="366">366</span>
-<span id="367">367</span>
-<span id="368">368</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementations of the MessageEventContent and StateEventContent derive macro.</span>
 
@@ -659,43 +642,26 @@
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">syn::Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;valid event kinds are GlobalAccountData, RoomAccountData, \
         EphemeralRoom, Message, State, ToDevice&quot;</span>;
-    <span class="ident">content_attr</span>
+    <span class="kw">let</span> <span class="ident">marker_traits</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">content_attr</span>
         .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">kind</span><span class="op">|</span> {
-            <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">kind</span> {
-                <span class="ident">EventKind::GlobalAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::GlobalAccountDataEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::RoomAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomAccountDataEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::Ephemeral</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::EphemeralRoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::Message</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::MessageEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::State</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::RoomEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::StateEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::ToDevice</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote!</span> {
-                    <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
-                    <span class="kw">impl</span> #<span class="ident">ruma_events::ToDeviceEventContent</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
-                },
-                <span class="ident">EventKind::Redaction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
-                <span class="ident">EventKind::Presence</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
-            })
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">kind</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">kind</span> {
+            <span class="ident">EventKind::GlobalAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">GlobalAccountDataEventContent</span> }),
+            <span class="ident">EventKind::RoomAccountData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">RoomAccountDataEventContent</span> }),
+            <span class="ident">EventKind::Ephemeral</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">EphemeralRoomEventContent</span> }),
+            <span class="ident">EventKind::Message</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">MessageEventContent</span> }),
+            <span class="ident">EventKind::State</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">StateEventContent</span> }),
+            <span class="ident">EventKind::ToDevice</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> { <span class="ident">ToDeviceEventContent</span> }),
+            <span class="ident">EventKind::Redaction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
+            <span class="ident">EventKind::Presence</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">syn::Error::new_spanned</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)),
         })
-        .<span class="ident">collect</span>()
+        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">syn::Result</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
+        #(
+            <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
+            <span class="kw">impl</span> #<span class="ident">ruma_events</span>::#<span class="ident">marker_traits</span> <span class="kw">for</span> #<span class="ident">ident</span> {}
+        )<span class="op">*</span>
+    })
 }
 
 <span class="kw">fn</span> <span class="ident">generate_event_content_impl</span>(

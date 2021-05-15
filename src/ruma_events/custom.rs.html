@@ -96,8 +96,6 @@
 <span id="95">95</span>
 <span id="96">96</span>
 <span id="97">97</span>
-<span id="98">98</span>
-<span id="99">99</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for custom events outside of the Matrix specification.</span>
 
@@ -110,7 +108,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">EphemeralRoomEventContent</span>, <span class="ident">EventContent</span>, <span class="ident">GlobalAccountDataEventContent</span>, <span class="ident">HasDeserializeFields</span>,
     <span class="ident">MessageEventContent</span>, <span class="ident">RedactContent</span>, <span class="ident">RedactedEventContent</span>, <span class="ident">RedactedMessageEventContent</span>,
-    <span class="ident">RedactedStateEventContent</span>, <span class="ident">RoomAccountDataEventContent</span>, <span class="ident">RoomEventContent</span>, <span class="ident">StateEventContent</span>,
+    <span class="ident">RedactedStateEventContent</span>, <span class="ident">RoomAccountDataEventContent</span>, <span class="ident">StateEventContent</span>,
     <span class="ident">ToDeviceEventContent</span>,
 };
 
@@ -147,8 +145,6 @@
 
 <span class="comment">// A custom event must satisfy all of the event content marker traits since</span>
 <span class="comment">// they can be used for any event kind.</span>
-<span class="kw">impl</span> <span class="ident">RoomEventContent</span> <span class="kw">for</span> <span class="ident">CustomEventContent</span> {}
-
 <span class="kw">impl</span> <span class="ident">GlobalAccountDataEventContent</span> <span class="kw">for</span> <span class="ident">CustomEventContent</span> {}
 
 <span class="kw">impl</span> <span class="ident">RoomAccountDataEventContent</span> <span class="kw">for</span> <span class="ident">CustomEventContent</span> {}
