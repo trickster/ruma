@@ -320,6 +320,14 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">deserializer</span> <span class="op">=</span> <span class="ident">serde_json::Deserializer::from_str</span>(<span class="self">self</span>.<span class="ident">json</span>().<span class="ident">get</span>());
         <span class="ident">deserializer</span>.<span class="ident">deserialize_map</span>(<span class="ident">SingleFieldVisitor::new</span>(<span class="ident">field_name</span>))
     }
+
+    <span class="doccomment">/// Try to deserialize the JSON as a custom type.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">deserialize_as</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">U</span>: <span class="ident">DeserializeOwned</span>,
+    {
+        <span class="ident">serde_json::from_str</span>(<span class="self">self</span>.<span class="ident">json</span>.<span class="ident">get</span>())
+    }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Raw</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
@@ -328,14 +336,6 @@
 {
     <span class="doccomment">/// Try to deserialize the JSON as the expected type.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">serde_json::from_str</span>(<span class="self">self</span>.<span class="ident">json</span>.<span class="ident">get</span>())
-    }
-
-    <span class="doccomment">/// Try to deserialize the JSON as a custom type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">deserialize_as</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serde_json::Result</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">U</span>: <span class="ident">DeserializeOwned</span>,
-    {
         <span class="ident">serde_json::from_str</span>(<span class="self">self</span>.<span class="ident">json</span>.<span class="ident">get</span>())
     }
 }

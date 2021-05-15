@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["deserialize","Deserializes an `Option<SystemTime>`."],["serialize","Serialize an `Option<SystemTime>`."]]});

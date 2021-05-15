@@ -587,6 +587,41 @@
 <span id="586">586</span>
 <span id="587">587</span>
 <span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.member* event.</span>
 
@@ -628,6 +663,7 @@
 
 <span class="doccomment">/// The payload for `MemberEvent`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.member&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">State</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MemberEventContent</span> {
     <span class="doccomment">/// The avatar URL for this user, if any. This is added by the homeserver.</span>
@@ -645,8 +681,8 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">displayname</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Flag indicating if the room containing this event was created</span>
-    <span class="doccomment">/// with the intention of being a direct chat.</span>
+    <span class="doccomment">/// Flag indicating whether the room containing this event was created with the intention of</span>
+    <span class="doccomment">/// being a direct chat.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">is_direct</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
 
@@ -658,6 +694,19 @@
     <span class="doccomment">/// contain information about that invitation.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">third_party_invite</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ThirdPartyInvite</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">MemberEventContent</span> {
+    <span class="doccomment">/// Creates a new `MemberEventContent` with the given membership state.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">membership</span>: <span class="ident">MembershipState</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">membership</span>,
+            <span class="ident">avatar_url</span>: <span class="prelude-val">None</span>,
+            <span class="ident">displayname</span>: <span class="prelude-val">None</span>,
+            <span class="ident">is_direct</span>: <span class="prelude-val">None</span>,
+            <span class="ident">third_party_invite</span>: <span class="prelude-val">None</span>,
+        }
+    }
 }
 
 <span class="doccomment">/// The membership state of a user.</span>
@@ -685,19 +734,29 @@
 
 <span class="doccomment">/// Information about a third party invitation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThirdPartyInvite</span> {
     <span class="doccomment">/// A name which can be displayed to represent the user instead of their third party</span>
     <span class="doccomment">/// identifier.</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// A block of content which has been signed, which servers can use to verify the event.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// Clients should ignore this.</span>
     <span class="kw">pub</span> <span class="ident">signed</span>: <span class="ident">SignedContent</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">ThirdPartyInvite</span> {
+    <span class="doccomment">/// Creates a new `ThirdPartyInvite` with the given display name and signed content.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">display_name</span>: <span class="ident">String</span>, <span class="ident">signed</span>: <span class="ident">SignedContent</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">display_name</span>, <span class="ident">signed</span> }
+    }
 }
 
 <span class="doccomment">/// A block of content which has been signed, which servers can use to verify a third party</span>
 <span class="doccomment">/// invitation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SignedContent</span> {
     <span class="doccomment">/// The invited Matrix user ID.</span>
     <span class="doccomment">///</span>
@@ -708,8 +767,19 @@
     <span class="doccomment">/// section of the server-server API.</span>
     <span class="kw">pub</span> <span class="ident">signatures</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">ServerNameBox</span>, <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">ServerSigningKeyId</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The token property of the containing third_party_invite object.</span>
+    <span class="doccomment">/// The token property of the containing `third_party_invite` object.</span>
     <span class="kw">pub</span> <span class="ident">token</span>: <span class="ident">String</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">SignedContent</span> {
+    <span class="doccomment">/// Creates a new `SignedContent` with the given mxid, signature and token.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">mxid</span>: <span class="ident">UserId</span>,
+        <span class="ident">signatures</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">ServerNameBox</span>, <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">ServerSigningKeyId</span>, <span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="ident">String</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">mxid</span>, <span class="ident">signatures</span>, <span class="ident">token</span> }
+    }
 }
 
 <span class="doccomment">/// Translation of the membership change in `m.room.member` event.</span>
