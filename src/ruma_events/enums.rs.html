@@ -272,7 +272,7 @@
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json::value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">from_raw_json_value</span>, <span class="ident">room::redaction::SyncRedactionEvent</span>, <span class="ident">EventDeHelper</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">from_raw_json_value</span>, <span class="ident">room::redaction::SyncRedactionEvent</span>, <span class="ident">EventDeHelper</span>, <span class="ident">Redact</span>};
 
 <span class="macro">event_enum!</span> {
     <span class="doccomment">/// Any global account data event.</span>
