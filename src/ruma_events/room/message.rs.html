@@ -1069,6 +1069,103 @@
 <span id="1068">1068</span>
 <span id="1069">1069</span>
 <span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.message* event.</span>
 
@@ -1229,7 +1326,6 @@
 
 <span class="doccomment">/// The content that is specific to each message type variant.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">untagged</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MessageType</span> {
     <span class="doccomment">/// An audio message.</span>
@@ -1421,18 +1517,21 @@
     <span class="doccomment">/// The textual representation of this message.</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">String</span>,
 
-    <span class="doccomment">/// The URL to the audio clip. Required if the file is unencrypted. The URL (typically</span>
-    <span class="doccomment">/// [MXC URI](https://matrix.org/docs/spec/client_server/r0.6.1#mxc-uri)) to the audio clip.</span>
+    <span class="doccomment">/// The URL to the audio clip.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if the file is unencrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Information on the encrypted audio clip.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if the audio clip is encrypted.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Metadata for the audio clip referred to in `url`.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">AudioInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// Required if the audio clip is encrypted. Information on the encrypted audio clip.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">AudioMessageEventContent</span> {
@@ -1456,7 +1555,7 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">duration</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The mimetype of the audio, e.g. &quot;audio/aac.&quot;</span>
+    <span class="doccomment">/// The mimetype of the audio, e.g. &quot;audio/aac&quot;.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mimetype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
@@ -1521,18 +1620,19 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filename</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The URL to the file. Required if the file is unencrypted. The URL (typically</span>
-    <span class="doccomment">/// [MXC URI](https://matrix.org/docs/spec/client_server/r0.6.1#mxc-uri)) to the file.</span>
+    <span class="doccomment">/// The URL to the file.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Information on the encrypted file.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if file is encrypted.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Metadata about the file referred to in `url`.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FileInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// Required if file is encrypted. Information on the encrypted file.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">FileMessageEventContent</span> {
@@ -1549,9 +1649,10 @@
 }
 
 <span class="doccomment">/// Metadata about a file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FileInfo</span> {
-    <span class="doccomment">/// The mimetype of the file, e.g. &quot;application/msword.&quot;</span>
+    <span class="doccomment">/// The mimetype of the file, e.g. &quot;application/msword&quot;.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mimetype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
@@ -1563,44 +1664,72 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ThumbnailInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The URL to the thumbnail of the file. Only present if the thumbnail is unencrypted.</span>
+    <span class="doccomment">/// The URL to the thumbnail of the file.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is unencrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Information on the encrypted thumbnail file. Only present if the thumbnail is encrypted.</span>
+    <span class="doccomment">/// Information on the encrypted thumbnail file.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is encrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">FileInfo</span> {
+    <span class="doccomment">/// Creates an empty `FileInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::default</span>()
+    }
+}
+
 <span class="doccomment">/// The payload for an image message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.image&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageMessageEventContent</span> {
-    <span class="doccomment">/// A textual representation of the image. This could be the alt text of the image, the</span>
-    <span class="doccomment">/// filename of the image, or some kind of content description for accessibility e.g.</span>
-    <span class="doccomment">/// &quot;image attachment.&quot;</span>
+    <span class="doccomment">/// A textual representation of the image.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This could be the alt text of the image, the filename of the image, or some kind of content</span>
+    <span class="doccomment">/// description for accessibility e.g. &quot;image attachment&quot;.</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">String</span>,
+
+    <span class="doccomment">/// The URL to the image.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Information on the encrypted image.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if image is encrypted.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Metadata about the image referred to in `url`.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ImageInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+}
 
-    <span class="doccomment">/// The URL to the image. Required if the file is unencrypted. The URL (typically</span>
-    <span class="doccomment">/// [MXC URI](https://matrix.org/docs/spec/client_server/r0.6.1#mxc-uri)) to the image.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+<span class="kw">impl</span> <span class="ident">ImageMessageEventContent</span> {
+    <span class="doccomment">/// Creates a new non-encrypted `ImageMessageEventContent` with the given body, url and optional</span>
+    <span class="doccomment">/// extra info.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">plain</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">url</span>: <span class="ident">MxcUri</span>, <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ImageInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">url</span>: <span class="prelude-val">Some</span>(<span class="ident">url</span>), <span class="ident">info</span>, <span class="ident">file</span>: <span class="prelude-val">None</span> }
+    }
 
-    <span class="doccomment">/// Required if image is encrypted. Information on the encrypted image.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Creates a new encrypted `ImageMessageEventContent` with the given body and encrypted file.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encrypted</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">file</span>: <span class="ident">EncryptedFile</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">url</span>: <span class="prelude-val">None</span>, <span class="ident">info</span>: <span class="prelude-val">None</span>, <span class="ident">file</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">file</span>)) }
+    }
 }
 
 <span class="doccomment">/// The payload for a location message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.location&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationMessageEventContent</span> {
-    <span class="doccomment">/// A description of the location e.g. &quot;Big Ben, London, UK,&quot;or some kind of content</span>
-    <span class="doccomment">/// description for accessibility, e.g. &quot;location attachment.&quot;</span>
+    <span class="doccomment">/// A description of the location e.g. &quot;Big Ben, London, UK&quot;, or some kind of content</span>
+    <span class="doccomment">/// description for accessibility, e.g. &quot;location attachment&quot;.</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// A geo URI representing the location.</span>
@@ -1611,22 +1740,39 @@
     <span class="kw">pub</span> <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">LocationInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="doccomment">/// Thumbnail info associated with a location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationInfo</span> {
-    <span class="doccomment">/// Metadata about the image referred to in `thumbnail_url` or `thumbnail_file`.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">thumbnail_info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ThumbnailInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="kw">impl</span> <span class="ident">LocationMessageEventContent</span> {
+    <span class="doccomment">/// Creates a new `LocationMessageEventContent` with the given body and geo URI.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">geo_uri</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">geo_uri</span>, <span class="ident">info</span>: <span class="prelude-val">None</span> }
+    }
+}
 
-    <span class="doccomment">/// The URL to a thumbnail of the location being represented. Only present if the thumbnail is</span>
-    <span class="doccomment">/// unencrypted.</span>
+<span class="doccomment">/// Thumbnail info associated with a location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocationInfo</span> {
+    <span class="doccomment">/// The URL to a thumbnail of the location being represented.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is unencrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Information on an encrypted thumbnail of the location being represented. Only present if</span>
-    <span class="doccomment">/// the thumbnail is encrypted.</span>
+    <span class="doccomment">/// Information on an encrypted thumbnail of the location being represented.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is encrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Metadata about the image referred to in `thumbnail_url` or `thumbnail_file`.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">thumbnail_info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ThumbnailInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">LocationInfo</span> {
+    <span class="doccomment">/// Creates an empty `LocationInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::default</span>()
+    }
 }
 
 <span class="doccomment">/// The payload for a notice message.</span>
@@ -1656,6 +1802,7 @@
 
 <span class="doccomment">/// The payload for a server notice message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.server_notice&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ServerNoticeMessageEventContent</span> {
     <span class="doccomment">/// A human-readable description of the notice.</span>
@@ -1675,6 +1822,13 @@
     <span class="doccomment">/// Required if the notice type is `m.server_notice.usage_limit_reached`.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">limit_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LimitType</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">ServerNoticeMessageEventContent</span> {
+    <span class="doccomment">/// Creates a new `ServerNoticeMessageEventContent` with the given body and notice type.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">server_notice_type</span>: <span class="ident">ServerNoticeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">server_notice_type</span>, <span class="ident">admin_contact</span>: <span class="prelude-val">None</span>, <span class="ident">limit_type</span>: <span class="prelude-val">None</span> }
+    }
 }
 
 <span class="doccomment">/// Types of server notices.</span>
@@ -1704,9 +1858,8 @@
 
 <span class="doccomment">/// The format for the formatted representation of a message body.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This type can hold an arbitrary string. To check for events that are not</span>
-<span class="doccomment">/// available as a documented variant here, use its string representation,</span>
-<span class="doccomment">/// obtained through `.as_str()`.</span>
+<span class="doccomment">/// This type can hold an arbitrary string. To check for formats that are not available as a</span>
+<span class="doccomment">/// documented variant here, use its string representation, obtained through `.as_str()`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">StringEnum</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MessageFormat</span> {
     <span class="doccomment">/// HTML.</span>
@@ -1786,28 +1939,44 @@
 
 <span class="doccomment">/// The payload for a video message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.video&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoMessageEventContent</span> {
-    <span class="doccomment">/// A description of the video, e.g. &quot;Gangnam Style,&quot; or some kind of content description for</span>
-    <span class="doccomment">/// accessibility, e.g. &quot;video attachment.&quot;</span>
+    <span class="doccomment">/// A description of the video, e.g. &quot;Gangnam Style&quot;, or some kind of content description for</span>
+    <span class="doccomment">/// accessibility, e.g. &quot;video attachment&quot;.</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">String</span>,
+
+    <span class="doccomment">/// The URL to the video clip.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Information on the encrypted video clip.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Required if video clip is encrypted.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Metadata about the video clip referred to in `url`.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">VideoInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+}
 
-    <span class="doccomment">/// The URL to the video clip.  Required if the file is unencrypted. The URL (typically</span>
-    <span class="doccomment">/// [MXC URI](https://matrix.org/docs/spec/client_server/r0.6.1#mxc-uri)) to the video clip.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
+<span class="kw">impl</span> <span class="ident">VideoMessageEventContent</span> {
+    <span class="doccomment">/// Creates a new non-encrypted `VideoMessageEventContent` with the given body, url and optional</span>
+    <span class="doccomment">/// extra info.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">plain</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">url</span>: <span class="ident">MxcUri</span>, <span class="ident">info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">VideoInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">url</span>: <span class="prelude-val">Some</span>(<span class="ident">url</span>), <span class="ident">info</span>, <span class="ident">file</span>: <span class="prelude-val">None</span> }
+    }
 
-    <span class="doccomment">/// Required if video clip is encrypted. Information on the encrypted video clip.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Creates a new encrypted `VideoMessageEventContent` with the given body and encrypted file.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encrypted</span>(<span class="ident">body</span>: <span class="ident">String</span>, <span class="ident">file</span>: <span class="ident">EncryptedFile</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">url</span>: <span class="prelude-val">None</span>, <span class="ident">info</span>: <span class="prelude-val">None</span>, <span class="ident">file</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">file</span>)) }
+    }
 }
 
 <span class="doccomment">/// Metadata about a video.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VideoInfo</span> {
     <span class="doccomment">/// The duration of the video in milliseconds.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
@@ -1823,7 +1992,7 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">width</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UInt</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The mimetype of the video, e.g. &quot;video/mp4.&quot;</span>
+    <span class="doccomment">/// The mimetype of the video, e.g. &quot;video/mp4&quot;.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mimetype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
@@ -1835,12 +2004,15 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ThumbnailInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// The URL (typically [MXC URI](https://matrix.org/docs/spec/client_server/r0.6.1#mxc-uri)) to</span>
-    <span class="doccomment">/// an image thumbnail of the video clip. Only present if the thumbnail is unencrypted.</span>
+    <span class="doccomment">/// The URL to an image thumbnail of the video clip.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is unencrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MxcUri</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Information on the encrypted thumbnail file.  Only present if the thumbnail is encrypted.</span>
+    <span class="doccomment">/// Information on the encrypted thumbnail file.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only present if the thumbnail is encrypted.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">thumbnail_file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">EncryptedFile</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 
@@ -1855,10 +2027,18 @@
     <span class="kw">pub</span> <span class="ident">blurhash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">VideoInfo</span> {
+    <span class="doccomment">/// Creates an empty `VideoInfo`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::default</span>()
+    }
+}
+
 <span class="doccomment">/// The payload for a key verification request message.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;msgtype&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.request&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyVerificationRequestEventContent</span> {
     <span class="doccomment">/// A fallback message to alert users that their client does not support the key verification</span>
@@ -1875,8 +2055,22 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Users should only respond to verification requests if they are named in this field. Users</span>
     <span class="doccomment">/// who are not named in this field and who did not send this event should ignore all other</span>
-    <span class="doccomment">/// events that have a m.reference relationship with this event.</span>
+    <span class="doccomment">/// events that have a `m.reference` relationship with this event.</span>
     <span class="kw">pub</span> <span class="ident">to</span>: <span class="ident">UserId</span>,
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="kw">impl</span> <span class="ident">KeyVerificationRequestEventContent</span> {
+    <span class="doccomment">/// Creates a new `KeyVerificationRequestEventContent` with the given body, method, device and</span>
+    <span class="doccomment">/// user ID.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">body</span>: <span class="ident">String</span>,
+        <span class="ident">methods</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">VerificationMethod</span><span class="op">&gt;</span>,
+        <span class="ident">from_device</span>: <span class="ident">DeviceIdBox</span>,
+        <span class="ident">to</span>: <span class="ident">UserId</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">body</span>, <span class="ident">methods</span>, <span class="ident">from_device</span>, <span class="ident">to</span> }
+    }
 }
 
 <span class="doccomment">/// The payload for a custom message event.</span>
@@ -1884,11 +2078,11 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomEventContent</span> {
     <span class="doccomment">/// A custom msgtype</span>
-    <span class="kw">pub</span> <span class="ident">msgtype</span>: <span class="ident">String</span>,
+    <span class="ident">msgtype</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// Remaining event content</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">JsonObject</span>,
+    <span class="ident">data</span>: <span class="ident">JsonObject</span>,
 }
 
 <span class="kw">fn</span> <span class="ident">get_plain_quote_fallback</span>(<span class="ident">original_message</span>: <span class="kw-2">&amp;</span><span class="ident">MessageEvent</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {

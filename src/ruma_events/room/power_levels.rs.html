@@ -293,6 +293,14 @@
 <span id="292">292</span>
 <span id="293">293</span>
 <span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.power_levels* event.</span>
 
@@ -313,6 +321,7 @@
 
 <span class="doccomment">/// The payload for `PowerLevelsEvent`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.room.power_levels&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">State</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PowerLevelsEventContent</span> {
     <span class="doccomment">/// The level required to ban a user.</span>
@@ -412,8 +421,9 @@
     <span class="kw">pub</span> <span class="ident">notifications</span>: <span class="ident">NotificationPowerLevels</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">PowerLevelsEventContent</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">PowerLevelsEventContent</span> {
+    <span class="doccomment">/// Creates a `PowerLevelsEventContent` with all-default values.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="comment">// events_default and users_default having a default of 0 while the others have a default</span>
         <span class="comment">// of 50 is not an oversight, these defaults are from the Matrix specification.</span>
         <span class="self">Self</span> {
@@ -428,6 +438,12 @@
             <span class="ident">users_default</span>: <span class="ident">Int::default</span>(),
             <span class="ident">notifications</span>: <span class="ident">NotificationPowerLevels::default</span>(),
         }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">PowerLevelsEventContent</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::new</span>()
     }
 }
 
