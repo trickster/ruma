@@ -67,6 +67,18 @@
 <span id="66">66</span>
 <span id="67">67</span>
 <span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.reaction* event.</span>
 
@@ -86,6 +98,7 @@
 
 <span class="doccomment">/// The payload for a `ReactionEvent`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.reaction&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReactionEventContent</span> {
     <span class="doccomment">/// Information about the related event.</span>
@@ -93,8 +106,24 @@
     <span class="kw">pub</span> <span class="ident">relation</span>: <span class="ident">Relation</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">ReactionEventContent</span> {
+    <span class="doccomment">/// Creates a new `ReactionEventContent` from the given relation.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You can also construct a `ReactionEventContent` from a relation using `From` / `Into`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">relation</span>: <span class="ident">Relation</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">relation</span> }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Relation</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ReactionEventContent</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">relation</span>: <span class="ident">Relation</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">relation</span>)
+    }
+}
+
 <span class="doccomment">/// The relation that contains info which event the reaction is applying to.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">try_from</span> <span class="op">=</span> <span class="string">&quot;RelatesToJsonRepr&quot;</span>, <span class="ident">into</span> <span class="op">=</span> <span class="string">&quot;RelatesToJsonRepr&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Relation</span> {
     <span class="doccomment">/// The event that is being reacted to.</span>
@@ -102,6 +131,13 @@
 
     <span class="doccomment">/// A string that holds the emoji reaction.</span>
     <span class="kw">pub</span> <span class="ident">emoji</span>: <span class="ident">String</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Relation</span> {
+    <span class="doccomment">/// Creates a new `Relation` with the given event ID and emoji.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">event_id</span>: <span class="ident">EventId</span>, <span class="ident">emoji</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">event_id</span>, <span class="ident">emoji</span> }
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Relation</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RelatesToJsonRepr</span> {
@@ -122,18 +158,6 @@
         } <span class="kw">else</span> {
             <span class="prelude-val">Err</span>(<span class="string">&quot;Expected a relation with a rel_type of `annotation`&quot;</span>)
         }
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">ReactionEventContent</span> {
-    <span class="doccomment">/// Create a new reaction.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Arguments</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `event_id` - The id of the event we are reacting to.</span>
-    <span class="doccomment">/// * `emoji` - The emoji that indicates the reaction that is being applied.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">event_id</span>: <span class="ident">EventId</span>, <span class="ident">emoji</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">ReactionEventContent</span> { <span class="ident">relation</span>: <span class="ident">Relation</span> { <span class="ident">event_id</span>, <span class="ident">emoji</span> } }
     }
 }
 </pre></div>

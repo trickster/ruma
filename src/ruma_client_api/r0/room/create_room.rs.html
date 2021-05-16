@@ -275,14 +275,14 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a `Request` will all-default parameters.</span>
+    <span class="doccomment">/// Creates a new `Request` will all-default parameters.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">Default::default</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
-    <span class="doccomment">/// Creates a `Response` with the given room id.</span>
+    <span class="doccomment">/// Creates a new `Response` with the given room id.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">room_id</span>: <span class="ident">RoomId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">room_id</span> }
     }

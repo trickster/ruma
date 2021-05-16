@@ -113,7 +113,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Response</span> {
-    <span class="doccomment">/// Creates a `Response` with the given `HomeserverInfo`.</span>
+    <span class="doccomment">/// Creates a new `Response` with the given `HomeserverInfo`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">homeserver</span>: <span class="ident">HomeserverInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">homeserver</span>, <span class="ident">identity_server</span>: <span class="prelude-val">None</span> }
     }
@@ -128,7 +128,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">HomeserverInfo</span> {
-    <span class="doccomment">/// Creates a `HomeserverInfo` with the given `base_url`.</span>
+    <span class="doccomment">/// Creates a new `HomeserverInfo` with the given `base_url`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">base_url</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">base_url</span> }
     }

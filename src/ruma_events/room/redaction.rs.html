@@ -76,8 +76,6 @@
 <span id="75">75</span>
 <span id="76">76</span>
 <span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.room.redaction* event.</span>
 
@@ -86,7 +84,7 @@
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">RedactedStateEventContent</span>, <span class="ident">Unsigned</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Unsigned</span>;
 
 <span class="doccomment">/// Redaction event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Event</span>)]</span>
@@ -151,13 +149,11 @@
         <span class="self">Self</span><span class="ident">::default</span>()
     }
 
-    <span class="doccomment">/// Creates a `RedactionEventContent` with the given reason.</span>
+    <span class="doccomment">/// Creates a new `RedactionEventContent` with the given reason.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_reason</span>(<span class="ident">reason</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">reason</span>: <span class="prelude-val">Some</span>(<span class="ident">reason</span>) }
     }
 }
-
-<span class="kw">impl</span> <span class="ident">RedactedStateEventContent</span> <span class="kw">for</span> <span class="ident">RedactedRedactionEventContent</span> {}
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="ruma_events" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
     <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>

@@ -33,11 +33,11 @@
 <span class="doccomment">/// The event does not have any content associated with it. The sending client is expected to</span>
 <span class="doccomment">/// send a key share request shortly after this message, causing the receiving client to process</span>
 <span class="doccomment">/// this *m.dummy* event as the most recent event and using the keyshare request to set up the</span>
-<span class="doccomment">/// session. The keyshare request and *m.dummy* combination should result in the original</span>
-<span class="doccomment">/// sending client receiving keys over the newly established session.</span>
+<span class="doccomment">/// session. The keyshare request and *m.dummy* combination should result in the original sending</span>
+<span class="doccomment">/// client receiving keys over the newly established session.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.dummy&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">ToDevice</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DummyToDeviceEventContent</span> {}
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DummyToDeviceEventContent</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_events" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
