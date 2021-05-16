@@ -142,6 +142,31 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Types for the *m.key.verification.ready* event.</span>
 
@@ -157,6 +182,7 @@
 
 <span class="doccomment">/// The payload for a to-device `m.key.verification.ready` event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.ready&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">ToDevice</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadyToDeviceEventContent</span> {
     <span class="doccomment">/// The device ID which is initiating the request.</span>
@@ -173,8 +199,21 @@
     <span class="kw">pub</span> <span class="ident">transaction_id</span>: <span class="ident">String</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">ReadyToDeviceEventContent</span> {
+    <span class="doccomment">/// Creates a new `ReadyToDeviceEventContent` with the given device ID, verification methods and</span>
+    <span class="doccomment">/// transaction ID.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">from_device</span>: <span class="ident">DeviceIdBox</span>,
+        <span class="ident">methods</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">VerificationMethod</span><span class="op">&gt;</span>,
+        <span class="ident">transaction_id</span>: <span class="ident">String</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">from_device</span>, <span class="ident">methods</span>, <span class="ident">transaction_id</span> }
+    }
+}
+
 <span class="doccomment">/// The payload for an in-room `m.key.verification.ready` event.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">EventContent</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-exhaustive-types&quot;</span>), <span class="ident">non_exhaustive</span>)]</span>
 <span class="attribute">#[<span class="ident">ruma_event</span>(<span class="kw">type</span> <span class="op">=</span> <span class="string">&quot;m.key.verification.ready&quot;</span>, <span class="ident">kind</span> <span class="op">=</span> <span class="ident">Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadyEventContent</span> {
     <span class="doccomment">/// The device ID which is initiating the request.</span>
@@ -187,6 +226,17 @@
     <span class="doccomment">/// to.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;m.relates_to&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">relation</span>: <span class="ident">Relation</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">ReadyEventContent</span> {
+    <span class="doccomment">/// Creates a new `ReadyEventContent` with the given device ID, methods and relation.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">from_device</span>: <span class="ident">DeviceIdBox</span>,
+        <span class="ident">methods</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">VerificationMethod</span><span class="op">&gt;</span>,
+        <span class="ident">relation</span>: <span class="ident">Relation</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">from_device</span>, <span class="ident">methods</span>, <span class="ident">relation</span> }
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
