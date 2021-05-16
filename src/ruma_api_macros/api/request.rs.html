@@ -398,7 +398,7 @@
 <span class="kw">mod</span> <span class="ident">incoming</span>;
 <span class="kw">mod</span> <span class="ident">outgoing</span>;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct</span> <span class="ident">RequestLifetimes</span> {
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">Lifetime</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">Lifetime</span><span class="op">&gt;</span>,
