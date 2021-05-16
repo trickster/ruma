@@ -252,8 +252,6 @@
 <span id="251">251</span>
 <span id="252">252</span>
 <span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -313,10 +311,8 @@
 <span class="doccomment">//! # let client = MatrixClient::new(homeserver_url, None);</span>
 <span class="doccomment">//! use std::convert::TryFrom;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! use ruma::{</span>
-<span class="doccomment">//!     api::client::r0::alias::get_alias,</span>
-<span class="doccomment">//!     room_alias_id, room_id,</span>
-<span class="doccomment">//! };</span>
+<span class="doccomment">//! use ruma_client_api::r0::alias::get_alias;</span>
+<span class="doccomment">//! use ruma_identifiers::{room_alias_id, room_id};</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! async {</span>
 <span class="doccomment">//!     let response = client</span>
