@@ -194,7 +194,7 @@
     <span class="kw">pub</span> <span class="ident">event_format</span>: <span class="ident">EventFormatVersion</span>,
     <span class="doccomment">/// Which state resolution algorithm is used.</span>
     <span class="kw">pub</span> <span class="ident">state_res</span>: <span class="ident">StateResolutionVersion</span>,
-    <span class="doccomment">/// not sure</span>
+    <span class="comment">// FIXME: not sure what this one means?</span>
     <span class="kw">pub</span> <span class="ident">enforce_key_validity</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// `m.room.aliases` had special auth rules and redaction rules</span>
@@ -202,7 +202,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// before MSC2261/MSC2432,</span>
     <span class="kw">pub</span> <span class="ident">special_case_aliases_auth</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Strictly enforce canonicaljson, do not allow:</span>
+    <span class="doccomment">/// Strictly enforce canonical json, do not allow:</span>
     <span class="doccomment">/// * Integers outside the range of [-2 ^ 53 + 1, 2 ^ 53 - 1]</span>
     <span class="doccomment">/// * Floats</span>
     <span class="doccomment">/// * NaN, Infinity, -Infinity</span>
