@@ -402,6 +402,9 @@
 <span id="401">401</span>
 <span id="402">402</span>
 <span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -581,6 +584,9 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">room</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">room_key</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">room_key_request</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">space</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sticker</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tag</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">typing</span>;

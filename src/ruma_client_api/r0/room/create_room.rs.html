@@ -176,11 +176,48 @@
 <span id="175">175</span>
 <span id="176">176</span>
 <span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
 </pre><pre class="rust">
 <span class="doccomment">//! [POST /_matrix/client/r0/createRoom](https://matrix.org/docs/spec/client_server/r0.6.0#post-matrix-client-r0-createroom)</span>
 
 <span class="kw">use</span> <span class="ident">assign::assign</span>;
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">ruma_events::room::create::RoomType</span>;
 <span class="kw">use</span> <span class="ident">ruma_events</span>::{
     <span class="ident">room</span>::{
         <span class="ident">create</span>::{<span class="ident">CreateEventContent</span>, <span class="ident">PreviousRoom</span>},
@@ -308,27 +345,60 @@
     <span class="doccomment">/// A reference to the room this room replaces, if the previous room was upgraded.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">predecessor</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PreviousRoom</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// The room type.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is currently only used for spaces.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>, <span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">room_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RoomType</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">CreationContent</span> {
     <span class="doccomment">/// Creates a new `CreationContent` with all fields defaulted.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">federate</span>: <span class="bool-val">true</span>, <span class="ident">predecessor</span>: <span class="prelude-val">None</span> }
+        <span class="self">Self</span> {
+            <span class="ident">federate</span>: <span class="bool-val">true</span>,
+            <span class="ident">predecessor</span>: <span class="prelude-val">None</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+            <span class="ident">room_type</span>: <span class="prelude-val">None</span>,
+        }
     }
 
     <span class="doccomment">/// Given a `CreationContent` and the other fields that a homeserver has to fill, construct</span>
     <span class="doccomment">/// a `CreateEventContent`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_event_content</span>(
-        <span class="self">Self</span> { <span class="ident">federate</span>, <span class="ident">predecessor</span> }: <span class="self">Self</span>,
+        <span class="self">self</span>,
         <span class="ident">creator</span>: <span class="ident">UserId</span>,
         <span class="ident">room_version</span>: <span class="ident">RoomVersionId</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CreateEventContent</span> {
-        <span class="macro">assign!</span>(<span class="ident">CreateEventContent::new</span>(<span class="ident">creator</span>), { <span class="ident">federate</span>, <span class="ident">room_version</span>, <span class="ident">predecessor</span> })
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">content</span> <span class="op">=</span> <span class="macro">assign!</span>(<span class="ident">CreateEventContent::new</span>(<span class="ident">creator</span>), {
+            <span class="ident">federate</span>: <span class="self">self</span>.<span class="ident">federate</span>,
+            <span class="ident">room_version</span>: <span class="ident">room_version</span>,
+            <span class="ident">predecessor</span>: <span class="self">self</span>.<span class="ident">predecessor</span>,
+        });
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+        {
+            <span class="ident">content</span>.<span class="ident">room_type</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">room_type</span>;
+        }
+
+        <span class="ident">content</span>
     }
 
     <span class="doccomment">/// Returns whether all fields have their default value.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">federate</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">predecessor</span>.<span class="ident">is_none</span>()
+        <span class="kw">let</span> <span class="ident">stable_fields</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">federate</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">predecessor</span>.<span class="ident">is_none</span>();
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>)]</span>
+        {
+            <span class="ident">stable_fields</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">room_type</span>.<span class="ident">is_none</span>()
+        }
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable-pre-spec&quot;</span>))]</span>
+        {
+            <span class="ident">stable_fields</span>
+        }
     }
 }
 
