@@ -1032,21 +1032,6 @@
 <span id="1031">1031</span>
 <span id="1032">1032</span>
 <span id="1033">1033</span>
-<span id="1034">1034</span>
-<span id="1035">1035</span>
-<span id="1036">1036</span>
-<span id="1037">1037</span>
-<span id="1038">1038</span>
-<span id="1039">1039</span>
-<span id="1040">1040</span>
-<span id="1041">1041</span>
-<span id="1042">1042</span>
-<span id="1043">1043</span>
-<span id="1044">1044</span>
-<span id="1045">1045</span>
-<span id="1046">1046</span>
-<span id="1047">1047</span>
-<span id="1048">1048</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Implementation of event enum and event content enum macros.</span>
 
@@ -1285,15 +1270,14 @@
             <span class="kw">let</span> <span class="ident">ident_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">match_arm</span>(<span class="kw-2">&amp;</span><span class="ident">ident</span>));
             <span class="kw">let</span> <span class="ident">self_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">ctor</span>(<span class="macro">quote!</span>(<span class="self">Self</span>)));
 
-            <span class="kw">let</span> <span class="ident">redaction</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> (<span class="ident">EventKind::Message</span>, <span class="ident">EventKindVariation::Full</span>) <span class="op">=</span> (<span class="ident">kind</span>, <span class="ident">var</span>) {
-                <span class="macro">quote!</span> {
-                    #<span class="ident">ident::RoomRedaction</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::RoomRedaction</span>(
-                        #<span class="ident">ruma_events::room::redaction::SyncRedactionEvent::from</span>(<span class="ident">event</span>),
-                    ),
-                }
-            } <span class="kw">else</span> {
-                <span class="ident">TokenStream::new</span>()
-            };
+            <span class="kw">let</span> <span class="ident">redaction</span> <span class="op">=</span>
+                (<span class="kw-2">*</span><span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventKind::Message</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">var</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventKindVariation::Full</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> {
+                    <span class="macro">quote!</span> {
+                        #<span class="ident">ident::RoomRedaction</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::RoomRedaction</span>(
+                            #<span class="ident">ruma_events::room::redaction::SyncRedactionEvent::from</span>(<span class="ident">event</span>),
+                        ),
+                    }
+                });
 
             <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
                 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>#<span class="ident">ident</span><span class="op">&gt;</span> <span class="kw">for</span> #<span class="ident">sync</span> {
@@ -1324,15 +1308,14 @@
             <span class="kw">let</span> <span class="ident">self_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">match_arm</span>(<span class="macro">quote!</span>(<span class="self">Self</span>)));
             <span class="kw">let</span> <span class="ident">full_variants</span> <span class="op">=</span> <span class="ident">variants</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">ctor</span>(<span class="kw-2">&amp;</span><span class="ident">full</span>));
 
-            <span class="kw">let</span> <span class="ident">redaction</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> (<span class="ident">EventKind::Message</span>, <span class="ident">EventKindVariation::Sync</span>) <span class="op">=</span> (<span class="ident">kind</span>, <span class="ident">var</span>) {
-                <span class="macro">quote!</span> {
-                    <span class="self">Self</span><span class="ident">::RoomRedaction</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                        #<span class="ident">full::RoomRedaction</span>(<span class="ident">event</span>.<span class="ident">into_full_event</span>(<span class="ident">room_id</span>))
-                    },
-                }
-            } <span class="kw">else</span> {
-                <span class="ident">TokenStream::new</span>()
-            };
+            <span class="kw">let</span> <span class="ident">redaction</span> <span class="op">=</span>
+                (<span class="kw-2">*</span><span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventKind::Message</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">var</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EventKindVariation::Sync</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> {
+                    <span class="macro">quote!</span> {
+                        <span class="self">Self</span><span class="ident">::RoomRedaction</span>(<span class="ident">event</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                            #<span class="ident">full::RoomRedaction</span>(<span class="ident">event</span>.<span class="ident">into_full_event</span>(<span class="ident">room_id</span>))
+                        },
+                    }
+                });
 
             <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
                 <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
@@ -1635,14 +1618,7 @@
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">EventKind::State</span> <span class="op">|</span> <span class="ident">EventKind::Message</span> <span class="op">=</span> <span class="ident">kind</span> {
         <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;AnyPossiblyRedacted{}&quot;</span>, <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>);
-
-        <span class="comment">// FIXME: Use Option::zip once MSRV &gt;= 1.46</span>
-        <span class="kw">let</span> (<span class="ident">regular_enum_ident</span>, <span class="ident">redacted_enum_ident</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">inner_enum_idents</span>(<span class="ident">kind</span>, <span class="ident">var</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">regular_enum_ident</span>), <span class="prelude-val">Some</span>(<span class="ident">redacted_enum_ident</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                (<span class="ident">regular_enum_ident</span>, <span class="ident">redacted_enum_ident</span>)
-            }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-        };
+        <span class="kw">let</span> (<span class="ident">regular_enum_ident</span>, <span class="ident">redacted_enum_ident</span>) <span class="op">=</span> <span class="ident">inner_enum_idents</span>(<span class="ident">kind</span>, <span class="ident">var</span>)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
             <span class="doccomment">/// An enum that holds either regular un-redacted events or redacted events.</span>
@@ -1680,7 +1656,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">generate_event_idents</span>(<span class="ident">kind</span>: <span class="kw-2">&amp;</span><span class="ident">EventKind</span>, <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="ident">EventKindVariation</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">Ident</span>)<span class="op">&gt;</span> {
-    <span class="prelude-val">Some</span>((<span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>, <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>))
+    <span class="ident">kind</span>.<span class="ident">to_event_ident</span>(<span class="ident">var</span>).<span class="ident">zip</span>(<span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>))
 }
 
 <span class="kw">fn</span> <span class="ident">generate_redacted_fields</span>(
@@ -1689,8 +1665,8 @@
     <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="ident">EventKindVariation</span>,
     <span class="ident">is_event_kind</span>: <span class="ident">EventKindFn</span>,
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
-    <span class="kw">if</span> <span class="ident">is_event_kind</span>(<span class="ident">kind</span>, <span class="ident">var</span>) {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="ident">is_event_kind</span>(<span class="ident">kind</span>, <span class="ident">var</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">name</span>, <span class="ident">Span::call_site</span>());
 
         <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;unsigned&quot;</span> {
@@ -1704,9 +1680,7 @@
                 #<span class="ident">name</span>: <span class="ident">event</span>.#<span class="ident">name</span>,
             }
         }
-    } <span class="kw">else</span> {
-        <span class="ident">TokenStream::new</span>()
-    }
+    })
 }
 
 <span class="kw">fn</span> <span class="ident">generate_custom_variant</span>(
@@ -1822,7 +1796,7 @@
         }
     };
 
-    <span class="kw">let</span> <span class="ident">prev_content</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_prev_content_field</span>(<span class="ident">kind</span>, <span class="ident">var</span>) {
+    <span class="kw">let</span> <span class="ident">prev_content</span> <span class="op">=</span> <span class="ident">has_prev_content_field</span>(<span class="ident">kind</span>, <span class="ident">var</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> {
         <span class="macro">quote!</span> {
             <span class="doccomment">/// Returns the any content enum for this events prev_content.</span>
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prev_content</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>#<span class="ident">content_enum</span><span class="op">&gt;</span> {
@@ -1838,9 +1812,7 @@
                 }
             }
         }
-    } <span class="kw">else</span> {
-        <span class="ident">TokenStream::new</span>()
-    };
+    });
 
     <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
         <span class="attribute">#[<span class="ident">automatically_derived</span>]</span>
@@ -1856,22 +1828,22 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">inner_enum_idents</span>(<span class="ident">kind</span>: <span class="kw-2">&amp;</span><span class="ident">EventKind</span>, <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="ident">EventKindVariation</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ident</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ident</span><span class="op">&gt;</span>) {
-    <span class="kw">match</span> <span class="ident">var</span> {
-        <span class="ident">EventKindVariation::Full</span> <span class="op">=</span><span class="op">&gt;</span> {
-            (<span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>), <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span>))
-        }
+<span class="kw">fn</span> <span class="ident">inner_enum_idents</span>(<span class="ident">kind</span>: <span class="kw-2">&amp;</span><span class="ident">EventKind</span>, <span class="ident">var</span>: <span class="kw-2">&amp;</span><span class="ident">EventKindVariation</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">Ident</span>)<span class="op">&gt;</span> {
+    <span class="prelude-val">Some</span>(<span class="kw">match</span> <span class="ident">var</span> {
+        <span class="ident">EventKindVariation::Full</span> <span class="op">=</span><span class="op">&gt;</span> (
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>,
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::Redacted</span>)<span class="question-mark">?</span>,
+        ),
         <span class="ident">EventKindVariation::Sync</span> <span class="op">=</span><span class="op">&gt;</span> (
-            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>),
-            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedSync</span>),
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>,
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedSync</span>)<span class="question-mark">?</span>,
         ),
         <span class="ident">EventKindVariation::Stripped</span> <span class="op">=</span><span class="op">&gt;</span> (
-            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>),
-            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedStripped</span>),
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>)<span class="question-mark">?</span>,
+            <span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="kw-2">&amp;</span><span class="ident">EventKindVariation::RedactedStripped</span>)<span class="question-mark">?</span>,
         ),
-        <span class="ident">EventKindVariation::Initial</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">kind</span>.<span class="ident">to_event_enum_ident</span>(<span class="ident">var</span>), <span class="prelude-val">None</span>),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
-    }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+    })
 }
 
 <span class="doccomment">/// Redacted events do NOT generate `content` or `prev_content` methods like</span>
@@ -2006,8 +1978,8 @@
     <span class="ident">is_event_kind</span>: <span class="ident">EventKindFn</span>,
     <span class="ident">variants</span>: <span class="kw-2">&amp;</span>[<span class="ident">EventEnumVariant</span>],
     <span class="ident">ruma_events</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
-    <span class="kw">if</span> <span class="ident">is_event_kind</span>(<span class="ident">kind</span>, <span class="ident">var</span>) {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="ident">is_event_kind</span>(<span class="ident">kind</span>, <span class="ident">var</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">docs</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;Returns this event&#39;s {} field.&quot;</span>, <span class="ident">name</span>);
         <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">name</span>, <span class="ident">Span::call_site</span>());
         <span class="kw">let</span> <span class="ident">field_type</span> <span class="op">=</span> <span class="ident">field_return_type</span>(<span class="ident">name</span>, <span class="ident">var</span>, <span class="ident">ruma_events</span>);
@@ -2022,9 +1994,7 @@
                 }
             }
         }
-    } <span class="kw">else</span> {
-        <span class="ident">TokenStream::new</span>()
-    }
+    })
 }
 
 <span class="kw">fn</span> <span class="ident">field_return_type</span>(
