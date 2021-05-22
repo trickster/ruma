@@ -60,17 +60,15 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
-<span id="62">62</span>
 </pre><pre class="rust">
 <span class="doccomment">//! [POST /_matrix/client/r0/keys/claim](https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-keys-claim)</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">time::Duration</span>};
 
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::encryption::OneTimeKey</span>;
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceIdBox</span>, <span class="ident">DeviceKeyAlgorithm</span>, <span class="ident">DeviceKeyId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde_json::Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>;
-
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::OneTimeKey</span>;
 
 <span class="macro">ruma_api!</span> {
     <span class="ident">metadata</span>: {

@@ -484,6 +484,7 @@
 <span id="483">483</span>
 <span id="484">484</span>
 <span id="485">485</span>
+<span id="486">486</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/favicon.ico&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://www.ruma.io/images/logo.png&quot;</span>)]</span>
@@ -658,7 +659,7 @@
     <span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
     <span class="kw">use</span> <span class="ident">base64</span>::{<span class="ident">decode_config</span>, <span class="ident">encode_config</span>, <span class="ident">STANDARD_NO_PAD</span>};
-    <span class="kw">use</span> <span class="ident">ring::signature</span>::{<span class="ident">Ed25519KeyPair</span> <span class="kw">as</span> <span class="ident">RingEd25519KeyPair</span>, <span class="ident">KeyPair</span> <span class="kw">as</span> <span class="kw">_</span>};
+    <span class="kw">use</span> <span class="ident">pkcs8</span>::{<span class="ident">der::Decodable</span>, <span class="ident">OneAsymmetricKey</span>};
     <span class="kw">use</span> <span class="ident">ruma_identifiers::RoomVersionId</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_str</span> <span class="kw">as</span> <span class="ident">from_json_str</span>, <span class="ident">to_string</span> <span class="kw">as</span> <span class="ident">to_json_string</span>};
 
@@ -674,9 +675,10 @@
     <span class="doccomment">/// Convenience method for getting the public key as a string</span>
     <span class="kw">fn</span> <span class="ident">public_key_string</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="ident">encode_config</span>(
-            <span class="kw-2">&amp;</span><span class="ident">RingEd25519KeyPair::from_pkcs8</span>(<span class="kw-2">&amp;</span><span class="ident">decode_config</span>(<span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>())
+            <span class="kw-2">&amp;</span><span class="ident">OneAsymmetricKey::from_der</span>(<span class="kw-2">&amp;</span><span class="ident">decode_config</span>(<span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>())
                 .<span class="ident">unwrap</span>()
-                .<span class="ident">public_key</span>(),
+                .<span class="ident">public_key</span>
+                .<span class="ident">unwrap</span>(),
             <span class="ident">STANDARD_NO_PAD</span>,
         )
     }
@@ -778,7 +780,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">sign_empty_json</span>() {
-        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::new</span>(
+        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::from_der</span>(
             <span class="ident">decode_config</span>(<span class="kw-2">&amp;</span><span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>(),
             <span class="string">&quot;1&quot;</span>.<span class="ident">into</span>(),
         )
@@ -809,7 +811,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">sign_minimal_json</span>() {
-        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::new</span>(
+        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::from_der</span>(
             <span class="ident">decode_config</span>(<span class="kw-2">&amp;</span><span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>(),
             <span class="string">&quot;1&quot;</span>.<span class="ident">into</span>(),
         )
@@ -869,7 +871,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">sign_minimal_event</span>() {
-        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::new</span>(
+        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::from_der</span>(
             <span class="ident">decode_config</span>(<span class="kw-2">&amp;</span><span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>(),
             <span class="string">&quot;1&quot;</span>.<span class="ident">into</span>(),
         )
@@ -903,7 +905,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">sign_redacted_event</span>() {
-        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::new</span>(
+        <span class="kw">let</span> <span class="ident">key_pair</span> <span class="op">=</span> <span class="ident">Ed25519KeyPair::from_der</span>(
             <span class="ident">decode_config</span>(<span class="kw-2">&amp;</span><span class="ident">PKCS8</span>, <span class="ident">STANDARD_NO_PAD</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>(),
             <span class="string">&quot;1&quot;</span>.<span class="ident">into</span>(),
         )

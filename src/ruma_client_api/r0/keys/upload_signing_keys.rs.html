@@ -64,8 +64,8 @@
 <span class="doccomment">//! Defined in [MSC 1756](https://github.com/matrix-org/matrix-doc/blob/master/proposals/1756-cross-signing.md#uploading-signing-keys)</span>
 
 <span class="kw">use</span> <span class="ident">ruma_api::ruma_api</span>;
+<span class="kw">use</span> <span class="ident">ruma_common::encryption::CrossSigningKey</span>;
 
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::CrossSigningKey</span>;
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::r0::uiaa</span>::{<span class="ident">AuthData</span>, <span class="ident">IncomingAuthData</span>, <span class="ident">UiaaResponse</span>};
 
 <span class="macro">ruma_api!</span> {

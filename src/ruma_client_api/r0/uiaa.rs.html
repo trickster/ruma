@@ -434,6 +434,8 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Module for [User-Interactive Authentication API][uiaa] types.</span>
 <span class="doccomment">//!</span>
@@ -453,6 +455,8 @@
 };
 
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::error</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">MatrixError</span>, <span class="ident">ErrorBody</span>};
+
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">authorize_fallback</span>;
 
 <span class="doccomment">/// Additional authentication information for the user-interactive authentication API.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Outgoing</span>, <span class="ident">Serialize</span>)]</span>
