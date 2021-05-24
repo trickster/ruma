@@ -218,12 +218,6 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Public and private key pairs.</span>
 
@@ -239,7 +233,7 @@
     <span class="ident">AlgorithmIdentifier</span>, <span class="ident">ObjectIdentifier</span>, <span class="ident">OneAsymmetricKey</span>, <span class="ident">PrivateKeyInfo</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">signatures::Signature</span>, <span class="ident">Algorithm</span>, <span class="ident">Error</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">signatures::Signature</span>, <span class="ident">Algorithm</span>, <span class="ident">Error</span>, <span class="ident">ParseError</span>};
 
 <span class="doccomment">/// A cryptographic key pair for digitally signing data.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">KeyPair</span>: <span class="ident">Sized</span> {
@@ -272,14 +266,11 @@
         <span class="ident">version</span>: <span class="ident">String</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">oid</span> <span class="op">!</span><span class="op">=</span> <span class="ident">ED25519_OID</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::new</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;Algorithm OID does not match ed25519, expected {}, found {}&quot;</span>,
-                <span class="ident">ED25519_OID</span>, <span class="ident">oid</span>
-            )));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::Oid</span> { <span class="ident">expected</span>: <span class="ident">ED25519_OID</span>, <span class="ident">found</span>: <span class="ident">oid</span> }.<span class="ident">into</span>());
         }
 
         <span class="kw">let</span> <span class="ident">secret_key</span> <span class="op">=</span> <span class="ident">SecretKey::from_bytes</span>(<span class="self">Self</span><span class="ident">::correct_privkey_from_octolet</span>(<span class="ident">privkey</span>))
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error::new</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
+            .<span class="ident">map_err</span>(<span class="ident">ParseError::SecretKey</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">derived_pubkey</span> <span class="op">=</span> <span class="ident">PublicKey::from</span>(<span class="kw-2">&amp;</span><span class="ident">secret_key</span>);
 
@@ -287,13 +278,10 @@
             <span class="comment">// If the document had a public key, we&#39;re verifying it.</span>
 
             <span class="kw">if</span> <span class="ident">oak_key</span> <span class="op">!</span><span class="op">=</span> <span class="ident">derived_pubkey</span>.<span class="ident">as_bytes</span>() {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::new</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;PKCS#8 Document public key does not match public key derived from private key; derived: {:X?} (len {}), parsed: {:X?} (len {})&quot;</span>,
-                    <span class="kw-2">&amp;</span><span class="ident">derived_pubkey</span>.<span class="ident">as_bytes</span>(),
-                    <span class="ident">derived_pubkey</span>.<span class="ident">as_bytes</span>().<span class="ident">len</span>(),
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::derived_vs_parsed_mismatch</span>(
                     <span class="ident">oak_key</span>,
-                    <span class="ident">oak_key</span>.<span class="ident">len</span>()
-                )));
+                    <span class="ident">derived_pubkey</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
+                ));
             }
         }
 
@@ -323,7 +311,7 @@
     <span class="doccomment">/// generated from the private key. This is a fallback and extra validation against</span>
     <span class="doccomment">/// corruption or</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_der</span>(<span class="ident">document</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">version</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">oak</span> <span class="op">=</span> <span class="ident">OneAsymmetricKey::from_der</span>(<span class="ident">document</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error::new</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">oak</span> <span class="op">=</span> <span class="ident">OneAsymmetricKey::from_der</span>(<span class="ident">document</span>).<span class="ident">map_err</span>(<span class="ident">Error::DerParse</span>)<span class="question-mark">?</span>;
 
         <span class="self">Self</span><span class="ident">::from_pkcs8_oak</span>(<span class="ident">oak</span>, <span class="ident">version</span>)
     }
@@ -375,7 +363,7 @@
             <span class="ident">public_key</span>: <span class="prelude-val">Some</span>(<span class="ident">public</span>.<span class="ident">as_bytes</span>()),
         };
 
-        <span class="ident">oak</span>.<span class="ident">to_vec</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error::new</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))
+        <span class="ident">oak</span>.<span class="ident">to_vec</span>().<span class="ident">map_err</span>(<span class="ident">Error::DerParse</span>)
     }
 
     <span class="doccomment">/// Returns the version string for this keypair.</span>
