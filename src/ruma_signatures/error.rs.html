@@ -261,6 +261,12 @@
 <span id="260">260</span>
 <span id="261">261</span>
 <span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">EventId</span>, <span class="ident">RoomVersionId</span>, <span class="ident">ServerNameBox</span>};
 <span class="kw">use</span> <span class="ident">thiserror::Error</span>;
@@ -376,14 +382,19 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">JsonType</span> {
     <span class="doccomment">/// A JSON Object.</span>
     <span class="ident">Object</span>,
+
     <span class="doccomment">/// A JSON String.</span>
     <span class="ident">String</span>,
+
     <span class="doccomment">/// A JSON Integer.</span>
     <span class="ident">Integer</span>,
+
     <span class="doccomment">/// A JSON Array.</span>
     <span class="ident">Array</span>,
+
     <span class="doccomment">/// A JSON Boolean.</span>
     <span class="ident">Boolean</span>,
+
     <span class="doccomment">/// JSON Null.</span>
     <span class="ident">Null</span>,
 }
@@ -426,6 +437,7 @@
     <span class="doccomment">/// For user ID parsing errors.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Could not parse User ID: {0}&quot;</span>)]</span>
     <span class="ident">UserId</span>(<span class="attribute">#[<span class="ident">source</span>]</span> <span class="ident">ruma_identifiers::Error</span>),
+
     <span class="doccomment">/// For event ID parsing errors.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Could not parse Event ID: {0}&quot;</span>)]</span>
     <span class="ident">EventId</span>(<span class="attribute">#[<span class="ident">source</span>]</span> <span class="ident">ruma_identifiers::Error</span>),
@@ -520,9 +532,9 @@
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;malformed signature ID: expected version to contain only characters in the character set `[a-zA-Z0-9_]`, found `{0}`&quot;</span>)]</span>
     <span class="ident">InvalidVersion</span>(<span class="ident">String</span>),
 
-    <span class="doccomment">/// The signature uses an unknown algorithm.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unknown algorithm: {0}&quot;</span>)]</span>
-    <span class="ident">UnknownAlgorithm</span>(<span class="ident">String</span>),
+    <span class="doccomment">/// The signature uses an unsupported algorithm.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unsupported algorithm: {0}&quot;</span>)]</span>
+    <span class="ident">UnsupportedAlgorithm</span>(<span class="ident">String</span>),
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ruma_signatures" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
