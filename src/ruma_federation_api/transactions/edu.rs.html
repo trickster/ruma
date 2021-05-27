@@ -438,10 +438,10 @@
 <span class="kw">use</span> <span class="ident">std::collections::BTreeMap</span>;
 
 <span class="kw">use</span> <span class="ident">js_int::UInt</span>;
-<span class="kw">use</span> <span class="ident">ruma_common</span>::{<span class="ident">encryption::DeviceKeys</span>, <span class="ident">presence::PresenceState</span>};
-<span class="kw">use</span> <span class="ident">ruma_events</span>::{
-    <span class="ident">from_raw_json_value</span>, <span class="ident">receipt::Receipt</span>, <span class="ident">room_key::RoomKeyToDeviceEventContent</span>, <span class="ident">EventType</span>,
+<span class="kw">use</span> <span class="ident">ruma_common</span>::{
+    <span class="ident">encryption::DeviceKeys</span>, <span class="ident">presence::PresenceState</span>, <span class="ident">to_device::DeviceIdOrAllDevices</span>,
 };
+<span class="kw">use</span> <span class="ident">ruma_events</span>::{<span class="ident">from_raw_json_value</span>, <span class="ident">receipt::Receipt</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">ruma_identifiers</span>::{<span class="ident">DeviceIdBox</span>, <span class="ident">EventId</span>, <span class="ident">RoomId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">value::RawValue</span> <span class="kw">as</span> <span class="ident">RawJsonValue</span>, <span class="ident">Value</span> <span class="kw">as</span> <span class="ident">JsonValue</span>};
@@ -693,7 +693,7 @@
     <span class="doccomment">/// The contents of the messages to be sent. These are arranged in a map</span>
     <span class="doccomment">/// of user IDs to a map of device IDs to message bodies. The device ID may</span>
     <span class="doccomment">/// also be *, meaning all known devices for the user.</span>
-    <span class="kw">pub</span> <span class="ident">messages</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">UserId</span>, <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">DeviceIdBox</span>, <span class="ident">RoomKeyToDeviceEventContent</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">messages</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">UserId</span>, <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">DeviceIdOrAllDevices</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">RawJsonValue</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">DirectDeviceContent</span> {
