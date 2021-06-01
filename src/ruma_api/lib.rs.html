@@ -699,7 +699,7 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">FromHttpResponseError</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::EndpointError</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 
-<span class="doccomment">/// An extension to `OutgoingRequest` which provides Appservice specific methods</span>
+<span class="doccomment">/// An extension to `OutgoingRequest` which provides Appservice specific methods.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OutgoingRequestAppserviceExt</span>: <span class="ident">OutgoingRequest</span> {
     <span class="doccomment">/// Tries to convert this request into an `http::Request` and appends a virtual `user_id` to</span>
     <span class="doccomment">/// [assert Appservice identity][id_assert].</span>

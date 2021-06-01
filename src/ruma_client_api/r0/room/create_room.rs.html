@@ -250,7 +250,7 @@
 
         <span class="doccomment">/// List of state events to send to the new room.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// Takes precedence over events set by preset, but gets overriden by</span>
+        <span class="doccomment">/// Takes precedence over events set by preset, but gets overridden by</span>
         <span class="doccomment">/// name and topic keys.</span>
         <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>, <span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;&lt;[_]&gt;::is_empty&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">initial_state</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">AnyInitialStateEvent</span>],

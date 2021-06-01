@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["localpart_is_fully_comforming","Check whether the given user id localpart is valid and fully conforming"]],"struct":[["UserId","A Matrix user ID."]]});
+initSidebarItems({"fn":[["localpart_is_fully_conforming","Check whether the given user id localpart is valid and fully conforming"]],"struct":[["UserId","A Matrix user ID."]]});
